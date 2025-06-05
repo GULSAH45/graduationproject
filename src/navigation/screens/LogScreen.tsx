@@ -2,7 +2,7 @@
 import { SafeAreaView, View ,Image,Text} from 'react-native';
 import LoginInput from '../../components/LoginInput';
 
-export function Home() {
+const LogScreen = () =>  {
   return ( 
     <SafeAreaView className='flex-1 bg-MainBackground'>
 <View className='items-center justify-center'>
@@ -23,5 +23,5 @@ export function Home() {
     </SafeAreaView>
   );
 }
-
+export default LogScreen;
 

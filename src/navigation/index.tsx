@@ -7,29 +7,45 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Image } from 'react-native';
 
-import { Home } from './screens/Home';
-import ForgotPassword from './screens/forgotpassword';
 
+import LogScreen from './screens/LogScreen';
 
+const HomeTabs = createBottomTabNavigator({
+  screens: {
+      SignUpScreen: {
+      screen: () => <Text>Sign Up Screen</Text>, // Placeholder for SignUpScreen
+      options: {
+        title: 'Üye Ol',
+        headerShown: false,
+      },
+    },
+    LogScreen: {
+      screen: LogScreen,
+      options: {
+        title: 'Giriş',
+        headerShown: false,
+      },
+    },
+  
+    ForgotPassword: {
+      screen: () => <Text>Forgot Password Screen</Text>, // Placeholder for ForgotPassword
+      options: {
+        title: 'Şifremi Unuttum',
+        headerShown: false,
+      },
+    },
+  }
+});
 
 const RootStack = createNativeStackNavigator({
 
   screens: {
     
-    Home: {
-      screen: Home,
+    HomeTabs: {
+      screen: HomeTabs,
       options: {
         title: 'Home',
         headerShown: false,
-      },
-    },
-    ForgotPassword: {
-  
-      screen: ForgotPassword,
-      options: {
-   
-        headerShown: false,
-        title: 'Feed',
       },
     },
 
