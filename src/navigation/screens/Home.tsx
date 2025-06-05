@@ -1,24 +1,27 @@
-import { Button, Text } from '@react-navigation/elements';
-import { StyleSheet, View } from 'react-native';
+
+import { SafeAreaView, View ,Image,Text} from 'react-native';
+import LoginInput from '../../components/LoginInput';
 
 export function Home() {
-  return (
-    <View style={styles.container}>
-      <Text>Home Screen</Text>
-      <Text>Open up 'src/App.tsx' to start working on your app!</Text>
-      <Button screen="Profile" params={{ user: 'jane' }}>
-        Go to Profile
-      </Button>
-      <Button screen="Settings">Go to Settings</Button>
+  return ( 
+    <SafeAreaView className='flex-1 bg-MainBackground'>
+<View className='items-center justify-center'>
+    <Image
+      source={require('../../assets/LOGO.png')}
+      className='w-[119px] h-[26px] mb-5 mt-10'
+      resizeMode='contain'
+    />
+
+<Text className='text-3xl text-TextColor text-center  mb-3 font-extrabold'>
+  Giriş Yap
+</Text>
+
+</View>
+    <View className='flex-1 '>
+      <LoginInput  />
     </View>
+    </SafeAreaView>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    gap: 10,
-  },
-});
+

@@ -4,7 +4,7 @@
     "slug": "graduationproject",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/LOGO.png",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "scheme": "graduationproject",
@@ -22,13 +22,18 @@
     "web": {
       "favicon": "./assets/favicon.png"
     },
+    "splash": {
+      "image": "./assets/LOGO.png",
+      "backgroundColor": "#ffffff",
+      "resizeMode": "contain"
+    },
     "plugins": [
       "expo-asset",
       [
         "expo-splash-screen",
         {
           "backgroundColor": "#ffffff",
-          "image": "./assets/splash-icon.png"
+          "image": "./assets/LOGO.png"
         }
       ],
       "react-native-edge-to-edge"
