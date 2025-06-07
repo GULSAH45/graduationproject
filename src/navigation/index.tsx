@@ -1,54 +1,73 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { HeaderButton, Text } from '@react-navigation/elements';
+import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+
 import {
   createStaticNavigation,
   StaticParamList,
-} from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Image } from 'react-native';
+} from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { Image } from "react-native";
+
+import LogScreen from "./screens/LogScreen";
+import SignUpScreen from "./screens/SignUpScreen";
+import ForgotPassword from "./screens/Forgotpassword";
+import MainpageMainScreen from "./screens/MainpageMainScreen";
+import MenuListScreen from "./screens/MenuListScreen";
 
 
-import LogScreen from './screens/LogScreen';
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
-      SignUpScreen: {
-      screen: () => <Text>Sign Up Screen</Text>, // Placeholder for SignUpScreen
+
+       MainpageMainScreen: {
+      screen: MainpageMainScreen,
       options: {
-        title: 'Üye Ol',
+        title: "MainpageMainScreen",
         headerShown: false,
       },
     },
+
+   MenuListScreen: {
+      screen: MenuListScreen,
+      options: {
+        title: "Menu List",
+        headerShown: false,
+      },
+    },
+
+ SignUpScreen: {
+  screen: SignUpScreen, 
+  options: {
+    title: "Üye Ol",
+    headerShown: false,
+  },
+},
     LogScreen: {
       screen: LogScreen,
       options: {
-        title: 'Giriş',
+        title: "Giriş",
         headerShown: false,
       },
     },
-  
-    ForgotPassword: {
-      screen: () => <Text>Forgot Password Screen</Text>, // Placeholder for ForgotPassword
+   ForgotPassword: {
+      screen: ForgotPassword,
       options: {
-        title: 'Şifremi Unuttum',
+        title: "şifre",
         headerShown: false,
       },
     },
-  }
+
+  },
 });
 
 const RootStack = createNativeStackNavigator({
-
   screens: {
-    
     HomeTabs: {
       screen: HomeTabs,
       options: {
-        title: 'Home',
+        title: "Home",
         headerShown: false,
       },
     },
-
   },
 });
 

@@ -1,5 +1,5 @@
 
-import { SafeAreaView, View ,Image,Text} from 'react-native';
+import { SafeAreaView, View ,Image,Text, TouchableOpacity} from 'react-native';
 import LoginInput from '../../components/LoginInput';
 
 const LogScreen = () =>  {
@@ -17,9 +17,9 @@ const LogScreen = () =>  {
 </Text>
 
 </View>
-    <View className='flex-1 '>
-      <LoginInput  />
-    </View>
+ <LoginInput  />
+
+ 
     </SafeAreaView>
   );
 }

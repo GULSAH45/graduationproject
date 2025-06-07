@@ -14,46 +14,48 @@ const SignUpInput = () => {
   return (
     <ScrollView>
       <SafeAreaView className="flex-1 bg-MainBackground">
-        <View className="items-center justify-center">
-          <Text className="text-3xl text-TextColor text-center mb-3 font-bold">
+        <View className="items-center justify-center  rounded-md">
+          <Text className="text-3xl text-TextColor  text-center mb-3 font-bold">
             Üye Ol
           </Text>
         </View>
 
         <View className="flex-1">
-          <View className="mx-5 my-5 pb-8 border border-gray-500 rounded-md">
-            <View className="flex-row justify-between border-b border-gray-500 mb-5">
+          // SignUpInput alanları
+          <View className="mx-5 my-5 pb-8 border border-TextInputBorderColor rounded-md">
+            <View className="flex-row justify-between border border-TextInputBorderColor mb-5">
               <TouchableOpacity
                 onPress={() => navigation.navigate("LogScreen")}
-                className="w-[171px] h-[50px] border border-x-gray-400 items-center justify-center rounded-lg"
+                className="w-[171px] h-[50px] border border-t-0 border-TextInputBorderColor items-center justify-center rounded-lg"
               >
                 <Text className="text-lg text-TextLoginButtonColor text-center font-medium">
                   Giriş Yap
                 </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity className="bg-InputBackground w-[171px] h-[50px] items-center justify-center border border-x-gray-400 rounded-lg">
+              <TouchableOpacity className="bg-InputBackground w-[171px] h-[50px] items-center 
+              justify-center border border-t-0 border-TextInputBorderColor rounded-md">
                 <Text className="text-lg text-black text-center font-medium">
                   Üye Ol
                 </Text>
               </TouchableOpacity>
             </View>
-
+   // SignUpInput alanları
             <View className="mx-auto">
               <Text className="text-xl mx-7 my-5">Ad</Text>
-              <View className="bg-InputBackground border rounded-md justify-center w-[330px] h-[50px] mx-7">
+              <View className="bg-InputBackground border border-TextInputBorderColor rounded-md justify-center w-[330px] h-[50px] mx-7">
                 <TextInput className="p-5" placeholder="Adınızı giriniz" />
               </View>
 
               <Text className="text-xl mx-7 my-5">*Soyad</Text>
-              <View className="bg-InputBackground border rounded-md justify-center mx-7 w-[330px] h-[50px]">
+              <View className="bg-InputBackground border border border-TextInputBorderColor rounded-md justify-center mx-7 w-[330px] h-[50px]">
                 <TextInput className="p-5" placeholder="Soyadınızı giriniz" />
               </View>
             </View>
 
             <View className="mx-auto">
               <Text className="text-xl mx-7 my-5">*E-posta</Text>
-              <View className="bg-InputBackground border rounded-md justify-center w-[330px] h-[50px] mx-7">
+              <View className="bg-InputBackground border border border-TextInputBorderColor rounded-md justify-center w-[330px] h-[50px] mx-7">
                 <TextInput
                   className="p-5"
                   placeholder="E-posta adresinizi giriniz"
@@ -61,7 +63,7 @@ const SignUpInput = () => {
               </View>
 
               <Text className="text-xl mx-7 my-5">*Şifre</Text>
-              <View className="bg-InputBackground border rounded-md justify-center mx-7 w-[330px] h-[50px]">
+              <View className="bg-InputBackground border border border-TextInputBorderColor rounded-md justify-center mx-7 w-[330px] h-[50px]">
                 <TextInput
                   className="p-5"
                   placeholder="Şifrenizi giriniz"
