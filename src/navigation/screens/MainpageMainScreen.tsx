@@ -43,7 +43,7 @@ const MainpageMainScreen = () => {
         ></View>
         // Search Bar
         <View>
-          <View className="items-center mt-4">
+          <View className="items-center font-Inter mt-4">
             <View className="bg-InputBackground rounded-full justify-center
              w-[330px] h-[50px] flex-row items-center px-4">
               <TouchableOpacity>

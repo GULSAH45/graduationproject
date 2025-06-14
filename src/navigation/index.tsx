@@ -12,13 +12,84 @@ import SignUpScreen from "./screens/SignUpScreen";
 import ForgotPassword from "./screens/Forgotpassword";
 import MainpageMainScreen from "./screens/MainpageMainScreen";
 import MenuListScreen from "./screens/MenuListScreen";
+import FreqAskScreen from "./screens/FreqAskScreen";
+import ContactScreen from "./screens/ContactScreen";
+import AccountInfoScreen from "./screens/AccountInfoScreen";
 
+const RootStack = createNativeStackNavigator({
+  screenOptions: { headerShown: false },
 
-
-const HomeTabs = createBottomTabNavigator({
   screens: {
 
-       MainpageMainScreen: {
+  AccountInfoScreen: {
+      initialRouteName: "AccountInfoScreen",
+      screen: AccountInfoScreen,
+      options: {
+        title: "AccountInfoScreen",
+        headerShown: false,
+      },
+    },
+
+    ContactScreen: {
+    
+      screen: ContactScreen,
+      options: {
+        title: "ContactScreen",
+        headerShown: false,
+      },
+    },
+
+    FreqAskScreen: {
+      screen: FreqAskScreen,
+      options: {
+        title: "FreqAskScreen",
+        headerShown: false,
+      },
+    },
+
+    LogScreen: {
+      screen: LogScreen,
+      options: {
+        title: "LogScreen",
+        headerShown: false,
+      },
+    },
+    SignUpScreen: {
+      screen: SignUpScreen,
+      options: {
+        title: "SignUpScreen",
+        headerShown: false,
+      },
+    },
+
+    MainpageMainScreen: {
+      screen: MainpageMainScreen,
+      options: {
+        title: "MainpageMainScreen",
+        headerShown: false,
+      },
+    },
+    MenuListScreen: {
+      screen: MenuListScreen,
+      options: {
+        title: "MenuListScreen",
+        headerShown: false,
+      },
+    },
+  },
+});
+
+/* const HomeTabs = createBottomTabNavigator({
+  screens: {
+    FreqAskScreen: {
+      screen: FreqAskScreen,
+      options: {
+        title: "FreqAskScreen",
+        headerShown: false,
+      },
+    },
+
+    MainpageMainScreen: {
       screen: MainpageMainScreen,
       options: {
         title: "MainpageMainScreen",
@@ -26,7 +97,7 @@ const HomeTabs = createBottomTabNavigator({
       },
     },
 
-   MenuListScreen: {
+    MenuListScreen: {
       screen: MenuListScreen,
       options: {
         title: "Menu List",
@@ -34,13 +105,13 @@ const HomeTabs = createBottomTabNavigator({
       },
     },
 
- SignUpScreen: {
-  screen: SignUpScreen, 
-  options: {
-    title: "Üye Ol",
-    headerShown: false,
-  },
-},
+    SignUpScreen: {
+      screen: SignUpScreen,
+      options: {
+        title: "Üye Ol",
+        headerShown: false,
+      },
+    },
     LogScreen: {
       screen: LogScreen,
       options: {
@@ -48,28 +119,15 @@ const HomeTabs = createBottomTabNavigator({
         headerShown: false,
       },
     },
-   ForgotPassword: {
+    ForgotPassword: {
       screen: ForgotPassword,
       options: {
         title: "şifre",
         headerShown: false,
       },
     },
-
   },
-});
-
-const RootStack = createNativeStackNavigator({
-  screens: {
-    HomeTabs: {
-      screen: HomeTabs,
-      options: {
-        title: "Home",
-        headerShown: false,
-      },
-    },
-  },
-});
+}); */
 
 export const Navigation = createStaticNavigation(RootStack);
 
