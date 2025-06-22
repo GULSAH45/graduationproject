@@ -38,7 +38,7 @@ const MenuListScreen = () => {
 
         <View className="border border-MenuBorderColor" />
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("Adressess")}>
           <View className="flex-row items-center my-4">
             <Text>
               <AdresSVG />
@@ -49,7 +49,7 @@ const MenuListScreen = () => {
 
         <View className="border border-MenuBorderColor" />
 
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => navigation.navigate("AboutScreen")}>
           <View className="flex-row items-center my-4">
             <Text>
               <HakkımızdaSVG />

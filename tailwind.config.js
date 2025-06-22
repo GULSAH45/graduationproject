@@ -15,6 +15,7 @@ module.exports = {
         TextInputBorderColor: "rgb(229,229,229)",
         SearchBarPlaceholderColor: '#333333',
         MenuBorderColor: 'rgb(229,229,229)',
+        AccountEmailInput: ' rgba(136, 136, 136, 1)'
       },
       fontFamily: {
         'Inter': ['Inter', 'sans-serif'],

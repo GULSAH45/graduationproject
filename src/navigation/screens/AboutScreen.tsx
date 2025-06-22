@@ -1,0 +1,73 @@
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView } from "react-native";
+import React from "react";
+import PrevIcon from "../../svgs/PrevIcon";
+import { useNavigation } from "@react-navigation/native";
+
+const AboutScreen = () => {
+  const navigation = useNavigation();
+  return (
+    <SafeAreaView>
+      <View className="flex-row items-center mx-2 mt-4 my-4">
+        <TouchableOpacity onPress={() => navigation.navigate("MenuListScreen")}>
+          <PrevIcon />
+        </TouchableOpacity>
+        <Text className="text-black text-md font-semibold ml-2">
+          Hakkımızda
+        </Text>
+      </View>
+
+      <ScrollView>
+
+      <View className="mx-5 py-3 my-2 items-center">
+        <Text className="text-2xl font-bold ">
+          Sağlıklı ve Fit Yaşamayı{" "}
+          <View>
+            <Text className="text-2xl font-bold ">Zevkli ve Kolay Hale </Text>
+          </View>
+          <View>
+            <Text className="text-2xl font-bold ">Getirmek İçin Varız</Text>
+          </View>
+        </Text>
+
+        <Text className="text-black text-sm font-normal leading-relaxed mx-4 mt-2">
+          2016 yılından beri sporcu gıdaları, takviye edici gıdalar ve
+          fonksiyonel gıdaları üreten bir firma olarak; müşterilerimize en
+          kaliteli, lezzetli, tüketilmesi kolay ürünleri sunuyoruz. Müşteri
+          memnuniyeti ve sağlığı her zaman önceliğimiz olmuştur. Ürünlerimizde,
+          yüksek kalite standartlarına bağlı olarak,  sporcuların ve sağlıklı
+          yaşam tutkunlarının ihtiyaçlarına yönelik besleyici çözümler
+          sunuyoruz. Ürün yelpazemizdeki protein tozları, aminoasitler, vitamin
+          ve mineral takviyeleri ile spor performansınızı desteklemek için ideal
+          besin değerlerini sunuyoruz. Sizin için sadece en iyisinin yeterli
+          olduğunu biliyoruz. Bu nedenle, inovasyon, kalite, sağlık ve güvenlik
+          ilkelerimizi korurken, sürekli olarak ürünlerimizi geliştirmeye ve
+          yenilikçi beslenme çözümleri sunmaya devam ediyoruz.
+        </Text>
+
+        <Text  className="text-black text-sm font-normal mt-10 leading-relaxed mx-4 mb-2">
+          Sporcu gıdaları konusunda lider bir marka olarak, sizin sağlığınıza ve
+          performansınıza değer veriyoruz. Siz de spor performansınızı en üst
+          seviyeye çıkarmak ve sağlıklı yaşam tarzınızı desteklemek
+          istiyorsanız, bize katılın ve en besleyici çözümlerimizle tanışın.
+          Sağlıklı ve aktif bir yaşam için biz her zaman yanınızdayız.
+        </Text>
+
+        <Text  className="text-black text-sm font-normal mt-10 leading-relaxed mx-4">
+        Sanatçılardan profesyonel sporculara, doktordan
+öğrencilere hayatın her alanında sağlıklı yaşamı ve
+beslenmeyi hedefleyen 1.000.000'den fazla kişiye ulaştık.
+        </Text>
+
+      </View>
+
+
+
+      
+
+</ScrollView>
+
+    </SafeAreaView>
+  );
+};
+
+export default AboutScreen;

@@ -53,8 +53,8 @@ const ContactScreen = () => {
           className="bg-InputBackground border 
            border-TextInputBorderColor w-[358px] h-[150px] rounded p-4"
           placeholder="Mesaj"
-            multiline
-  textAlignVertical="top"
+          multiline
+          textAlignVertical="top"
         ></TextInput>
         <View className="items-center justify-center my-5">
           <TouchableOpacity className="w-[352px] h-[55px] items-center justify-center bg-black rounded-lg py-2">
@@ -65,27 +65,24 @@ const ContactScreen = () => {
         </View>
       </View>
 
-<View className="mx-1">
-  <Text className="text-xs font-medium mx-4">
-    *Aynı gün kargo hafta içi 16:00, Cumartesi ise 11:00' a kadar
-verilen siparişler icin geçerlidir.
-
-  </Text>
-  <Text className=" text-sm font-medium mx-4">
-    Siparişler kargoya verilince e-posta ve sms ile bilgilendirme
-yapılır.
-  </Text>
-</View>
-<View className="my-3 mx-5">
-  <Text className="text-xxs">
-Telefon ile <Text className="font-bold">0850 303 29 89</ Text>numarasını arayarak da bizlere
-sesli mesaj bırakabilirsiniz . Sesli mesajlarınıza hafta içi saat
- <Text className="font-bold">09:00-17:00</ Text>arasında dönüş sağlanmaktadır.
-
-  </Text>
-</View>
-
-
+      <View className="mx-1">
+        <Text className="text-xs font-medium mx-4">
+          *Aynı gün kargo hafta içi 16:00, Cumartesi ise 11:00' a kadar verilen
+          siparişler icin geçerlidir.
+        </Text>
+        <Text className=" text-sm font-medium mx-4">
+          Siparişler kargoya verilince e-posta ve sms ile bilgilendirme yapılır.
+        </Text>
+      </View>
+      <View className="my-3 mx-5">
+        <Text className="text-xxs">
+          Telefon ile <Text className="font-bold">0850 303 29 89</Text>
+          numarasını arayarak da bizlere sesli mesaj bırakabilirsiniz . Sesli
+          mesajlarınıza hafta içi saat
+          <Text className="font-bold">09:00-17:00</Text>arasında dönüş
+          sağlanmaktadır.
+        </Text>
+      </View>
     </SafeAreaView>
   );
 };

@@ -10,6 +10,8 @@ import PrevIcon from "../../svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
 import { TextInputBase } from "react-native";
 import DropDownFlag from "../../svgs/DropDownFlag";
+import FlagSvg from "../../svgs/FlagSvg";
+import CheckSvg from "../../svgs/checkSvg";
 
 const AccountInfoScreen = () => {
   const navigation = useNavigation();
@@ -50,16 +52,41 @@ const AccountInfoScreen = () => {
         </View>
 
         <Text className="text-sm mx-7 my-5">Telefon</Text>
-       
-
-        <View
-          className="bg-InputBackground border border-TextInputBorderColor 
-          rounded-md justify-center w-[370px] h-[50px] mx-6"
-        >
-          <TextInput className="p-5" placeholder="Adınızı giriniz">
-             <DropDownFlag />
-          </TextInput>
+        <View className="bg-InputBackground border border-TextInputBorderColor rounded-md flex-row items-center w-[370px] h-[50px] mx-6 px-2">
+          <TouchableOpacity className="flex-row items-center mr-2">
+            <FlagSvg />
+            <DropDownFlag />
+          </TouchableOpacity>
+          <TextInput
+            className="flex-1 p-2"
+            placeholder="Telefon numaranızı giriniz"
+            keyboardType="phone-pad"
+          />
         </View>
+
+        <Text className="text-sm mx-7 my-5">Email</Text>
+        <View className="bg-AccountEmailInput border border-TextInputBorderColor rounded-md w-[370px] h-[50px] mx-6 px-2 justify-center">
+          <TextInput
+            className="p-2"
+            placeholder="Email adresinizi giriniz"
+            keyboardType="email-address"
+          />
+        </View>
+      </View>
+
+      <View className="flex-row my-2 items-center justify-center p-3 mx-2">
+        {" "}
+        <TouchableOpacity>
+        <CheckSvg />
+        </TouchableOpacity>
+        <Text className="  text-xxs m-3">
+    Kampanyalardan haberdar olmak için{" "}
+        <TouchableOpacity onPress={() => alert("Onay metni tıklandı!")}>
+  <Text className="text-xs">Ticari Elektronik İleti Onayı</Text>
+</TouchableOpacity>
+          metnini okudum, onaylıyorum. Tarafınızdan gönderilecek ticari
+          elektronik iletileri almak istiyorum.
+        </Text>
       </View>
     </SafeAreaView>
   );

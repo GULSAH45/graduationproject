@@ -15,14 +15,32 @@ import MenuListScreen from "./screens/MenuListScreen";
 import FreqAskScreen from "./screens/FreqAskScreen";
 import ContactScreen from "./screens/ContactScreen";
 import AccountInfoScreen from "./screens/AccountInfoScreen";
+import Adressess from "./screens/Adressess";
+import AboutScreen from "./screens/AboutScreen";
 
 const RootStack = createNativeStackNavigator({
   screenOptions: { headerShown: false },
-
+  initialRouteName: "AboutScreen",
   screens: {
+  AboutScreen: {
+      screen: AboutScreen,
+      options: {
+        title: "AboutScreen",
+        headerShown: false,
+      },
+    },
 
-  AccountInfoScreen: {
-      initialRouteName: "AccountInfoScreen",
+
+
+    Adressess: {
+      screen: Adressess,
+      options: {
+        title: "Adressess",
+        headerShown: false,
+      },
+    },
+
+    AccountInfoScreen: {
       screen: AccountInfoScreen,
       options: {
         title: "AccountInfoScreen",
@@ -31,7 +49,6 @@ const RootStack = createNativeStackNavigator({
     },
 
     ContactScreen: {
-    
       screen: ContactScreen,
       options: {
         title: "ContactScreen",
