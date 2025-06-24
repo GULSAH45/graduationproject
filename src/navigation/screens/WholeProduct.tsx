@@ -1,22 +1,11 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  Image,
-  TextInput,
-  TouchableOpacity,
-  ScrollView,
-} from "react-native";
-import React from "react";
+import { View, Image, TouchableOpacity, SafeAreaView } from 'react-native'
+import React from 'react'
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { SearchBar } from "react-native-screens";
-import SearchBarComp from "../../components/SearchBarComp";
+import SearchBarComp from '../../components/SearchBarComp';
 
-const MainpageMainScreen = () => {
+const WholeProduct = () => {
   return (
-    <ScrollView>
-      {" "}
-      <SafeAreaView className="flex-1 bg-MainBackground">
+    <SafeAreaView>
         <View className="flex-row justify-between mx-3 ">
           {" "}
           <Image
@@ -43,26 +32,9 @@ const MainpageMainScreen = () => {
             shadowRadius: 0.5,
           }}
         ></View>
-        // Search Bar
-      <SearchBarComp/>
-        <Image
-          source={require("../../assets/SliderMain.png")}
-          className="w-full h-[350px]"
-          resizeMode="contain"
-        />
+            <SearchBarComp/>
+    </SafeAreaView>
+  )
+}
 
-// Categories
-<View>
-
-<Text className="text-md text-TextColor font-semibold ml-3 ">
-  Kategoriler
-</Text>
-
-</View>
-
-      </SafeAreaView>
-    </ScrollView>
-  );
-};
-
-export default MainpageMainScreen;
+export default WholeProduct
