@@ -18,7 +18,7 @@ const Adressess = () => {
       <SafeAreaView>
         <View className="flex-row items-center mx-2 mt-4 my-4">
           <TouchableOpacity
-            onPress={() => navigation.navigate("MenuListScreen")}
+            onPress={() => navigation.navigate("HomeTabs", { screen: "MenuListScreen" })}
           >
             <PrevIcon />
           </TouchableOpacity>

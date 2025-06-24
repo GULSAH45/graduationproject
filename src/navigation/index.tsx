@@ -25,121 +25,21 @@ import WholeProSvg from "../svgs/WholeProSvg";
 import MenuSvg from "../svgs/tabsvgs/MenuSvg";
 import Adressess from "./screens/Adressess";
 import OrderScreen from "./screens/OrderScreen";
-
-const RootStack = createNativeStackNavigator({
-  screenOptions: { headerShown: false },
-  initialRouteName: "OrderScreen",
-  screens: {
-
-OrderScreen: {
-      screen: OrderScreen,
-      options: {
-        title: "OrderScreen",
-        headerShown: false,
-      },
-    },
-
-    WholeProduct: {
-      screen: WholeProduct,
-      options: {
-        title: "WholeProduct",
-        headerShown: false,
-        tabBarIcon: ({ color, size }) => (
-          <HomeSVG width={size} height={size} fill={color} />
-        ),
-      },
-    },
-    SearchScreen: {
-      screen: SearchScreen,
-      options: {
-        title: "SearchScreen",
-        headerShown: false,
-      },
-    },
-
-    ForgotPassword: {
-      screen: ForgotPassword,
-      options: {
-        title: "ForgotPassword",
-        headerShown: false,
-      },
-    },
-
-    AboutScreen: {
-      screen: AboutScreen,
-      options: {
-        title: "AboutScreen",
-        headerShown: false,
-      },
-    },
-
-    AccountInfoScreen: {
-      screen: AccountInfoScreen,
-      options: {
-        title: "AccountInfoScreen",
-        headerShown: false,
-      },
-    },
-
-    ContactScreen: {
-      screen: ContactScreen,
-      options: {
-        title: "ContactScreen",
-        headerShown: false,
-      },
-    },
-
-    Adressess: {
-      screen: Adressess,
-      options: {
-        title: "Adressess",
-        headerShown: false,   
-      },
-    },
-
-
-    FreqAskScreen: {
-      screen: FreqAskScreen,
-      options: {
-        title: "FreqAskScreen",
-        headerShown: false,
-      },
-    },
-
-    LogScreen: {
-      screen: LogScreen,
-      options: {
-        title: "LogScreen",
-        headerShown: false,
-      },
-    },
-    SignUpScreen: {
-      screen: SignUpScreen,
-      options: {
-        title: "SignUpScreen",
-        headerShown: false,
-      },
-    },
-
-    MainpageMainScreen: {
-      screen: MainpageMainScreen,
-      options: {
-        title: "MainpageMainScreen",
-        headerShown: false,
-      },
-    },
-    MenuListScreen: {
-      screen: MenuListScreen,
-      options: {
-        title: "MenuListScreen",
-        headerShown: false,
-      },
-    },
-  },
-});
+import DeliveredOrder from "./screens/DeliveredOrder";
+import BasketScreen from "./screens/BasketScreen";
 
 const HomeTabs = createBottomTabNavigator({
   screens: {
+    MenuListScreen: {
+      screen: MenuListScreen,
+      options: {
+        title: "Menü",
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <MenuSvg width={size} height={size} fill={color} />
+        ),
+      },
+    },
     WholeProduct: {
       screen: WholeProduct,
       options: {
@@ -150,65 +50,57 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-    /*  AboutScreen: {
-      screen: AboutScreen,
+    SearchScreen: {
+      screen: SearchScreen,
       options: {
-        title: "AboutScreen",
+        title: "Arama",
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <MagnifySVG width={size} height={size} fill={color} />
+        ),
+      },
+    },
+    MainpageMainScreen: {
+      screen: MainpageMainScreen,
+      options: {
+        title: "Anasayfa",
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <HomeSVG width={size} height={size} fill={color} />
+        ),
+      },
+    },
+  },
+});
+
+const RootStack = createNativeStackNavigator({
+  screenOptions: { headerShown: false },
+  initialRouteName: "HomeTabs",
+  screens: {
+    HomeTabs: {
+      screen: HomeTabs,
+      options: {
         headerShown: false,
       },
     },
-    Adressess: {
-      screen: Adressess,
+    DeliveredOrder: {
+      screen: DeliveredOrder,
       options: {
-        title: "Adressess",
+        title: "Teslim Edilen Siparişler",
         headerShown: false,
       },
     },
-    AccountInfoScreen: {
-      screen: AccountInfoScreen,
+    FreqAskScreen: {
+      screen: FreqAskScreen,
       options: {
-        title: "AccountInfoScreen",
+        title: "S.S.S.",
         headerShown: false,
       },
     },
     ContactScreen: {
       screen: ContactScreen,
       options: {
-        title: "ContactScreen",
-        headerShown: false,
-      },
-    },        
-    FreqAskScreen: {
-      screen: FreqAskScreen,
-      options: {
-        title: "FreqAskScreen",
-        headerShown: false,
-      },
-    }, */
-    MainpageMainScreen: {
-      screen: MainpageMainScreen,
-      options: {
-        title: "MainpageMainScreen",
-        headerShown: false,
-        tabBarIcon: ({ color, size }) => (
-          <HomeSVG width={30} height={size} fill={color} />
-        ),
-      },
-    },
-    MenuListScreen: {
-      screen: MenuListScreen,
-      options: {
-        title: "Menu List",
-        headerShown: false,
-        tabBarIcon: ({ color, size }) => (
-          <MenuSvg width={size} height={size} fill={color} />
-        ),
-      },
-    },
-    SignUpScreen: {
-      screen: SignUpScreen,
-      options: {
-        title: "Üye Ol",
+        title: "Bize Ulaşın",
         headerShown: false,
       },
     },
@@ -219,27 +111,59 @@ const HomeTabs = createBottomTabNavigator({
         headerShown: false,
       },
     },
-    ForgotPassword: {
-      screen: ForgotPassword,
+    SignUpScreen: {
+      screen: SignUpScreen,
       options: {
-        title: "şifre",
+        title: "Üye Ol",
         headerShown: false,
       },
     },
-    SearchScreen: {
-      screen: SearchScreen,
+    ForgotPassword: {
+      screen: ForgotPassword,
       options: {
-        title: "SearchScreen",
+        title: "Şifre Sıfırla",
         headerShown: false,
-        tabBarIcon: ({ color, size }) => (
-          <MagnifySVG width={30} height={size} fill={color} />
-        ),
+      },
+    },
+    AccountInfoScreen: {
+      screen: AccountInfoScreen,
+      options: {
+        title: "Hesap Bilgileri",
+        headerShown: false,
+      },
+    },
+    Adressess: {
+      screen: Adressess,
+      options: {
+        title: "Adreslerim",
+        headerShown: false,
+      },
+    },
+    AboutScreen: {
+      screen: AboutScreen,
+      options: {
+        title: "Hakkımızda",
+        headerShown: false,
+      },
+    },
+    OrderScreen: {
+      screen: OrderScreen,
+      options: {
+        title: "Siparişlerim",
+        headerShown: false,
+      },
+    },
+    BasketScreen: {
+      screen: BasketScreen,
+      options: {
+        title: "Sepetim",
+        headerShown: false,
       },
     },
   },
 });
 
-export const Navigation = createStaticNavigation(HomeTabs);
+export const Navigation = createStaticNavigation(RootStack);
 
 type RootStackParamList = StaticParamList<typeof RootStack>;
 

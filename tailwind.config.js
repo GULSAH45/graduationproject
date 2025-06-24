@@ -9,6 +9,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        BasketBorderColor: "rgb(221,221,221)",
         InputBackground: "rgb(247,247,247)", 
         MainBackgroundColor: "rgb(255,255,255)",
         TextLoginButtonColor: "#2126AB",
