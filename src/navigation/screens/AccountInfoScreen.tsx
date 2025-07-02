@@ -8,7 +8,7 @@ import {
 import React from "react";
 import PrevIcon from "../../svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
-import { TextInputBase } from "react-native";
+
 import DropDownFlag from "../../svgs/DropDownFlag";
 import FlagSvg from "../../svgs/FlagSvg";
 import CheckSvg from "../../svgs/checkSvg";

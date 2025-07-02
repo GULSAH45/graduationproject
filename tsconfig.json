@@ -3,5 +3,10 @@
   "compilerOptions": {
     "moduleResolution": "bundler",
     "strict": true
-  }
+  },
+  "include": [
+    "env.d.ts",
+    "src",
+    "nativewind-env.d.ts"
+  ]
 }

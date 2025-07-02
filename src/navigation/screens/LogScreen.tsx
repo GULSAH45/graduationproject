@@ -1,8 +1,29 @@
-
 import { SafeAreaView, View ,Image,Text, TouchableOpacity} from 'react-native';
 import LoginInput from '../../components/LoginInput';
+import React, { useState, useEffect } from 'react';
 
-const LogScreen = () =>  {
+type LoginData = { email: string; password: string };
+
+const LogScreen = ({ navigation }: { navigation: any }) => {
+  const [loginData, setLoginData] = useState<LoginData | null>(null);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (loginData) {
+      // Burada gerçek bir API isteği yapılabilir
+      if (loginData.email === "gulsah@gulsah.com" && loginData.password === "1234") {
+        setIsLoggedIn(true);
+      } else {
+        alert("Hatalı giriş!");
+      }
+    }
+  }, [loginData]);
+useEffect(() => {
+  if (isLoggedIn) {
+    navigation.navigate("HomeTabs");
+  }
+}, [isLoggedIn]);
+
   return ( 
     <SafeAreaView className='flex-1 bg-MainBackground'>
 <View className='items-center justify-center'>
@@ -17,7 +38,7 @@ const LogScreen = () =>  {
 </Text>
 
 </View>
- <LoginInput  />
+ <LoginInput  onLogin={(email, password) => setLoginData({ email, password })} />
 
  
     </SafeAreaView>

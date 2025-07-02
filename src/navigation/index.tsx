@@ -29,6 +29,7 @@ import DeliveredOrder from "./screens/DeliveredOrder";
 import BasketScreen from "./screens/BasketScreen";
 
 const HomeTabs = createBottomTabNavigator({
+  initialRouteName: "MenuListScreen", // Set MenuListScreen as the initial screen
   screens: {
     MenuListScreen: {
       screen: MenuListScreen,
@@ -75,7 +76,7 @@ const HomeTabs = createBottomTabNavigator({
 
 const RootStack = createNativeStackNavigator({
   screenOptions: { headerShown: false },
-  initialRouteName: "HomeTabs",
+  initialRouteName: "HomeTabs", // HomeTabs as the initial screen
   screens: {
     HomeTabs: {
       screen: HomeTabs,
