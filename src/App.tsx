@@ -4,7 +4,7 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import { Navigation } from './navigation';
  import "./global.css"
- import { useFonts, Inter_400Regular, Inter_700Bold,} from '@expo-google-fonts/inter';
+  import { useFonts, Inter_400Regular, Inter_700Bold,} from '@expo-google-fonts/inter';
 
 Asset.loadAsync([
   ...NavigationAssets,

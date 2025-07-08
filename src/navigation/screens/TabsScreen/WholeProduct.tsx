@@ -6,14 +6,14 @@ import {
   TouchableOpacity,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import SearchBarComp from "../../components/SearchBarComp";
+import SearchBarComp from "../../../components/SearchBarComp";
 
 const WholeProduct = () => {
   return (
     <SafeAreaView>
       <View style={{ flexDirection: "row", justifyContent: "space-between", marginHorizontal: 12 }}>
         <Image
-          source={require("../../assets/LOGO.png")}
+          source={require("../../../assets/LOGO.png")}
           style={{ width: 119, height: 26, marginTop: 12, marginBottom: 12 }}
           resizeMode="contain"
         />

@@ -8,8 +8,12 @@ const CheckIcons = () => {
   return (
     <View>
       <CheckBox
-     checked={checked}
+        checked={checked}
         onPress={() => setChecked(!checked)}
+       
+        checkedColor="rgba(33, 38, 171, 1)"
+        uncheckedColor="rgba(33, 38, 171, 1)"
+        size={22}
       />
 
     </View>
