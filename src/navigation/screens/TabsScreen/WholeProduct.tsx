@@ -8,6 +8,7 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import SearchBarComp from "../../../components/SearchBarComp";
 
+
 const WholeProduct = () => {
   return (
     <SafeAreaView>
@@ -32,7 +33,7 @@ const WholeProduct = () => {
         }}
       />
 
-      <SearchBarComp />
+      <SearchBarComp value={} onChangeText={} />
     </SafeAreaView>
   );
 };
