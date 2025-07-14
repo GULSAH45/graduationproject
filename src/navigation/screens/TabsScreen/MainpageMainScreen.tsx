@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
+import { useNavigation } from "@react-navigation/native";
 
 import SearchBarComp from "../../../components/SearchBarComp";
 
@@ -33,6 +34,7 @@ const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
 const MainpageMainScreen = () => {
   const [categories, setCategories] = useState<CategoryParams[]>([]);
+  const navigation = useNavigation();
 
   useEffect(() => {
     fetch(`${base_url}/categories`)
@@ -59,6 +61,15 @@ const MainpageMainScreen = () => {
     "tum-urunler": require("../../../assets/categoryPics/tum-urunler.png"),
   };
 
+  // Kategori slug'ına göre ekran adı eşleştirme
+  const categoryScreens: { [key: string]: string } = {
+    protein: "ProteinPage",
+    vitamin: "VitaminPage",
+    "spor-gidalari": "SporGidalariPage",
+    gida: "GidaPage",
+    saglik: "SaglikPage",
+  };
+
   return (
     <ScrollView>
       <SafeAreaView className="flex-1 bg-MainBackground">
@@ -69,7 +80,7 @@ const MainpageMainScreen = () => {
             className="w-[119px] h-[26px] mb-3 mt-3"
             resizeMode="contain"
           />
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate("BasketScreen")}>
             {" "}
             <AntDesign
               name="shoppingcart"
@@ -89,7 +100,9 @@ const MainpageMainScreen = () => {
           }}
         ></View>
         // Search Bar
-        <SearchBarComp />
+        <SearchBarComp value={""} onChangeText={function (text: string): void {
+          throw new Error("Function not implemented.");
+        } } />
         <Image
           source={require("../../../assets/SliderMain.png")}
           className="w-full h-[350px]"
@@ -107,7 +120,12 @@ const MainpageMainScreen = () => {
                 className="w-[48%] h-[100px] bg-white rounded-lg mb-3 items-center justify-center shadow"
                 style={{ minWidth: 110 }}
                 onPress={() => {
-                  console.log("Kategori tıklandı:", cat.name);
+                  const screenName = categoryScreens[cat.slug];
+                  if (screenName) {
+                    navigation.navigate(screenName);
+                  } else {
+                    console.log("Bu kategori için sayfa yok:", cat.slug);
+                  }
                 }}
               >
                 <Image

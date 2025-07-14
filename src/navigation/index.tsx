@@ -26,9 +26,35 @@ import FreqAskScreen from "./screens/FreqAskScreen";
 import ForgotPassword from "./screens/Forgotpassword";
 import AccountInfoScreen from "./screens/AccountInfoScreen";
 import AboutScreen from "./screens/AboutScreen";
+
+import VitaminPage from "./screens/CategoryPages/VitaminPage";
+import ProteinPage from "./screens/CategoryPages/ProteinPage";
+import SaglikPage from "./screens/CategoryPages/SaglikPage";
+import SporGidalariPage from "./screens/CategoryPages/SporGidalariPage";
+import GidaPage from "./screens/CategoryPages/GidaPage";
   
 const HomeTabs = createBottomTabNavigator({
   screens: {
+    MainpageMainScreen: {
+      screen: MainpageMainScreen,
+      options: {
+        title: "Anasayfa",
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <HomeSVG width={size} height={size} fill={color} />
+        ),
+      },
+    },
+    SearchScreen: {
+      screen: SearchScreen,
+      options: {
+        title: "Arama",
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <MagnifySVG width={size} height={size} fill={color} />
+        ),
+      },
+    },
     MenuListScreen: {
       screen: MenuListScreen,
       options: {
@@ -49,26 +75,8 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-    SearchScreen: {
-      screen: SearchScreen,
-      options: {
-        title: "Arama",
-        headerShown: false,
-        tabBarIcon: ({ color, size }) => (
-          <MagnifySVG width={size} height={size} fill={color} />
-        ),
-      },
-    },
-    MainpageMainScreen: {
-      screen: MainpageMainScreen,
-      options: {
-        title: "Anasayfa",
-        headerShown: false,
-        tabBarIcon: ({ color, size }) => (
-          <HomeSVG width={size} height={size} fill={color} />
-        ),
-      },
-    },
+
+
   },
 });
 
@@ -80,6 +88,42 @@ const RootStack = createNativeStackNavigator({
     HomeTabs: {
       screen: HomeTabs,
       options: {
+        headerShown: false,
+      },
+    },
+    VitaminPage: {
+      screen: VitaminPage,
+      options: {
+        title: "Teslim Edilen Siparişler",
+        headerShown: false,
+      },
+    },
+    GidaPage: {
+      screen: VitaminPage, // Assuming GidaPage is similar to VitaminPage
+      options: {
+        title: "Gıda Ürünleri",
+        headerShown: false,
+      },
+    },
+
+    ProteinPage: {
+      screen: ProteinPage, // Assuming ProteinPage is similar to VitaminPage
+      options: {
+        title: "Protein Ürünleri",
+        headerShown: false,
+      },
+    },
+    SaglikPage: {
+      screen: SaglikPage, // Assuming SağlikPage is similar to VitaminPage
+      options: {
+        title: "Sağlık Ürünleri",
+        headerShown: false,
+      },
+    },
+    SporGidalariPage: {
+      screen: SporGidalariPage,
+      options: {
+        title: "Spor Gıdaları",
         headerShown: false,
       },
     },
