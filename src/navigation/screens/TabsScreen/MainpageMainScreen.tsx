@@ -14,6 +14,7 @@ import { useNavigation } from "@react-navigation/native";
 import SearchBarComp from "../../../components/SearchBarComp";
 
 interface CategoryParams {
+  photo_src: any;
   ginseng: any;
   id: number;
   name: string;
@@ -168,4 +169,4 @@ const MainpageMainScreen = () => {
   );
 };
 
-export default MainpageMainScreen;
+export default MainpageMainScreen; 
