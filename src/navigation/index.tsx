@@ -17,7 +17,7 @@ import DeliveredOrder from "./screens/DeliveredOrder";
 import BasketScreen from "./screens/BasketScreen";
 import MainpageMainScreen from "./screens/TabsScreen/MainpageMainScreen";
 import SearchScreen from "./screens/TabsScreen/SearchScreen";
-import WholeProduct from "../svgs/WholeProSvg";
+import WholeProduct from "./screens/TabsScreen/WholeProduct";
 import MenuListScreen from "./screens/TabsScreen/MenuListScreen";
 import LogScreen from "./screens/logScreens/LogScreen";
 import SignUpScreen from "./screens/logScreens/SignUpScreen";
@@ -32,6 +32,7 @@ import ProteinPage from "./screens/CategoryPages/ProteinPage";
 import SaglikPage from "./screens/CategoryPages/SaglikPage";
 import SporGidalariPage from "./screens/CategoryPages/SporGidalariPage";
 import GidaPage from "./screens/CategoryPages/GidaPage";
+import ProductDetailPage from "./screens/ProductDetailPage";
   
 const HomeTabs = createBottomTabNavigator({
   screens: {
@@ -99,7 +100,7 @@ const RootStack = createNativeStackNavigator({
       },
     },
     GidaPage: {
-      screen: VitaminPage, // Assuming GidaPage is similar to VitaminPage
+      screen: GidaPage,
       options: {
         title: "Gıda Ürünleri",
         headerShown: false,
@@ -127,6 +128,15 @@ const RootStack = createNativeStackNavigator({
         headerShown: false,
       },
     },
+
+    ProductDetailPage: {
+      screen: ProductDetailPage,
+      options:{
+        title: "ProductDetailPage",
+        headerShown: false,
+      }
+    },
+
     DeliveredOrder: {
       screen: DeliveredOrder,
       options: {

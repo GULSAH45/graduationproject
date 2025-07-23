@@ -2,10 +2,11 @@ import { View, Text, SafeAreaView, TouchableOpacity} from 'react-native'
 import React from 'react'
 
 import { useNavigation } from '@react-navigation/native'
+import PrevIcon from '../../svgs/PrevIcon'
 
-import PrevIcon from '../../../svgs/PrevIcon'
 
-const VitaminPage = () => {
+
+const ProductDetailPage = () => {
    const navigation = useNavigation()
 
    
@@ -18,9 +19,8 @@ const VitaminPage = () => {
             <PrevIcon />
           </TouchableOpacity>
           <Text className="text-black text-md font-semibold ml-2">
-            Vitaminler
+         //hangi ürüne gdiliyorsa ürün sayfasının adı o olacak
 
-// postman de bi yanlışlık olabilir mi???  tüm ürün leri de yapamadım.
 
           </Text>
         </View>
@@ -28,4 +28,4 @@ const VitaminPage = () => {
   )
 }
 
-export default VitaminPage
+export default ProductDetailPage;

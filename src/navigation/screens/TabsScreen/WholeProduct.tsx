@@ -33,7 +33,7 @@ const WholeProduct = () => {
         }}
       />
 
-      <SearchBarComp value={} onChangeText={} />
+      <SearchBarComp  onChangeText={() => { } } value={""} />
     </SafeAreaView>
   );
 };
