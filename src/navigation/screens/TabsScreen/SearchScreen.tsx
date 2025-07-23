@@ -59,7 +59,8 @@ const SearchScreen = () => {
       //eğer cevap dönmüyorsa hata mesajı ver
       if (!response.ok || !rawText) {
         setError("Arama sırasında sunucudan geçerli bir yanıt alınamadı.");
-        setResults([]);
+        setResults
+        ([]);
         return;
       }
       // eğer data döndüyse
