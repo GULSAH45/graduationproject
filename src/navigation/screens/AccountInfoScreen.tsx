@@ -18,7 +18,7 @@ const AccountInfoScreen = () => {
   return (
     <SafeAreaView className="flex-1">
       <View>
-        <View className="flex-row items-center mx-2 mt-4 my-4">
+        <View className="flex-row mx-2 mt-4 my-4">
           <TouchableOpacity
            onPress={() => navigation.navigate("HomeTabs", { screen: "MenuListScreen" })}
           >
@@ -88,8 +88,19 @@ const AccountInfoScreen = () => {
           elektronik iletileri almak istiyorum.
         </Text>
       </View>
+
+      <View className=" my-5">
+            <TouchableOpacity className="items-center w-[101px] h-[55px] 
+             bg-black rounded-lg py-2">
+              <Text className="text-white text-lg font-bold 
+              text-center">
+           Kaydet
+              </Text>
+            </TouchableOpacity>
+          </View>
+
     </SafeAreaView>
-  );
-};
+  )
+}
 
 export default AccountInfoScreen;

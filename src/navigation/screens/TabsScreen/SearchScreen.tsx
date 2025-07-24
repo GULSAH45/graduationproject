@@ -135,7 +135,7 @@ const SearchScreen = () => {
         }
       />
     </SafeAreaView>
-  );
-};
+  )
+}
 
 export default SearchScreen;

@@ -175,9 +175,10 @@ const MainpageMainScreen = () => {
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8}}
             renderItem={({ item }) => (
-              <View
+              <TouchableOpacity
                 className="bg-white rounded-md mr-3 p-2 items-center"
                 style={{ width: 160 }}
+                onPress={() => navigation.navigate('ProductDetailPage', { product: item })}
               >
                 <Image
                   source={{
@@ -197,7 +198,7 @@ const MainpageMainScreen = () => {
                     ? `${item.price_info.discounted_price}₺`
                     : `${item.price_info.total_price}₺`}
                 </Text>
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>

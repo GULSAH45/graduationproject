@@ -5,15 +5,38 @@ import {
   TouchableOpacity,
   ScrollView,
 } from "react-native";
-import React from "react";
+import React, { useState } from "react";
 import PrevIcon from "../../svgs/PrevIcon";
 import GenelSSS from "../../svgs/GenelSSS";
 import DropdownPlus from "../../svgs/dropdownPlus";
 import DropdownMinus from "../../svgs/dropdownMinus";
 import { useNavigation } from "@react-navigation/native";
 
+const questions = [
+  "OJS Nutrition ürünlerinin menşei neresi?",
+  "Hangi sertifikalarınız var?",
+  "Satılan ürünler garantili midir? Değişim var mı?",
+  "Sipariş verirken sorun yaşıyorum, ne yapmam gerekir?",
+  "OJS Nutrition ürünleri nerede satılıyor?",
+  "Yüksek proteinli ürünleri kimler kullanabilir?",
+  "Taksit seçeneği neden yok?",
+  "Siparişimi nasıl iptal edebilirim?",
+  "Kapağın altındaki folyo açılmış veya tam yapışmamış gibi duruyor?",
+  "Sattığınız ürünler ilaç mıdır?",
+  "Siparişimi teslim alırken nelere dikkat etmeliyim ?",
+  "Kapıda ödeme hizmetiniz var mı?",
+  "Sipariş takibimi nasıl yapabilirim ?",
+  "İptal ve İade ettiğim ürünlerin tutarı hesabıma ne zaman aktarılır ?",
+];
+
 const FreqAskScreen = () => {
   const navigation = useNavigation();
+  const [openIndex, setOpenIndex] = useState<number | null>(null);
+
+  const toggleAccordion = (idx: number) => {
+    setOpenIndex((prev) => (prev === idx ? null : idx));
+  };
+
   return (
     <SafeAreaView className="flex-1">
       <View className="flex-row items-center mx-2 mt-4 my-4">
@@ -53,151 +76,248 @@ const FreqAskScreen = () => {
 
       <ScrollView>
         <View className="border mx-3 py-2 border-TextInputBorderColor">
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              OJS Nutrition ürünlerinin menşei neresi?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Hangi sertifikalarınız var?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Satılan ürünler garantili midir? Değişim var mı?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Sipariş verirken sorun yaşıyorum, ne yapmam gerekir?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              OJS Nutrition ürünleri nerede satılıyor?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Yüksek proteinli ürünleri kimler kullanabilir?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Taksit seçeneği neden yok?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Siparişimi nasıl iptal edebilirim?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Kapağın altındaki folyo açılmış veya tam yapışmamış gibi duruyor?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Sattığınız ürünler ilaç mıdır?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Siparişimi teslim alırken nelere dikkat etmeliyim ?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Kapıda ödeme hizmetiniz var mı?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              Sipariş takibimi nasıl yapabilirim ?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />{" "}
-          <View className="mx-5 py-4 flex-row justify-between ">
-            <Text className=" text-sm  font-bold">
-              İptal ve İade ettiğim ürünlerin tutarı hesabıma ne zaman aktarılır
-              ?
-            </Text>
-            <TouchableOpacity>
-              {" "}
-              <DropdownMinus />
-            </TouchableOpacity>
-          </View>
-          <View className="border-b border-TextInputBorderColor mx-5" />
+          {/* 1. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                OJS Nutrition ürünlerinin menşei neresi?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(0)}>
+                {openIndex === 0 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 0 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 2. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Hangi sertifikalarınız var?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(1)}>
+                {openIndex === 1 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 1 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 3. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Satılan ürünler garantili midir? Değişim var mı?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(2)}>
+                {openIndex === 2 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 2 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 4. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Sipariş verirken sorun yaşıyorum, ne yapmam gerekir?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(3)}>
+                {openIndex === 3 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 3 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 5. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                OJS Nutrition ürünleri nerede satılıyor?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(4)}>
+                {openIndex === 4 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 4 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 6. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Yüksek proteinli ürünleri kimler kullanabilir?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(5)}>
+                {openIndex === 5 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 5 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 7. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Taksit seçeneği neden yok?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(6)}>
+                {openIndex === 6 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 6 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 8. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Siparişimi nasıl iptal edebilirim?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(7)}>
+                {openIndex === 7 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 7 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 9. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Kapağın altındaki folyo açılmış veya tam yapışmamış gibi duruyor?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(8)}>
+                {openIndex === 8 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 8 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 10. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Sattığınız ürünler ilaç mıdır?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(9)}>
+                {openIndex === 9 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 9 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 11. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Siparişimi teslim alırken nelere dikkat etmeliyim ?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(10)}>
+                {openIndex === 10 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 10 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 12. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Kapıda ödeme hizmetiniz var mı?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(11)}>
+                {openIndex === 11 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 11 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 13. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                Sipariş takibimi nasıl yapabilirim ?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(12)}>
+                {openIndex === 12 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 12 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
+          {/* 14. Soru */}
+          <React.Fragment>
+            <View className="mx-5 py-4 flex-row justify-between items-center">
+              <Text className="text-sm font-bold flex-1">
+                İptal ve İade ettiğim ürünlerin tutarı hesabıma ne zaman aktarılır ?
+              </Text>
+              <TouchableOpacity onPress={() => toggleAccordion(13)}>
+                {openIndex === 13 ? <DropdownMinus /> : <DropdownPlus />}
+              </TouchableOpacity>
+            </View>
+            {openIndex === 13 && (
+              <View className="mx-5 mb-2">
+                <Text className="text-xs text-gray-700">Burada cevabı göreceksiniz.</Text>
+              </View>
+            )}
+            <View className="border-b border-TextInputBorderColor mx-5" />
+          </React.Fragment>
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 export default FreqAskScreen;
