@@ -12,22 +12,7 @@ import DropdownPlus from "../../svgs/dropdownPlus";
 import DropdownMinus from "../../svgs/dropdownMinus";
 import { useNavigation } from "@react-navigation/native";
 
-const questions = [
-  "OJS Nutrition ürünlerinin menşei neresi?",
-  "Hangi sertifikalarınız var?",
-  "Satılan ürünler garantili midir? Değişim var mı?",
-  "Sipariş verirken sorun yaşıyorum, ne yapmam gerekir?",
-  "OJS Nutrition ürünleri nerede satılıyor?",
-  "Yüksek proteinli ürünleri kimler kullanabilir?",
-  "Taksit seçeneği neden yok?",
-  "Siparişimi nasıl iptal edebilirim?",
-  "Kapağın altındaki folyo açılmış veya tam yapışmamış gibi duruyor?",
-  "Sattığınız ürünler ilaç mıdır?",
-  "Siparişimi teslim alırken nelere dikkat etmeliyim ?",
-  "Kapıda ödeme hizmetiniz var mı?",
-  "Sipariş takibimi nasıl yapabilirim ?",
-  "İptal ve İade ettiğim ürünlerin tutarı hesabıma ne zaman aktarılır ?",
-];
+
 
 const FreqAskScreen = () => {
   const navigation = useNavigation();

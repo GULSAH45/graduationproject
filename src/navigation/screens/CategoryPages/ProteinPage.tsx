@@ -132,7 +132,7 @@ const ProteinPage = () => {
         </ScrollView>
       )}
     </SafeAreaView>
-  );
-};
+  )
+}
 
 export default ProteinPage;
