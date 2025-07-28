@@ -29,6 +29,13 @@ const SaglikPage = () => {
 
   return (
     <SafeAreaView>
+         <View className="px-3">
+              <Image
+                source={require("../../../assets/LOGO.png")}
+                className="w-[119px] h-[26px] mb-3 mt-3"
+                resizeMode="contain"
+              />
+            </View>
       <View className="flex-row items-center mx-2 mt-4 my-4">
         <TouchableOpacity
           onPress={() => navigation.goBack()}

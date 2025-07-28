@@ -45,20 +45,29 @@ import { useNavigation } from '@react-navigation/native';
 
   return (
      <SafeAreaView>
+         <View className="px-3">
+              <Image
+                source={require("../../../assets/LOGO.png")}
+                className="w-[119px] h-[26px] mb-3 mt-3"
+                resizeMode="contain"
+              />
+            </View>
+      
          <View className="flex-row items-center mx-2 mt-4 my-4">
+          
           <TouchableOpacity
            onPress={() => navigation.goBack()}
           >
             <PrevIcon />
           </TouchableOpacity>
           <Text className="text-black text-md font-semibold ml-2">
-   G
+   Gıda
           </Text>
         </View>
 
 <View className="items-center">
         //ürünleri burdan itibaren basıyoruz{" "}
-        <Text className="text-black text-2xl font-semibold">Protein</Text>
+        <Text className="text-black text-2xl font-semibold">Gıda</Text>
       </View>
       //
       {loading && <Text className="text-center mt-4">Yükleniyor...</Text>}

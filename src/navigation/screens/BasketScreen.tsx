@@ -40,7 +40,7 @@ const BasketScreen = () => {
         </TouchableOpacity>
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}
 
 export default BasketScreen;

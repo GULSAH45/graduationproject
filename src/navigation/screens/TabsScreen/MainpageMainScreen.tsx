@@ -222,5 +222,4 @@ const MainpageMainScreen = () => {
     </ScrollView>
   )
 }
-
 export default MainpageMainScreen; 
