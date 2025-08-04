@@ -51,6 +51,7 @@ const SignUpInput = ({
         <View className="mx-5 my-5 pb-8 border border-TextInputBorderColor rounded-md">
           <View className="flex-row justify-between border border-TextInputBorderColor mb-5">
             <TouchableOpacity
+            //tab menu uye/giris
               onPress={() => navigation.navigate("LogScreen")}
               className="w-[171px] h-[50px] border border-t-0 border-TextInputBorderColor items-center justify-center rounded-lg"
             >
@@ -58,7 +59,7 @@ const SignUpInput = ({
                 Giriş Yap
               </Text>
             </TouchableOpacity>
-            <TouchableOpacity className="bg-gray-300 w-[171px] h-[50px] items-center justify-center border border-t-0 border-TextInputBorderColor rounded-md" disabled>
+            <TouchableOpacity  className="bg-gray-300 w-[171px] h-[50px] items-center justify-center border border-t-0 border-TextInputBorderColor rounded-md" disabled>
               <Text className="text-lg text-black text-center font-medium">
                 Üye Ol
               </Text>
@@ -107,20 +108,11 @@ const SignUpInput = ({
               />
             </View>
           </View>
-          <View className="items-center mt-5 justify-center">
-            <TouchableOpacity className="bg-black w-[324px] h-[55px] items-center justify-center rounded-lg" onPress={onSignUp} disabled={loading}>
-              <Text className="text-2xl text-white text-center font-bold">
-                {loading ? "Kaydediliyor..." : "Üye Ol"}
-              </Text>
-            </TouchableOpacity>
-            {!!message && (
-              <Text className="text-center text-red-500 mt-3">{message}</Text>
-            )}
-          </View>
+
         </View>
       </View>
     </ScrollView>
-  );
-};
+  )
+}
 
 export default SignUpInput;

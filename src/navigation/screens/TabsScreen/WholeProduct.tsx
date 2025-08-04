@@ -161,7 +161,7 @@ const WholeProduct = () => {
         {/* Best Seller Ürünler */}
         <View className="mt-4">
           <Text className="text-md text-TextColor font-semibold ml-3 mb-2">
-            Best Seller Ürünler
+            Çok Satanlar
           </Text>
           <FlatList
             data={bestSellers}

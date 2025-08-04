@@ -56,16 +56,7 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-    MenuListScreen: {
-      screen: MenuListScreen,
-      options: {
-        title: "Menü",
-        headerShown: false,
-        tabBarIcon: ({ color, size }) => (
-          <MenuSvg width={size} height={size} fill={color} />
-        ),
-      },
-    },
+
     WholeProduct: {
       screen: WholeProduct,
       options: {
@@ -76,13 +67,22 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-
+    MenuListScreen: {
+      screen: MenuListScreen,
+      options: {
+        title: "Menü",
+        headerShown: false,
+        tabBarIcon: ({ color, size }) => (
+          <MenuSvg width={size} height={size} fill={color} />
+        ),
+      },
+    },
 
   },
 });
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: "HomeTabs", // HomeTabs as the initial screen
+  initialRouteName: "SignUpScreen", // HomeTabs as the initial screen
   screenOptions: { headerShown: false },
 
   screens: {

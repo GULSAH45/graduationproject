@@ -7,40 +7,38 @@ import {
 import React, { useState } from "react";
 import LoginInput from "../../../components/LoginInput";
 import { useNavigation } from "@react-navigation/native";
-
+//ana dres dosyadan gelen base url
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
-//state ler bunlar 
+
 const LogScreen = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigation = useNavigation();
-//Login i yönetelim
+
   const handleLogin = async () => {
     setLoading(true);
-    // Giriş yapma işlemi sırasında mesajı temizle
     setMessage("");
+
     try {
-      // API'ye istek atıyoruz
+      // ⬇️ Giriş isteği  yerleştirildi
       const response = await fetch(`${base_url}/auth/login`, {
-        //bu işin raconu bu postla oluyo
         method: "POST",
         headers: {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          email,
+          //kullnıcı adı email
+          username: email, 
           password,
-
-// api_key: "370718", // API anahtarını ekliyoruz uğur hocanın belirlediği
-
           api_key: "370718",
         }),
       });
-      console.log("Response:", response);
-      
+//data yı getir bakalım
       const data = await response.json();
+      console.log("DATA:", data);
+
       if (response.ok) {
         navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" });
       } else {
@@ -49,7 +47,6 @@ const LogScreen = () => {
     } catch (error: any) {
       setMessage(error.message || "Bir hata oluştu.");
     } finally {
-      // İstek tamamlandığında loading durumunu kapat
       setLoading(false);
     }
   };
@@ -76,6 +73,7 @@ const LogScreen = () => {
         message={message}
       />
     </SafeAreaView>
-  );
-};
+  )
+}
+
 export default LogScreen;
