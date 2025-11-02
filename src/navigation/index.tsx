@@ -27,11 +27,7 @@ import ForgotPassword from "./screens/Forgotpassword";
 import AccountInfoScreen from "./screens/AccountInfoScreen";
 import AboutScreen from "./screens/AboutScreen";
 
-import VitaminPage from "./screens/CategoryPages/VitaminPage";
-import ProteinPage from "./screens/CategoryPages/ProteinPage";
-import SaglikPage from "./screens/CategoryPages/SaglikPage";
-import SporGidalariPage from "./screens/CategoryPages/SporGidalariPage";
-import GidaPage from "./screens/CategoryPages/GidaPage";
+import CategoryPage from "./screens/CategoryPages/CategoryPage";
 import ProductDetailPage from "./screens/ProductDetailPage";
   
 const HomeTabs = createBottomTabNavigator({
@@ -82,7 +78,7 @@ const HomeTabs = createBottomTabNavigator({
 });
 
 const RootStack = createNativeStackNavigator({
-  initialRouteName: "SignUpScreen", // HomeTabs as the initial screen
+  initialRouteName: "HomeTabs", // HomeTabs as the initial screen
   screenOptions: { headerShown: false },
 
   screens: {
@@ -92,42 +88,13 @@ const RootStack = createNativeStackNavigator({
         headerShown: false,
       },
     },
-    VitaminPage: {
-      screen: VitaminPage,
+    CategoryPage: {
+      screen: CategoryPage,
       options: {
-        title: "Teslim Edilen Siparişler",
+        title: "Kategori",
         headerShown: false,
       },
-    },
-    GidaPage: {
-      screen: GidaPage,
-      options: {
-        title: "Gıda Ürünleri",
-        headerShown: false,
-      },
-    },
-
-    ProteinPage: {
-      screen: ProteinPage, // Assuming ProteinPage is similar to VitaminPage
-      options: {
-        title: "Protein Ürünleri",
-        headerShown: false,
-      },
-    },
-    SaglikPage: {
-      screen: SaglikPage, // Assuming SağlikPage is similar to VitaminPage
-      options: {
-        title: "Sağlık Ürünleri",
-        headerShown: false,
-      },
-    },
-    SporGidalariPage: {
-      screen: SporGidalariPage,
-      options: {
-        title: "Spor Gıdaları",
-        headerShown: false,
-      },
-    },
+    } as const,
 
     ProductDetailPage: {
       screen: ProductDetailPage,
@@ -135,7 +102,7 @@ const RootStack = createNativeStackNavigator({
         title: "ProductDetailPage",
         headerShown: false,
       }
-    },
+    } as const,
 
     DeliveredOrder: {
       screen: DeliveredOrder,

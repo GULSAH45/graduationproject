@@ -77,14 +77,6 @@ const MainpageMainScreen = () => {
     saglik: require("../../../assets/categoryPics/saglik.png"),
   };
 
-  // Kategori slug'ına göre ekran adı eşleştirme
-  const categoryScreens: { [key: string]: string } = {
-    protein: "ProteinPage",
-    vitamin: "VitaminPage",
-    "spor-gidalari": "SporGidalariPage",
-    gida: "GidaPage",
-    saglik: "SaglikPage",
-  };
 
   return (
     <ScrollView>
@@ -110,15 +102,17 @@ const MainpageMainScreen = () => {
           className="border "
           style={{
             shadowColor: "#000",
-            shadowOffset: { width: 1, height: 1 },
+            shadowOffset: { width: 0, height: 1 },
             shadowOpacity: 0.4,
-            shadowRadius: 0.5,
+            shadowRadius: 0.9,
           }}
         ></View>
         // Search Bar
-        <SearchBarComp value={""} onChangeText={function (text: string): void {
-          throw new Error("Function not implemented.");
-        } } />
+        <TouchableOpacity onPress={() => (navigation as any).navigate("SearchScreen")}>
+          <SearchBarComp value={""} onChangeText={function (text: string): void {
+            throw new Error("Function not implemented.");
+          } } />
+        </TouchableOpacity>
         <Image
           source={require("../../../assets/SliderMain.png")}
           className="w-full h-[350px]"
@@ -133,27 +127,33 @@ const MainpageMainScreen = () => {
             {categories.map((cat, idx) => (
               <TouchableOpacity
                 key={cat.id || idx}
-                className="w-[48%] h-[100px] bg-white rounded-lg mb-3 items-center justify-center shadow"
-                style={{ minWidth: 100}}
+                className="w-[48%] h-[100px] mb-3 bg-white rounded-lg items-center justify-center shadow"
+                style={{ minWidth: 100, overflow: 'hidden' }}
                 onPress={() => {
-                  const screenName = categoryScreens[cat.slug];
-                  if (screenName) {
-                    navigation.navigate(screenName);
-                  } else {
-                    console.log("Bu kategori için sayfa yok:", cat.slug);
-                  }
+                  // Kategori bilgilerini params olarak gönder
+                  (navigation as any).navigate('CategoryPage', {
+                    categoryId: cat.id, // API'den gelen kategori ID'si
+                    categoryName: cat.name,
+                    categorySlug: cat.slug
+                  });
                 }}
               >
                 <Image
                   source={categoryImages[cat.slug]}
-                  style={{ width: "100%", height: "100%" }}
-                  resizeMode="contain"
+                  style={{ 
+                    width: "100%", 
+                    height: "100%",
+                    position: 'absolute',
+                    top: 0,
+                    left: 0
+                  }}
+                  resizeMode="cover"
                 />
                 <View className="absolute bottom-3 right-5 w-[100%] items-end">
-                  <Text className="text-base font-extrabold text-right">
+                  <Text className="text-base font-extrabold text-right text-black" style={{ textShadowColor: 'rgba(0,0,0,0.8)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 2 }}>
                     {cat.name}
                   </Text>
-                  <View className="mt-2 bg-black rounded-xl px-3 py-1">
+                  <View className="mt-2 bg-black rounded-3xl px-3 py-1">
                     <Text className="text-white font-extrabold text-xs text-right">
                       İNCELE
                     </Text>
@@ -168,39 +168,35 @@ const MainpageMainScreen = () => {
           <Text className="text-md text-TextColor font-semibold ml-3 mb-2">
           Çok Satanlar
           </Text>
-          <FlatList
-            data={bestSellers}
-            horizontal
-            keyExtractor={(item) => item.slug}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8}}
-            renderItem={({ item }) => (
+          <View className="flex-row flex-wrap justify-between px-3">
+            {bestSellers.map((item, idx) => (
               <TouchableOpacity
-                className="bg-white rounded-md mr-3 p-2 items-center"
-                style={{ width: 160 }}
-                onPress={() => navigation.navigate('ProductDetailPage', { product: item })}
+                key={item.slug || idx}
+                className=" rounded-md mb-3 p-2 items-center shadow"
+                style={{ width: '' }}
+                onPress={() => (navigation as any).navigate('ProductDetailPage', { product: item })}
               >
                 <Image
                   source={{
                     uri: `https://fe1111.projects.academy.onlyjs.com${item.photo_src}`,
                   }}
-                  style={{ width: 120, height: 120, borderRadius: 2 }}
+                  style={{ width: 150, height: 150, borderRadius: 8 }}
                   resizeMode="contain"
                 />
-                <Text className="font-bold text-sm mt-2 text-center">
+                <Text className="font-bold text-xs mt-2 text-center" numberOfLines={2}>
                   {item.name}
                 </Text>
-                <Text className="text-xs text-gray-500 text-center">
+                <Text className="text-xs text-gray-500 text-center mt-1" numberOfLines={2}>
                   {item.short_explanation}
                 </Text>
-                <Text className="font-bold text-green-700 mt-1">
+                <Text className="font-bold text-green-700 mt-1 text-xs">
                   {item.price_info.discounted_price
                     ? `${item.price_info.discounted_price}₺`
                     : `${item.price_info.total_price}₺`}
                 </Text>
               </TouchableOpacity>
-            )}
-          />
+            ))}
+          </View>
         </View>
         <View className="w-full flex items-center justify-center mt-4">
           <Image
@@ -209,8 +205,8 @@ const MainpageMainScreen = () => {
             resizeMode="contain"
           />
           <View
-            className="w-[326 px] h-[74px]"
-            style={{ position: "absolute", bottom: 20 }}
+            className="w-[346 px] h-[94px]"
+            style={{ position: "absolute", bottom: 60 }}
           >
             <Image
               className="w-[326 px] h-[74px]"
@@ -222,4 +218,4 @@ const MainpageMainScreen = () => {
     </ScrollView>
   )
 }
-export default MainpageMainScreen; 
+export default MainpageMainScreen

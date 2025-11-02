@@ -1,66 +1,74 @@
-import {
-  View,
-  Text,
-  SafeAreaView,
-  TouchableOpacity,
-  Image,
-  ScrollView,
-  FlatList,
-} from 'react-native'
+import { View, Text, SafeAreaView, TouchableOpacity, Image, ScrollView, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import PrevIcon from '../../../svgs/PrevIcon'
-import { useNavigation } from '@react-navigation/native'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
-const SporGidalariPage = () => {
-  const navigation = useNavigation();
-  // bu 3 ü muhakkak lazım biliyosun. 
-  const [products, setProducts] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+const CategoryPage = () => {
+  const navigation = useNavigation()
+  const route = useRoute()
+  
+  // Route params'tan kategori bilgilerini al
+  const { categoryId, categoryName, categorySlug } = route.params as {
+    categoryId: string
+    categoryName: string
+    categorySlug: string
+  }
+
+  const [products, setProducts] = useState<any[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        // Dinamik API endpoint - categoryId'yi kullanarak ürünleri çek
         const response = await fetch(
-// bu apiyi categories den spor gıdalarının id sini alıp product ın 
-// main kategory kısmına postmanda ekleyerl elde ettik
-
-
-          'https://fe1111.projects.academy.onlyjs.com/api/v1/products?limit=20&offset=0&main_category=d3cdcefe-eedd-4ee0-a254-b821ed4e2b8c'
-        );
-        if (!response.ok) throw new Error('Veri çekilemedi');
-        const data = await response.json();
-        console.log('SPOR GIDALARI API DATA:', data);
-        // Doğru veri konumu: data.data.results 
-        // az önce postman den gelen result ı koymayınca çekemedik mesela
-        setProducts(Array.isArray(data.data.results) ? data.data.results : []);
+          `https://fe1111.projects.academy.onlyjs.com/api/v1/products?limit=20&offset=0&main_category=${categoryId}`
+        )
+        if (!response.ok) throw new Error('Veri çekilemedi')
+        const data = await response.json()
+        console.log("Kategori API DATA:", data)
+        
+        // API response yapısına göre veriyi al
+        if (data.data?.results && Array.isArray(data.data.results)) {
+          setProducts(data.data.results)
+        } else if (data.data && Array.isArray(data.data)) {
+          setProducts(data.data)
+        } else {
+          setProducts([])
+        }
       } catch (err: any) {
-        setError(err.message || 'Bilinmeyen hata');
+        setError(err.message || 'Bilinmeyen hata')
       } finally {
-        setLoading(false);
+        setLoading(false)
       }
-    };
-    fetchProducts();
-  }, []);
+    }
+    fetchProducts()
+  }, [categoryId])
 
   return (
     <SafeAreaView>
       <View className="px-3">
         <Image
-          source={require('../../../assets/LOGO.png')}
+          source={require("../../../assets/LOGO.png")}
           className="w-[119px] h-[26px] mb-3 mt-3"
           resizeMode="contain"
         />
       </View>
+      
       <View className="flex-row items-center mx-2 mt-4 my-4">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <PrevIcon />
         </TouchableOpacity>
-        <Text className="text-black text-md font-semibold ml-2">Spor Gıdaları</Text>
+        <Text className="text-black text-md font-semibold ml-2">
+          {categoryName}
+        </Text>
       </View>
+
       <View className="items-center">
-        <Text className="text-black text-2xl font-semibold">Spor Gıdaları</Text>
+        <Text className="text-black text-2xl font-semibold">{categoryName}</Text>
       </View>
+
       {loading && <Text className="text-center mt-4">Yükleniyor...</Text>}
       {error && (
         <Text className="text-center mt-4 text-red-500">Hata: {error}</Text>
@@ -68,7 +76,6 @@ const SporGidalariPage = () => {
       {!loading && !error && (
         <ScrollView>
           <View className="flex-row">
-          //çeklenlri flatlistte gösterelim
             <FlatList
               data={products}
               keyExtractor={(item, idx) =>
@@ -82,7 +89,7 @@ const SporGidalariPage = () => {
                 <TouchableOpacity
                   className="mb-4 p-2 border-b border-gray-200"
                   style={{ width: '48%', alignSelf: 'flex-start' }}
-                  onPress={() => navigation.navigate('ProductDetailPage', { product: item })}
+                  onPress={() => (navigation as any).navigate('ProductDetailPage', { product: item })}
                 >
                   {item.photo_src && (
                     <Image
@@ -98,8 +105,6 @@ const SporGidalariPage = () => {
                       resizeMode="contain"
                     />
                   )}
-//resim dışında short_explanation, price, avarage stars, yorum sayısı vesaire geliyor.
-
                   <Text className="font-semibold text-lg">{item.name}</Text>
                   <View className="items-center">
                     {item.short_explanation && (
@@ -133,4 +138,4 @@ const SporGidalariPage = () => {
   )
 }
 
-export default SporGidalariPage;
+export default CategoryPage

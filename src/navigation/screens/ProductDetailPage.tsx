@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native'
 import PrevIcon from '../../svgs/PrevIcon'
 import { useBasket } from '../../BasketContext';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 const { width } = Dimensions.get('window');
 
@@ -46,32 +47,94 @@ interface Variant {
   is_available: boolean;
 }
 
-type ProductDetailRouteParams = { productSlug: string };
+type ProductDetailRouteParams = { 
+  productSlug?: string;
+  product?: any; // Ürün objesi
+};
 
 const ProductDetailPage = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
   const { addToBasket } = useBasket();
   const productSlug = (route.params as ProductDetailRouteParams)?.productSlug;
+  const productFromParams = (route.params as ProductDetailRouteParams)?.product;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  
+  // Akordiyon state'leri
+  const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
+  const [isUsageOpen, setIsUsageOpen] = useState(false);
+  const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
+  const [isNutritionOpen, setIsNutritionOpen] = useState(false);
+
+  // Akordiyon komponenti
+  const AccordionItem = ({ 
+    title, 
+    isOpen, 
+    onToggle, 
+    children 
+  }: { 
+    title: string; 
+    isOpen: boolean; 
+    onToggle: () => void; 
+    children: React.ReactNode; 
+  }) => (
+    <View className="border-b border-gray-200">
+      <TouchableOpacity 
+        onPress={onToggle}
+        className="flex-row justify-between items-center py-4 px-2"
+      >
+        <Text className="font-semibold text-lg text-gray-800">{title}</Text>
+        <AntDesign 
+          name={isOpen ? "up" : "down"} 
+          size={16} 
+          color="#666" 
+        />
+      </TouchableOpacity>
+      {isOpen && (
+        <View className="px-2 pb-4">
+          {children}
+        </View>
+      )}
+    </View>
+  );
 
   useEffect(() => {
-    if (!productSlug) return;
-    setLoading(true);
-    fetch(`${BASE_URL}/products/${productSlug}`)
-      .then(res => res.json())
-      .then(json => {
-        setProduct(json.data);
+    if (productFromParams) {
+      // Eğer product objesi geliyorsa, slug'ını kullanarak tam detayları çek
+      if (productFromParams.slug) {
+        setLoading(true);
+        fetch(`${BASE_URL}/products/${productFromParams.slug}`)
+          .then(res => res.json())
+          .then(json => {
+            setProduct(json.data);
+            setLoading(false);
+          })
+          .catch(() => {
+            setError('Ürün yüklenemedi.');
+            setLoading(false);
+          });
+      } else {
+        setError('Ürün slug bulunamadı.');
         setLoading(false);
-      })
-      .catch(() => {
-        setError('Ürün yüklenemedi.');
-        setLoading(false);
-      });
-  }, [productSlug]);
+      }
+    } else if (productSlug) {
+      // Eğer slug geliyorsa API'den çek
+      setLoading(true);
+      fetch(`${BASE_URL}/products/${productSlug}`)
+        .then(res => res.json())
+        .then(json => {
+          setProduct(json.data);
+          setLoading(false);
+        })
+        .catch(() => {
+          setError('Ürün yüklenemedi.');
+          setLoading(false);
+        });
+    }
+  }, [productSlug, productFromParams]);
 
   if (loading) {
     return (
@@ -111,24 +174,48 @@ const ProductDetailPage = () => {
               </View>
             ))}
           </View>
-          <Text className="font-semibold mt-2 mb-1">Açıklama</Text>
-          <Text className="text-sm text-gray-700 mb-2">{product.explanation?.description}</Text>
-          <Text className="font-semibold mt-2 mb-1">Kullanım</Text>
-          <Text className="text-sm text-gray-700 mb-2">{product.explanation?.usage}</Text>
-          <Text className="font-semibold mt-2 mb-1">Özellikler</Text>
-          <Text className="text-sm text-gray-700 mb-2">{product.explanation?.features}</Text>
+          {/* Akordiyon Bölümleri */}
+          <AccordionItem
+            title="Açıklama"
+            isOpen={isDescriptionOpen}
+            onToggle={() => setIsDescriptionOpen(!isDescriptionOpen)}
+          >
+            <Text className="text-sm text-gray-700">{product.explanation?.description}</Text>
+          </AccordionItem>
+
+          <AccordionItem
+            title="Kullanım"
+            isOpen={isUsageOpen}
+            onToggle={() => setIsUsageOpen(!isUsageOpen)}
+          >
+            <Text className="text-sm text-gray-700">{product.explanation?.usage}</Text>
+          </AccordionItem>
+
+          <AccordionItem
+            title="Özellikler"
+            isOpen={isFeaturesOpen}
+            onToggle={() => setIsFeaturesOpen(!isFeaturesOpen)}
+          >
+            <Text className="text-sm text-gray-700">{product.explanation?.features}</Text>
+          </AccordionItem>
+
           {product.explanation?.nutritional_content?.nutrition_facts && (
-            <View className="mt-2">
-              <Text className="font-semibold mb-1">Besin Değerleri</Text>
-              {product.explanation.nutritional_content.nutrition_facts.ingredients?.map((ing: { name: string; amounts: string[] }, idx: number) => (
-                <Text key={idx} className="text-sm text-gray-700">
-                  {ing.name}: {ing.amounts?.join(', ')}
+            <AccordionItem
+              title="Besin Değerleri"
+              isOpen={isNutritionOpen}
+              onToggle={() => setIsNutritionOpen(!isNutritionOpen)}
+            >
+              <View>
+                {product.explanation.nutritional_content.nutrition_facts.ingredients?.map((ing: { name: string; amounts: string[] }, idx: number) => (
+                  <Text key={idx} className="text-sm text-gray-700 mb-1">
+                    {ing.name}: {ing.amounts?.join(', ')}
+                  </Text>
+                ))}
+                <Text className="text-xs text-gray-500 mt-2">
+                  {product.explanation.nutritional_content.nutrition_facts.portion_sizes?.join(', ')}
                 </Text>
-              ))}
-              <Text className="text-xs text-gray-500 mt-1">
-                {product.explanation.nutritional_content.nutrition_facts.portion_sizes?.join(', ')}
-              </Text>
-            </View>
+              </View>
+            </AccordionItem>
           )}
           <View className="mt-4">
             <Text className="font-semibold mb-2">Varyantlar</Text>
