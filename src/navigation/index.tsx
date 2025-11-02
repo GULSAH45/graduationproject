@@ -23,7 +23,7 @@ import LogScreen from "./screens/logScreens/LogScreen";
 import SignUpScreen from "./screens/logScreens/SignUpScreen";
 import ContactScreen from "./screens/ContactScreen";
 import FreqAskScreen from "./screens/FreqAskScreen";
-import ForgotPassword from "./screens/Forgotpassword";
+import ForgotPassword from "./screens/forgotpassword";
 import AccountInfoScreen from "./screens/AccountInfoScreen";
 import AboutScreen from "./screens/AboutScreen";
 
@@ -52,7 +52,6 @@ const HomeTabs = createBottomTabNavigator({
         ),
       },
     },
-
     WholeProduct: {
       screen: WholeProduct,
       options: {

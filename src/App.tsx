@@ -14,7 +14,6 @@ Asset.loadAsync([
 ]);
 
 SplashScreen.preventAutoHideAsync();
-
 export function App() {
   return (
     <BasketProvider>
