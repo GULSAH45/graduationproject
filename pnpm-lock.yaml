@@ -14,6 +14,9 @@ importers:
       '@expo/metro-runtime':
         specifier: ~5.0.4
         version: 5.0.5(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))
+      '@expo/vector-icons':
+        specifier: ^14.0.0
+        version: 14.1.0(expo-font@13.3.2(expo@53.0.23(@babel/core@7.28.5)(@expo/metro-runtime@5.0.5(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0)))(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react@19.0.0))(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
       '@react-native-async-storage/async-storage':
         specifier: ^2.2.0
         version: 2.2.0(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))
@@ -29,9 +32,6 @@ importers:
       '@react-navigation/native-stack':
         specifier: ^7.1.13
         version: 7.6.2(@react-navigation/native@7.1.19(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-safe-area-context@5.6.2(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native-screens@4.10.0(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0))(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
-      AntDesign:
-        specifier: link:@expo/vector-icons/AntDesign
-        version: link:@expo/vector-icons/AntDesign
       axios:
         specifier: ^1.10.0
         version: 1.13.1
