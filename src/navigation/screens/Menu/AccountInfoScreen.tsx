@@ -6,12 +6,12 @@ import {
   TextInput,
 } from "react-native";
 import React from "react";
-import PrevIcon from "../../svgs/PrevIcon";
+import PrevIcon from "@svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
 
-import DropDownFlag from "../../svgs/DropDownFlag";
-import FlagSvg from "../../svgs/FlagSvg";
-import CheckSvg from "../../svgs/checkSvg";
+import DropDownFlag from "@svgs/DropDownFlag";
+import FlagSvg from "@svgs/FlagSvg";
+import CheckSvg from "@svgs/checkSvg";
 
 const AccountInfoScreen = () => {
   const navigation = useNavigation();

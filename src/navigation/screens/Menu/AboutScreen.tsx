@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import React from "react";
-import PrevIcon from "../../svgs/PrevIcon";
+import PrevIcon from "../../../svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
 
 const AboutScreen = () => {
@@ -76,17 +76,17 @@ const AboutScreen = () => {
 
           <View className="flex-row px-6 mt-10 ml-5">
             <Image
-              source={require("../../assets/certificate/iso.png")}
+              source={require("@/assets/certificate/iso.png")}
               className="w-[100px] h-[100px]"
               resizeMode="contain"
             />{" "}
             <Image
-              source={require("../../assets/certificate/blueiso.png")}
+              source={require("@/assets/certificate/blueiso.png")}
               className="w-[100px] h-[100px]"
               resizeMode="contain"
             />{" "}
             <Image
-              source={require("../../assets/certificate/blueiso.png")}
+              source={require("@/assets/certificate/blueiso.png")}
               className="w-[100px] h-[100px]"
               resizeMode="contain"
             />{" "}
@@ -95,17 +95,17 @@ const AboutScreen = () => {
           <View className="flex-row px-5 ml-5 my-3">
             {" "}
             <Image
-              source={require("../../assets/certificate/gmp.png")}
+              source={require("@/assets/certificate/gmp.png")}
               className="w-[100px] h-[100px]"
               resizeMode="contain"
             />{" "}
             <Image
-              source={require("../../assets/certificate/helal.png")}
+              source={require("@/assets/certificate/helal.png")}
               className="w-[100px] h-[100px]"
               resizeMode="contain"
             />{" "}
             <Image
-              source={require("../../assets/certificate/ghp.png")}
+              source={require("@/assets/certificate/ghp.png")}
               className="w-[100px] h-[100px]"
               resizeMode="contain"
             />

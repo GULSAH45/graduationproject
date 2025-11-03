@@ -6,29 +6,31 @@ import {
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Image } from "react-native";
-import HomeSVG from "../svgs/tabsvgs/HomeSVG";
-import MagnifySVG from "../svgs/tabsvgs/MagnifySVG";
-import WholeProSvg from "../svgs/WholeProSvg";
 
-import MenuSvg from "../svgs/tabsvgs/MenuSvg";
-import Adressess from "./screens/Adressess";
-import OrderScreen from "./screens/OrderScreen";
-import DeliveredOrder from "./screens/DeliveredOrder";
-import BasketScreen from "./screens/BasketScreen";
-import MainpageMainScreen from "./screens/TabsScreen/MainpageMainScreen";
-import SearchScreen from "./screens/TabsScreen/SearchScreen";
-import WholeProduct from "./screens/TabsScreen/WholeProduct";
-import MenuListScreen from "./screens/TabsScreen/MenuListScreen";
-import LogScreen from "./screens/logScreens/LogScreen";
-import SignUpScreen from "./screens/logScreens/SignUpScreen";
-import ContactScreen from "./screens/ContactScreen";
-import FreqAskScreen from "./screens/FreqAskScreen";
-import ForgotPassword from "./screens/forgotpassword";
-import AccountInfoScreen from "./screens/AccountInfoScreen";
-import AboutScreen from "./screens/AboutScreen";
+import HomeSVG from "@svgs/tabsvgs/HomeSVG";
+import MagnifySVG from "@svgs/tabsvgs/MagnifySVG";
+import WholeProSvg from "@svgs/WholeProSvg";
+import MenuSvg from "@svgs/tabsvgs/MenuSvg";
 
-import CategoryPage from "./screens/CategoryPages/CategoryPage";
-import ProductDetailPage from "./screens/ProductDetailPage";
+import Adressess from "@/navigation/screens/Menu/Adressess";
+import OrderScreen from "@/navigation/screens/Menu/OrderScreen";
+import DeliveredOrder from "./screens/Menu/DeliveredOrder";
+import BasketScreen from "@/navigation/screens/Basket/Basket";
+import MainpageMainScreen from "@/navigation/screens/TabBar/Home";
+import SearchScreen from "@/navigation/screens/TabBar/Search";
+import WholeProduct from "@/navigation/screens/TabBar/WholeProduct";
+import MenuListScreen from "@/navigation/screens/TabBar/MenuList";
+import LogScreen from "@/navigation/screens/Auth/LogScreen";
+import SignUpScreen from "@/navigation/screens/Auth/SignUpScreen";
+import ContactScreen from "@/navigation/screens/Menu/ContactScreen";
+import FreqAskScreen from "@/navigation/screens/Menu/FreqAskScreen";
+
+import AccountInfoScreen from "@screens/Menu/AccountInfoScreen";
+import AboutScreen from "@/navigation/screens/Menu/AboutScreen";
+
+import CategoryPage from "@/navigation/screens/Categories/CategoryPage";
+import ProductDetailPage from "@screens/ProductDetailPage";
+import ForgotPassword from "@/navigation/screens/Auth/Forgotpassword";
   
 const HomeTabs = createBottomTabNavigator({
   screens: {

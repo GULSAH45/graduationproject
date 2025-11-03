@@ -1,40 +1,34 @@
+import React, { useEffect, useState } from "react";
 import {
-  View,
   Text,
+  View,
   SafeAreaView,
   Image,
-  TextInput,
   TouchableOpacity,
   ScrollView,
   FlatList,
 } from "react-native";
-import React, { useEffect, useState } from "react";
-import AntDesign from "@expo/vector-icons/AntDesign";
-import { useNavigation } from "@react-navigation/native";
-
+import { AntDesign } from "@expo/vector-icons";
 import SearchBarComp from "../../../components/SearchBarComp";
+import { useNavigation } from "@react-navigation/native";
+import { CategoryParams, CategoryResponse } from "../../../types/product";
 
-interface CategoryParams {
-  photo_src: any;
-  ginseng: any;
-  id: number;
-  name: string;
-  slug: string;
-  order: number;
-}
+/**
+ * TODO!!!!: Bu sayfada 137.satırda cat.slug yerine cat.id ile fonksiyona parametre gönderilcek
+ * ama sayfayı bulmadıgı için hata veriyor CategoryPage göndericek id'yi
+ 
+ * typescript tipleri dosyalara taşıncak
 
-interface CategoryResponse {
-  status: string;
-  data: {
-    data: CategoryParams[];
-    status: string;
-  };
-}
+ * fetch then yerine async await kullanılcak
+
+ * sepetde uzunluk badge gösterilcek
+
+*/
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 // Fetch categories from the API
 
-const MainpageMainScreen = () => {
+const WholeProduct = () => {
   const [categories, setCategories] = useState<CategoryParams[]>([]);
   const [bestSellers, setBestSellers] = useState<any[]>([]);
   const navigation = useNavigation();
@@ -77,6 +71,14 @@ const MainpageMainScreen = () => {
     saglik: require("../../../assets/categoryPics/saglik.png"),
   };
 
+  // Kategori slug'ına göre ekran adı eşleştirme
+  const categoryScreens: { [key: string]: string } = {
+    protein: "ProteinPage",
+    vitamin: "VitaminPage",
+    "spor-gidalari": "SporGidalariPage",
+    gida: "GidaPage",
+    saglik: "SaglikPage",
+  };
 
   return (
     <ScrollView>
@@ -102,22 +104,16 @@ const MainpageMainScreen = () => {
           className="border "
           style={{
             shadowColor: "#000",
-            shadowOffset: { width: 0, height: 1 },
+            shadowOffset: { width: 1, height: 1 },
             shadowOpacity: 0.4,
-            shadowRadius: 0.9,
+            shadowRadius: 0.5,
           }}
         ></View>
         // Search Bar
-        <TouchableOpacity onPress={() => (navigation as any).navigate("SearchScreen")}>
-          <SearchBarComp value={""} onChangeText={function (text: string): void {
-            throw new Error("Function not implemented.");
-          } } />
-        </TouchableOpacity>
-        <Image
-          source={require("../../../assets/SliderMain.png")}
-          className="w-full h-[350px]"
-          resizeMode="contain"
-        />
+        <SearchBarComp value={""} onChangeText={function (text: string): void {
+          throw new Error("Function not implemented.");
+        } } />
+  
         {/* Categories */}
         <View>
           <Text className="text-md text-TextColor font-semibold ml-3 ">
@@ -127,33 +123,27 @@ const MainpageMainScreen = () => {
             {categories.map((cat, idx) => (
               <TouchableOpacity
                 key={cat.id || idx}
-                className="w-[48%] h-[100px] mb-3 bg-white rounded-lg items-center justify-center shadow"
-                style={{ minWidth: 100, overflow: 'hidden' }}
+                className="w-[48%] h-[100px] bg-white rounded-lg mb-3 items-center justify-center shadow"
+                style={{ minWidth: 100}}
                 onPress={() => {
-                  // Kategori bilgilerini params olarak gönder
-                  (navigation as any).navigate('CategoryPage', {
-                    categoryId: cat.id, // API'den gelen kategori ID'si
-                    categoryName: cat.name,
-                    categorySlug: cat.slug
-                  });
+                  const screenName = categoryScreens[cat.slug];
+                  if (screenName) {
+                    navigation.navigate(screenName);
+                  } else {
+                    console.log("Bu kategori için sayfa yok:", cat.slug);
+                  }
                 }}
               >
                 <Image
                   source={categoryImages[cat.slug]}
-                  style={{ 
-                    width: "100%", 
-                    height: "100%",
-                    position: 'absolute',
-                    top: 0,
-                    left: 0
-                  }}
-                  resizeMode="cover"
+                  style={{ width: "100%", height: "100%" }}
+                  resizeMode="contain"
                 />
                 <View className="absolute bottom-3 right-5 w-[100%] items-end">
-                  <Text className="text-base font-extrabold text-right text-black" style={{ textShadowColor: 'rgba(0,0,0,0.8)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 2 }}>
+                  <Text className="text-base font-extrabold text-right">
                     {cat.name}
                   </Text>
-                  <View className="mt-2 bg-black rounded-3xl px-3 py-1">
+                  <View className="mt-2 bg-black rounded-xl px-3 py-1">
                     <Text className="text-white font-extrabold text-xs text-right">
                       İNCELE
                     </Text>
@@ -163,59 +153,49 @@ const MainpageMainScreen = () => {
             ))}
           </View>
         </View>
-       // çok satanlar
+        {/* Best Seller Ürünler */}
         <View className="mt-4">
           <Text className="text-md text-TextColor font-semibold ml-3 mb-2">
-          Çok Satanlar
+            Çok Satanlar
           </Text>
-          <View className="flex-row flex-wrap justify-between px-3">
-            {bestSellers.map((item, idx) => (
-              <TouchableOpacity
-                key={item.slug || idx}
-                className=" rounded-md mb-3 p-2 items-center shadow"
-                style={{ width: '' }}
-                onPress={() => (navigation as any).navigate('ProductDetailPage', { product: item })}
+          <FlatList
+            data={bestSellers}
+            horizontal
+            keyExtractor={(item) => item.slug}
+            showsHorizontalScrollIndicator={false}
+            contentContainerStyle={{ paddingHorizontal: 8}}
+            renderItem={({ item }) => (
+              <View
+                className="bg-white rounded-md mr-3 p-2 items-center"
+                style={{ width: 160 }}
               >
                 <Image
                   source={{
                     uri: `https://fe1111.projects.academy.onlyjs.com${item.photo_src}`,
                   }}
-                  style={{ width: 150, height: 150, borderRadius: 8 }}
+                  style={{ width: 120, height: 120, borderRadius: 2 }}
                   resizeMode="contain"
                 />
-                <Text className="font-bold text-xs mt-2 text-center" numberOfLines={2}>
+                <Text className="font-bold text-sm mt-2 text-center">
                   {item.name}
                 </Text>
-                <Text className="text-xs text-gray-500 text-center mt-1" numberOfLines={2}>
+                <Text className="text-xs text-gray-500 text-center">
                   {item.short_explanation}
                 </Text>
-                <Text className="font-bold text-green-700 mt-1 text-xs">
+                <Text className="font-bold text-green-700 mt-1">
                   {item.price_info.discounted_price
                     ? `${item.price_info.discounted_price}₺`
                     : `${item.price_info.total_price}₺`}
                 </Text>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-        <View className="w-full flex items-center justify-center mt-4">
-          <Image
-            className="w-[390px] h-[483px]"
-            source={require("../../../assets/GreenFooterPic.png")}
-            resizeMode="contain"
+              </View>
+            )}
           />
-          <View
-            className="w-[346 px] h-[94px]"
-            style={{ position: "absolute", bottom: 60 }}
-          >
-            <Image
-              className="w-[326 px] h-[74px]"
-              source={require("../../../assets/OJStext.png")}
-            />
-          </View>
         </View>
+    
       </SafeAreaView>
     </ScrollView>
   )
 }
-export default MainpageMainScreen
+
+export default WholeProduct; 
+

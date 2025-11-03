@@ -7,9 +7,9 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from "@react-navigation/native";
-import PrevIcon from "../../svgs/PrevIcon";
-import FlagSvg from "../../svgs/FlagSvg";
-import DropDownFlag from "../../svgs/DropDownFlag";
+import PrevIcon from "../../../svgs/PrevIcon";
+import FlagSvg from "../../../svgs/FlagSvg";
+import DropDownFlag from "../../../svgs/DropDownFlag";
 
 const Adressess = () => {
   const navigation = useNavigation();

@@ -1,8 +1,8 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import { useBasket } from '../../BasketContext';
-import PrevIcon from "../../svgs/PrevIcon";
+import { useBasket } from '@/BasketContext';
+import PrevIcon from "@svgs/PrevIcon";
 
 const BasketScreen = () => {
   const navigation = useNavigation();
