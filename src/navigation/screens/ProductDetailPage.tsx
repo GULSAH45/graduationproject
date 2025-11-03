@@ -8,6 +8,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 const { width } = Dimensions.get('window');
 
 const BASE_URL = 'https://fe1111.projects.academy.onlyjs.com/api/v1';
+const IMAGE_URL = 'https://fe1111.projects.academy.onlyjs.com';
 
 // Types for API response
 interface Product {
@@ -161,7 +162,7 @@ const ProductDetailPage = () => {
           <Text className="text-lg font-bold ml-4">Ürün Detayı</Text>
         </View>
         <Image
-          source={{ uri: BASE_URL + (product.variants[0]?.photo_src || '') }}
+          source={{ uri: IMAGE_URL + (product.variants[0]?.photo_src || '') }}
           style={{ width: width, height: width * 0.7, resizeMode: 'contain' }}
         />
         <View className="p-4">
