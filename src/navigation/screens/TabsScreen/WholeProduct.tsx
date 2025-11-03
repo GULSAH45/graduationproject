@@ -11,24 +11,18 @@ import {
 import { AntDesign } from "@expo/vector-icons";
 import SearchBarComp from "../../../components/SearchBarComp";
 import { useNavigation } from "@react-navigation/native";
+import { CategoryParams, CategoryResponse } from "../../../types/product";
 
-
-interface CategoryParams {
-  photo_src: any;
-  ginseng: any;
-  id: number;
-  name: string;
-  slug: string;
-  order: number;
-}
-
-interface CategoryResponse {
-  status: string;
-  data: {
-    data: CategoryParams[];
-    status: string;
-  };
-}
+/**
+ * TODO!!!!: Bu sayfada 137.satırda cat.slug yerine cat.id ile fonksiyona parametre gönderilcek
+ * ama sayfayı bulmadıgı için hata veriyor CategoryPage göndericek id'yi
+ * dosyaların isimleri düzeltilcek
+ * typescript tipleri dosyalara taşıncak
+ * klasörleme düzeni toparlancak
+ * fetch then yerine async await kullanılcak
+ * sepetde uzunluk badge gösterilcek
+ * tsconfigde import pathler eklencek
+*/
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 // Fetch categories from the API
