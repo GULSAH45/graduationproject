@@ -9,9 +9,9 @@ import {
   FlatList,
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
-import SearchBarComp from "../../../components/SearchBarComp";
+import SearchBarComp from "@/components/SearchBarComp";
 import { useNavigation } from "@react-navigation/native";
-import { CategoryParams, CategoryResponse } from "../../../types/product";
+import { CategoryParams, CategoryResponse } from "@/types/Product";
 
 /**
  * TODO!!!!: Bu sayfada 137.satırda cat.slug yerine cat.id ile fonksiyona parametre gönderilcek

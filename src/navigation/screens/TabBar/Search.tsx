@@ -6,33 +6,26 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
+  Pressable,
+  TouchableOpacity,
 } from "react-native";
-import SearchBarComp from "../../../components/SearchBarComp";
+import { useNavigation } from "@react-navigation/native";
+import SearchBarComp from "@components/SearchBarComp";
+import { Product } from "@/types/Product";  
+import { IMAGE_URL } from "../ProductDetailPage";
+import NextIcon from "@svgs/NextIcon";
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
-interface Product {
-  id: string;
-  name: string;
-  short_explanation: string;
-  slug: string;
-  price_info: {
-    profit: number | null;
-    total_price: number;
-    discounted_price: number | null;
-    price_per_servings: number;
-    discount_percentage: number | null;
-  };
-  photo_src: string;
-  comment_count: number;
-  average_star: number;
-}
 // sorguyu girme işi, yüklenmesi, sonuç dönmesi ve hata durumu
 const SearchScreen = () => {
+  
   const [query, setQuery] = useState("");
   const [results, setResults] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+
+  const navigation = useNavigation();
   // aramayı yaoma işi
   const handleSearch = async (text: string) => {
     setQuery(text);
@@ -49,9 +42,8 @@ const SearchScreen = () => {
         return;
       }
       // api den çekilen kısım bu
-      let url = `${base_url}/products${
-        searchText ? `?search=${encodeURIComponent(searchText)}` : ""
-      }`;
+      let url = `${base_url}/products${searchText ? `?search=${encodeURIComponent(searchText)}` : ""
+        }`;
 
       const response = await fetch(url);
       // dönen şeyi json formatına çevirme işi
@@ -60,7 +52,7 @@ const SearchScreen = () => {
       if (!response.ok || !rawText) {
         setError("Arama sırasında sunucudan geçerli bir yanıt alınamadı.");
         setResults
-        ([]);
+          ([]);
         return;
       }
       // eğer data döndüyse
@@ -86,7 +78,7 @@ const SearchScreen = () => {
   return (
     <SafeAreaView className="mx-5">
       <Image
-        source={require("../../../assets/LOGO.png")}
+        source={require("@/assets/LOGO.png")}
         className="w-[119px] h-[26px] mb-3 mt-3"
         resizeMode="contain"
       />
@@ -96,33 +88,42 @@ const SearchScreen = () => {
       {loading && <ActivityIndicator className="mt-4" />}
       {error ? <Text className="text-red-500 mt-4">{error}</Text> : null}
       <FlatList
-        //yazılanları listeleme kısmı
         data={results}
+
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View className="flex-row items-center border-b border-gray-200 py-3">
-            <Image
-              // burdan bişey dönmüyor bi sorun var
-              source={{ uri: base_url + item.photo_src }}
-              style={{
-                width: 60,
-                height: 60,
-                borderRadius: 8,
-                marginRight: 12,
-              }}
-            />
-            <View className="flex-1">
-              <Text className="text-base font-bold">{item.name}</Text>
-              <Text className="text-xs text-gray-500">
-                {item.short_explanation}
-              </Text>
-              <Text className="text-sm text-black mt-1 font-semibold">
-                {item.price_info.total_price} TL
-              </Text>
-              <Text className="text-xs text-yellow-600">
-                ⭐ {item.average_star} ({item.comment_count} yorum)
-              </Text>
+          <View className="flex-row items-center justify-between border-b border-gray-200 py-3">
+            <View className="flex-row items-center">
+              <Image
+                source={{ uri: IMAGE_URL + item.photo_src }}
+                style={{
+                  width: 60,
+                  height: 60,
+                  borderRadius: 8,
+                  marginRight: 12,
+                }}
+              />
+              <View className="flex-1">
+                <Text className="text-base font-bold">{item.name}</Text>
+                <Text className="text-xs text-gray-500">
+                  {item.short_explanation}
+                </Text>
+                <Text className="text-sm text-black mt-1 font-semibold">
+                  {item.price_info.total_price} TL
+                </Text>
+                <Text className="text-xs text-yellow-600">
+                  ⭐ {item.average_star} ({item.comment_count} yorum)
+                </Text>
+              </View>
             </View>
+            <TouchableOpacity
+              onPress={() =>
+                navigation.navigate("ProductDetailPage", { productId: item.slug })
+              }
+              className="p-2"
+            >
+              <NextIcon />
+            </TouchableOpacity>
           </View>
         )}
         ListEmptyComponent={

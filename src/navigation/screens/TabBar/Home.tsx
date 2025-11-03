@@ -12,27 +12,11 @@ import React, { useEffect, useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { useNavigation } from "@react-navigation/native";
 
-import SearchBarComp from "../../../components/SearchBarComp";
-
-interface CategoryParams {
-  photo_src: any;
-  ginseng: any;
-  id: number;
-  name: string;
-  slug: string;
-  order: number;
-}
-
-interface CategoryResponse {
-  status: string;
-  data: {
-    data: CategoryParams[];
-    status: string;
-  };
-}
+import SearchBarComp from "@/components/SearchBarComp";
+import { CategoryParams, CategoryResponse } from "@/types/Product";
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
-// Fetch categories from the API
+
 
 const MainpageMainScreen = () => {
   const [categories, setCategories] = useState<CategoryParams[]>([]);

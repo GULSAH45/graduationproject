@@ -5,7 +5,6 @@ import {
   StaticParamList,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { Image } from "react-native";
 
 import HomeSVG from "@svgs/tabsvgs/HomeSVG";
 import MagnifySVG from "@svgs/tabsvgs/MagnifySVG";
@@ -30,8 +29,24 @@ import AboutScreen from "@/navigation/screens/Menu/AboutScreen";
 
 import CategoryPage from "@/navigation/screens/Categories/CategoryPage";
 import ProductDetailPage from "@screens/ProductDetailPage";
-import ForgotPassword from "@/navigation/screens/Auth/Forgotpassword";
-  
+import { ProductDetailRouteParams } from "@/types/Product";
+
+type RootStackParamList = {
+  HomeTabs: undefined;
+  CategoryPage: undefined;
+  ProductDetailPage: ProductDetailRouteParams;
+  DeliveredOrder: undefined;
+  FreqAskScreen: undefined;
+  ContactScreen: undefined;
+  LogScreen: undefined;
+  SignUpScreen: undefined;
+  AccountInfoScreen: undefined;
+  Adressess: undefined;
+  AboutScreen: undefined;
+  OrderScreen: undefined;
+  BasketScreen: undefined;
+};
+
 const HomeTabs = createBottomTabNavigator({
   screens: {
     MainpageMainScreen: {
@@ -78,7 +93,7 @@ const HomeTabs = createBottomTabNavigator({
   },
 });
 
-const RootStack = createNativeStackNavigator({
+const RootStack = createNativeStackNavigator<RootStackParamList>({
   initialRouteName: "HomeTabs", // HomeTabs as the initial screen
   screenOptions: { headerShown: false },
 
@@ -95,7 +110,7 @@ const RootStack = createNativeStackNavigator({
         title: "Kategori",
         headerShown: false,
       },
-    } as const,
+    },
 
     ProductDetailPage: {
       screen: ProductDetailPage,
@@ -103,7 +118,7 @@ const RootStack = createNativeStackNavigator({
         title: "ProductDetailPage",
         headerShown: false,
       }
-    } as const,
+    },
 
     DeliveredOrder: {
       screen: DeliveredOrder,
@@ -137,13 +152,6 @@ const RootStack = createNativeStackNavigator({
       screen: SignUpScreen,
       options: {
         title: "Üye Ol",
-        headerShown: false,
-      },
-    },
-    ForgotPassword: {
-      screen: ForgotPassword,
-      options: {
-        title: "Şifre Sıfırla",
         headerShown: false,
       },
     },
@@ -186,8 +194,6 @@ const RootStack = createNativeStackNavigator({
 });
 
 export const Navigation = createStaticNavigation(RootStack);
-
-type RootStackParamList = StaticParamList<typeof RootStack>;
 
 declare global {
   namespace ReactNavigation {

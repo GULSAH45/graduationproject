@@ -1,6 +1,6 @@
 import { View, Text, TouchableOpacity,SafeAreaView } from 'react-native'
-import React, { use } from 'react'
-import PrevIcon from '../../../svgs/PrevIcon'
+import React from 'react'
+import PrevIcon from '@/svgs/PrevIcon'
 import { useNavigation } from '@react-navigation/native';
 
 const OrderScreen = () => {

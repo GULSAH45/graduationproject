@@ -1,7 +1,7 @@
 import { View, Text, TouchableOpacity, SafeAreaView } from 'react-native'
-import React, { use } from 'react'
+import React from 'react'
 import { useNavigation } from '@react-navigation/native'
-import PrevIcon from '../../../svgs/PrevIcon';
+import PrevIcon from '@/svgs/PrevIcon';
 
 const DeliveredOrder = () => {
     const navigation = useNavigation();

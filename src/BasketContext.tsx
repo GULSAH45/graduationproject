@@ -1,15 +1,16 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
+import { Product } from "@/types/Product";
 
 // Ürün tipini ihtiyaca göre genişletebilirsin
-export type Product = {
-  id: string;
-  name: string;
-  price: number;
-  photo: string; // ürün görseli
-  desc: string; // kısa açıklama
-  size: string; // gramaj veya boyut
-  quantity: number; // sepetteki adet
-};
+// export type Product = {
+//   id: string;
+//   name: string;
+//   price: number;
+//   photo: string; // ürün görseli
+//   desc: string; // kısa açıklama
+//   size: string; // gramaj veya boyut
+//   quantity: number; // sepetteki adet
+// };
 
 type BasketContextType = {
   basket: Product[];

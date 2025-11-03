@@ -5,7 +5,7 @@ import {
   Text,
 } from "react-native";
 import React, { useState } from "react";
-import LoginInput from "../../../components/LoginInput";
+import LoginInput from "@/components/LoginInput";
 import { useNavigation } from "@react-navigation/native";
 //ana dres dosyadan gelen base url
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";

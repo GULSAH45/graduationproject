@@ -4,54 +4,12 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native'
 import PrevIcon from '../../svgs/PrevIcon'
 import { useBasket } from '../../BasketContext';
 import AntDesign from '@expo/vector-icons/AntDesign';
+import { ProductDetailRouteParams,Product,Variant } from '@/types/Product';
 
 const { width } = Dimensions.get('window');
 
 const BASE_URL = 'https://fe1111.projects.academy.onlyjs.com/api/v1';
-const IMAGE_URL = 'https://fe1111.projects.academy.onlyjs.com';
-
-// Types for API response
-interface Product {
-  id: string;
-  name: string;
-  slug: string;
-  short_explanation: string;
-  explanation: {
-    usage: string;
-    features: string;
-    description: string;
-    nutritional_content: {
-      ingredients?: { aroma: string | null; value: string }[];
-      nutrition_facts?: {
-        ingredients: { name: string; amounts: string[] }[];
-        portion_sizes: string[];
-      };
-      amino_acid_facts?: any;
-    };
-  };
-  tags: string[];
-  variants: Variant[];
-}
-
-interface Variant {
-  id: string;
-  size: { pieces: number; total_services: number };
-  aroma: string;
-  price: {
-    profit: number | null;
-    total_price: number;
-    discounted_price: number | null;
-    price_per_servings: number;
-    discount_percentage: number | null;
-  };
-  photo_src: string;
-  is_available: boolean;
-}
-
-type ProductDetailRouteParams = { 
-  productSlug?: string;
-  product?: any; // Ürün objesi
-};
+export const IMAGE_URL = 'https://fe1111.projects.academy.onlyjs.com';
 
 const ProductDetailPage = () => {
   const navigation = useNavigation();
@@ -60,7 +18,7 @@ const ProductDetailPage = () => {
   const productSlug = (route.params as ProductDetailRouteParams)?.productSlug;
   const productFromParams = (route.params as ProductDetailRouteParams)?.product;
 
-  const [product, setProduct] = useState<Product | null>(null);
+  const [product, setProduct] = useState<Product   | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   

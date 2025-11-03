@@ -1,6 +1,6 @@
 import { View, Text, SafeAreaView, TouchableOpacity, Image, ScrollView, FlatList } from 'react-native'
 import React, { useEffect, useState } from 'react'
-import PrevIcon from '../../../svgs/PrevIcon'
+import PrevIcon from '@/svgs/PrevIcon'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 const CategoryPage = () => {

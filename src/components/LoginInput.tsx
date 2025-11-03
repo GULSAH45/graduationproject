@@ -1,16 +1,8 @@
 import React from "react";
 import { View, Text, TextInput, TouchableOpacity } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-// tipleri verelim ortalık karışmasın
-type LoginInputProps = {
-  email: string;
-  setEmail: (v: string) => void;
-  password: string;
-  setPassword: (v: string) => void;
-  loading: boolean;
-  onLogin: () => void;
-  message?: string;
-};
+import { LoginInputProps } from "@/types/Auth";
+
 //bu proplarla iş yapıcak şimdi bu fonk
 const LoginInput = ({
   email,

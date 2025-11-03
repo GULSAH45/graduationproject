@@ -6,12 +6,11 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import PrevIcon from "../../../svgs/PrevIcon";
-import GenelSSS from "../../../svgs/GenelSSS";
-import DropdownPlus from "../../../svgs/dropdownPlus";
-import DropdownMinus from "../../../svgs/dropdownMinus";
+import PrevIcon from "@/svgs/PrevIcon";
+import GenelSSS from "@/svgs/GenelSSS";
+import DropdownPlus from "@/svgs/dropdownPlus";
+import DropdownMinus from "@/svgs/dropdownMinus";
 import { useNavigation } from "@react-navigation/native";
-
 
 
 const FreqAskScreen = () => {

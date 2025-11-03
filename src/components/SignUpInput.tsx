@@ -7,22 +7,8 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
+import { SignUpInputProps } from "@/types/Auth";
 
-interface SignUpInputProps {
-  firstName: string;
-  setFirstName: (v: string) => void;
-  lastName: string;
-  setLastName: (v: string) => void;
-  email: string;
-  setEmail: (v: string) => void;
-  password: string;
-  setPassword: (v: string) => void;
-  password2: string;
-  setPassword2: (v: string) => void;
-  loading: boolean;
-  onSignUp: () => void;
-  message: string;
-}
 
 const SignUpInput = ({
   firstName,

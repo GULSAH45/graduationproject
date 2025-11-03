@@ -8,8 +8,8 @@ import {
   ScrollView,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
-import SignUpInput from "../../../components/SignUpInput";
-import CheckIcons from "../../../components/checkIcons";
+import SignUpInput from "@/components/SignUpInput";
+import CheckIcons from "@/components/checkIcons";
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 

@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from "react-native";
 import React from "react";
-import PrevIcon from "../../../svgs/PrevIcon";
+import PrevIcon from "@/svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
 
 const AboutScreen = () => {

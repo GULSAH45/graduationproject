@@ -1,12 +1,12 @@
 import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
-import AccountSVG from "../../../svgs/accountSVG";
-import SiparisSVG from "../../../svgs/SiparisSVG";
-import AdresSVG from "../../../svgs/AdresSVG";
-import HakkımızdaSVG from "../../../svgs/HakkımızdaSVG";
-import BizeUlasinSVG from "../../../svgs/BizeUlasinSVG";
-import SssSVG from "../../../svgs/SssSVG";
+import AccountSVG from "@svgs/accountSVG";
+import SiparisSVG from "@svgs/SiparisSVG";
+import AdresSVG from "@svgs/AdresSVG";
+import HakkımızdaSVG from "@svgs/HakkımızdaSVG";
+import BizeUlasinSVG from "@svgs/BizeUlasinSVG";
+import SssSVG from "@svgs/SssSVG";
 
 const MenuListScreen = () => {
   const navigation = useNavigation();
