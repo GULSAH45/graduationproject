@@ -54,11 +54,11 @@ const MainpageMainScreen = () => {
 
   // Kategori slug'ına göre görsel eşleştirme
   const categoryImages: { [key: string]: any } = {
-    protein: require("../../../assets/categoryPics/protein.png"),
-    vitamin: require("../../../assets/categoryPics/vitamin.png"),
-    "spor-gidalari": require("../../../assets/categoryPics/spor-gidalari.png"),
-    gida: require("../../../assets/categoryPics/gida.png"),
-    saglik: require("../../../assets/categoryPics/saglik.png"),
+    protein: require("@/assets/categoryPics/protein.png"),
+    vitamin: require("@/assets/categoryPics/vitamin.png"),
+    "spor-gidalari": require("@/assets/categoryPics/spor-gidalari.png"),
+    gida: require("@/assets/categoryPics/gida.png"),
+    saglik: require("@/assets/categoryPics/saglik.png"),
   };
 
 

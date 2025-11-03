@@ -8,6 +8,11 @@ interface SearchBarCompProps {
 }
 
 const SearchBarComp = ({ value, onChangeText }: SearchBarCompProps) => {
+
+  const handleOnCancel = () => {
+    onChangeText("")
+  }
+
   return (
     <View>
       <View className="items-center font-Inter mt-4">
@@ -21,7 +26,7 @@ const SearchBarComp = ({ value, onChangeText }: SearchBarCompProps) => {
             value={value}
             onChangeText={onChangeText}
           />
-          <TouchableOpacity><Text className='text-blue-600'>Vazgeç</Text></TouchableOpacity>
+          <TouchableOpacity onPress={handleOnCancel}><Text className='text-blue-600'>Vazgeç</Text></TouchableOpacity>
         </View>
       </View>
     </View>

@@ -112,7 +112,7 @@ const SearchScreen = () => {
                   {item.price_info.total_price} TL
                 </Text>
                 <Text className="text-xs text-yellow-600">
-                  ⭐ {item.average_star} ({item.comment_count} yorum)
+                  {Array(Math.floor(item.average_star)).fill("⭐").join("")} & {item.comment_count} yorum
                 </Text>
               </View>
             </View>

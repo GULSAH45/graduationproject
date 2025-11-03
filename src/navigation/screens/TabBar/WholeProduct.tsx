@@ -126,12 +126,11 @@ const WholeProduct = () => {
                 className="w-[48%] h-[100px] bg-white rounded-lg mb-3 items-center justify-center shadow"
                 style={{ minWidth: 100}}
                 onPress={() => {
-                  const screenName = categoryScreens[cat.slug];
-                  if (screenName) {
-                    navigation.navigate(screenName);
-                  } else {
-                    console.log("Bu kategori için sayfa yok:", cat.slug);
-                  }
+                  (navigation as any).navigate('CategoryPage', {
+                    categoryId: cat.id, 
+                    categoryName: cat.name,
+                    categorySlug: cat.slug
+                  });
                 }}
               >
                 <Image
