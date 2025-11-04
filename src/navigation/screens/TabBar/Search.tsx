@@ -89,10 +89,14 @@ const SearchScreen = () => {
       {error ? <Text className="text-red-500 mt-4">{error}</Text> : null}
       <FlatList
         data={results}
-
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <View className="flex-row items-center justify-between border-b border-gray-200 py-3">
+          <TouchableOpacity
+            onPress={() =>
+              navigation.navigate("ProductDetailPage", { productId: item.slug })
+            }
+            className="flex-row items-center justify-between border-b h-25 border-gray-200 py-3"
+          >
             <View className="flex-row items-center">
               <Image
                 source={{ uri: IMAGE_URL + item.photo_src }}
@@ -116,15 +120,16 @@ const SearchScreen = () => {
                 </Text>
               </View>
             </View>
-            <TouchableOpacity
+            {/* The NextIcon is removed as the whole item is now clickable */}
+            {/* <TouchableOpacity
               onPress={() =>
                 navigation.navigate("ProductDetailPage", { productId: item.slug })
               }
               className="p-2"
             >
-              <NextIcon />
-            </TouchableOpacity>
-          </View>
+              <NextIcon className="font-semibold w-6 h-6" fill="red"/>
+            </TouchableOpacity> */}
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           //aranan  şey karşılıksızsa

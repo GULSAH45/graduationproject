@@ -34,11 +34,11 @@ const BasketScreen = () => {
       {
         basket.length == 0 ? (
           <View className="items-center mt-5 justify-center">
-          <TouchableOpacity className="bg-black w-[324px] h-[55px]
+            <TouchableOpacity onPress={()=> navigation.navigate("HomeTabs", { screen: "Home" })} className="bg-black w-[324px] h-[55px]
        items-center justify-center rounded-lg">
-            <Text className="text-2xl text-white text-center font-bold">Alışverişe Başla</Text>
-          </TouchableOpacity>
-        </View>
+              <Text className="text-2xl text-white text-center font-bold">Alışverişe Başla</Text>
+            </TouchableOpacity>
+          </View>
         ) : (
           <View className="items-center mt-5 justify-center">
             <TouchableOpacity className="bg-black w-[324px] h-[55px]

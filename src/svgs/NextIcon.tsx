@@ -3,9 +3,9 @@ import Svg, { SvgProps, Path } from "react-native-svg"
 const NextIcon = (props: SvgProps) => (
   <Svg
     xmlns="http://www.w3.org/2000/svg"
-    width={7}
-    height={11}
-    fill="none"
+    width={9}
+    height={13}
+    fill="black"
     {...props}
   >
     <Path

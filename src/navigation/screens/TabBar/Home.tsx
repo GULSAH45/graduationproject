@@ -182,10 +182,10 @@ const MainpageMainScreen = () => {
             ))}
           </View>
         </View>
-        <View className="w-full flex items-center justify-center mt-4">
+        <View className="w-full m-0 px-0 flex items-center justify-center mt-4">
           <Image
-            className="w-[390px] h-[483px]"
-            source={require("../../../assets/GreenFooterPic.png")}
+            className="w-[450px] h-[560px]"
+            source={require("@/assets/GreenFooterPic.png")}
             resizeMode="contain"
           />
           <View

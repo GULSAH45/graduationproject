@@ -45,7 +45,7 @@ const SignUpScreen = () => {
       console.log("SIGN UP RESPONSE:", data);
 
       if (response.ok) {
-        navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" });
+        navigation.navigate("HomeTabs", { screen: "Home" });
       } else {
         setMessage(data.message || "Bir hata oluştu.");
       }

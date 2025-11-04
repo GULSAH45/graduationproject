@@ -64,5 +64,6 @@ export interface Variant {
 
 export type ProductDetailRouteParams = {
   productId: string;
+  productSlug?:string;
   product?: Product; // Ürün objesi
 };

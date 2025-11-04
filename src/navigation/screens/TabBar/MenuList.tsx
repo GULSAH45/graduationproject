@@ -24,9 +24,7 @@ const MenuListScreen = () => {
             <Text className="text-sm font-normal mx-3">Hesap Bilgileri</Text>
           </View>
         </TouchableOpacity>
-
         <View className="border border-MenuBorderColor" />
-
         <TouchableOpacity  onPress={() => navigation.navigate("OrderScreen")}>
           <View className="flex-row items-center my-4">
             <Text>

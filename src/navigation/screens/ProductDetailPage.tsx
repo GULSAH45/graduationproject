@@ -4,7 +4,7 @@ import { useNavigation, useRoute, RouteProp } from '@react-navigation/native'
 import PrevIcon from '../../svgs/PrevIcon'
 import { useBasket } from '../../contexts/BasketContext';
 import AntDesign from '@expo/vector-icons/AntDesign';
-import { ProductDetailRouteParams,Product,Variant } from '@/types/Product';
+import { ProductDetailRouteParams, Product, Variant } from '@/types/Product';
 
 const { width } = Dimensions.get('window');
 
@@ -15,13 +15,13 @@ const ProductDetailPage = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
   const { addToBasket } = useBasket();
-  const productSlug = (route.params as ProductDetailRouteParams)?.productSlug;
-  const productFromParams = (route.params as ProductDetailRouteParams)?.product;
+  const productSlug = (route.params as ProductDetailRouteParams)?.productId;
+  // Removed productFromParams as it was redundant.
 
-  const [product, setProduct] = useState<Product   | null>(null);
+  const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Akordiyon state'leri
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
   const [isUsageOpen, setIsUsageOpen] = useState(false);
@@ -29,27 +29,27 @@ const ProductDetailPage = () => {
   const [isNutritionOpen, setIsNutritionOpen] = useState(false);
 
   // Akordiyon  componenti
-  const AccordionItem = ({ 
-    title, 
-    isOpen, 
-    onToggle, 
-    children 
-  }: { 
-    title: string; 
-    isOpen: boolean; 
-    onToggle: () => void; 
-    children: React.ReactNode; 
+  const AccordionItem = ({
+    title,
+    isOpen,
+    onToggle,
+    children
+  }: {
+    title: string;
+    isOpen: boolean;
+    onToggle: () => void;
+    children: React.ReactNode;
   }) => (
     <View className="border-b border-gray-200">
-      <TouchableOpacity 
+      <TouchableOpacity
         onPress={onToggle}
         className="flex-row justify-between items-center py-4 px-2"
       >
         <Text className="font-semibold text-lg text-gray-800">{title}</Text>
-        <AntDesign 
-          name={isOpen ? "up" : "down"} 
-          size={16} 
-          color="#666" 
+        <AntDesign
+          name={isOpen ? "up" : "down"}
+          size={16}
+          color="#666"
         />
       </TouchableOpacity>
       {isOpen && (
@@ -61,26 +61,7 @@ const ProductDetailPage = () => {
   );
 
   useEffect(() => {
-    if (productFromParams) {
-      // Eğer product objesi geliyorsa, slug'ını kullanarak tam detayları çek
-      if (productFromParams.slug) {
-        setLoading(true);
-        fetch(`${BASE_URL}/products/${productFromParams.slug}`)
-          .then(res => res.json())
-          .then(json => {
-            setProduct(json.data);
-            setLoading(false);
-          })
-          .catch(() => {
-            setError('Ürün yüklenemedi.');
-            setLoading(false);
-          });
-      } else {
-        setError('Ürün slug bulunamadı.');
-        setLoading(false);
-      }
-    } else if (productSlug) {
-      // Eğer slug geliyorsa API'den çek
+    if (productSlug) {
       setLoading(true);
       fetch(`${BASE_URL}/products/${productSlug}`)
         .then(res => res.json())
@@ -92,8 +73,11 @@ const ProductDetailPage = () => {
           setError('Ürün yüklenemedi.');
           setLoading(false);
         });
+    } else {
+      setError('Ürün slug bulunamadı.');
+      setLoading(false);
     }
-  }, [productSlug, productFromParams]);
+  }, [productSlug]);
 
   if (loading) {
     return (
