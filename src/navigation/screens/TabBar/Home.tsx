@@ -16,6 +16,7 @@ import { RootStackParamList, HomeTabParamList } from "@/navigation";
 import SearchBarComp from "@/components/SearchBarComp";
 import { BestSellerProductTypes, CategoryParams, CategoryResponse } from "@/types/Product";
 import { useBasket } from "@/contexts/BasketContext";
+import { IMAGE_URL } from "../ProductDetailPage";
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
@@ -158,20 +159,27 @@ const MainpageMainScreen = () => {
         </View>
        // çok satanlar
         <View className="mt-4">
-          <Text className="text-md text-TextColor font-semibold ml-3 mb-2">
+          <Text className="text-2xl text-center font-extrabold text-TextColor  ml-3 mb-2">
           Çok Satanlar
           </Text>
-          <View className="flex-row flex-wrap justify-between px-3">
+          <View className="flex-row flex-wrap justify-center">
             {bestSellers.map((item, idx) => (
               <TouchableOpacity
                 key={item.slug || idx}
-                className=" rounded-md mb-3 p-2 items-center shadow"
+                className=" rounded-md mb-3 p-2 mx-2 items-center shadow h-64"
                 style={{ width: '150px' }}
                 onPress={() => (navigation as any).navigate('ProductDetailPage', { productSlug: item.slug })}
               >
+                {item.price_info.discounted_price && (
+                  <View className="absolute z-10 top-0 right-0 bg-red-500 rounded-bl-md px-2 py-1">
+                    <Text className="text-white text-xs font-bold">
+                      %{Math.round(((item.price_info.total_price - item.price_info.discounted_price) / item.price_info.total_price) * 100)} İNDİRİM
+                    </Text>
+                  </View>
+                )}
                 <Image
                   source={{
-                    uri: `https://fe1111.projects.academy.onlyjs.com${item.photo_src}`,
+                    uri: IMAGE_URL + item.photo_src,
                   }}
                   style={{ width: 150, height: 150, borderRadius: 8 }}
                   resizeMode="contain"

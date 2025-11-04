@@ -157,14 +157,22 @@ const WholeProduct = () => {
           <FlatList
             data={bestSellers}
             horizontal
+            className="relative"
             keyExtractor={(item) => item.slug}
             showsHorizontalScrollIndicator={false}
             contentContainerStyle={{ paddingHorizontal: 8}}
             renderItem={({ item }) => (
               <View
-                className="bg-white rounded-md mr-3 p-2 items-center"
+                className="bg-white   rounded-md mr-3 p-2 items-center"
                 style={{ width: 160 }}
               >
+                  {item.price_info.discounted_price && (
+                  <View className="relative z-50 -top-4 -right-20 bg-red-500 rounded-md px-2 py-3">
+                    <Text className="text-white text-xs font-bold">
+                      %{Math.round(((item.price_info.total_price - item.price_info.discounted_price) / item.price_info.total_price) * 100)} İNDİRİM
+                    </Text>
+                  </View>
+                )}
                 <Image
                   source={{
                     uri: `https://fe1111.projects.academy.onlyjs.com${item.photo_src}`,
