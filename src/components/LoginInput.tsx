@@ -65,8 +65,6 @@ const LoginInput = ({
       </View>
       <View className="flex-row items-center justify-end mt-5">
         <TouchableOpacity
-          className="mx-10 my-5"
-          onPress={() => navigation.navigate("ForgotPassword")}
         >
           <Text className="text-black font-normal underline">
             Şifremi Unuttum?

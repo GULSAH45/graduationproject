@@ -115,7 +115,7 @@ const MainpageMainScreen = () => {
                 style={{ minWidth: 100, overflow: 'hidden' }}
                 onPress={() => {
                   // Kategori bilgilerini params olarak gönder
-                  (navigation as any).navigate('CategoryPage', {
+                  navigation.navigate('CategoryPage', {
                     categoryId: cat.id, // API'den gelen kategori ID'si
                     categoryName: cat.name,
                     categorySlug: cat.slug

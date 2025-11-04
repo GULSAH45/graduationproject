@@ -2,7 +2,7 @@ import { View, Text, SafeAreaView, TouchableOpacity, Image, ScrollView, Dimensio
 import React, { useEffect, useState } from 'react'
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native'
 import PrevIcon from '../../svgs/PrevIcon'
-import { useBasket } from '../../BasketContext';
+import { useBasket } from '../../contexts/BasketContext';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { ProductDetailRouteParams,Product,Variant } from '@/types/Product';
 
@@ -28,7 +28,7 @@ const ProductDetailPage = () => {
   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
   const [isNutritionOpen, setIsNutritionOpen] = useState(false);
 
-  // Akordiyon komponenti
+  // Akordiyon  componenti
   const AccordionItem = ({ 
     title, 
     isOpen, 
@@ -179,9 +179,9 @@ const ProductDetailPage = () => {
           <View className="mt-4">
             <Text className="font-semibold mb-2">Varyantlar</Text>
             {product.variants?.map((variant: Variant) => (
-              <View key={variant.id} className="flex-row items-center mb-4 p-2 border rounded-lg">
+              <View key={variant.id} className="flex-row w-100 items-center mb-4 p-2 shadow-lg rounded-lg">
                 <Image
-                  source={{ uri: BASE_URL + (variant.photo_src || '') }}
+                  source={{ uri: IMAGE_URL + (variant.photo_src || '') }}
                   style={{ width: 80, height: 80, borderRadius: 8, marginRight: 12 }}
                 />
                 <View className="flex-1">
