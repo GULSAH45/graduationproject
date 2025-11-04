@@ -18,13 +18,13 @@ import AntDesign from '@expo/vector-icons/AntDesign'; // For edit and delete ico
 const Adressess = () => {
   const navigation = useNavigation();
   // State'ler bu sayıda input griliyo. 
-  const [adresBasligi, setAdresBasligi] = useState("");
-  const [ad, setAd] = useState("");
-  const [soyad, setSoyad] = useState("");
-  const [adres, setAdres] = useState("");
-  const [apartmanDaire, setApartmanDaire] = useState("");
-  const [sehir, setSehir] = useState("");
-  const [telefon, setTelefon] = useState("");
+  const [addressTitle, setAddressTitle] = useState("");
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
+  const [address, setAddress] = useState("");
+  const [apartmentFlat, setApartmentFlat] = useState("");
+  const [city, setCity] = useState("");
+  const [phone, setPhone] = useState("");
   const [addresses, setAddresses] = useState<Address[]>(mockAddresses);
   const [showAddressForm, setShowAddressForm] = useState(false); // New state for form visibility
   const [editingAddress, setEditingAddress] = useState<Address | null>(null); // New state for editing
@@ -38,15 +38,15 @@ const Adressess = () => {
         addresses.map((addr) =>
           addr.id === editingAddress.id
             ? {
-                ...addr,
-                adresBasligi,
-                ad,
-                soyad,
-                adres,
-                apartmanDaire,
-                sehir,
-                telefon,
-              }
+              ...addr,
+              adresBasligi: addressTitle,
+              ad: name,
+              soyad: surname,
+              adres: address,
+              apartmanDaire: apartmentFlat,
+              sehir: city,
+              telefon: phone,
+            }
             : addr
         )
       );
@@ -55,25 +55,25 @@ const Adressess = () => {
       // Add new address
       const newAddress: Address = {
         id: String(addresses.length + 1), // Simple ID generation
-        adresBasligi,
-        ad,
-        soyad,
-        adres,
-        apartmanDaire,
-        sehir,
-        telefon,
+        adresBasligi: addressTitle,
+        ad: name,
+        soyad: surname,
+        adres: address,
+        apartmanDaire: apartmentFlat,
+        sehir: city,
+        telefon: phone,
       };
       setAddresses([...addresses, newAddress]);
       alert("Adres başarıyla kaydedildi!");
     }
     // Clear form
-    setAdresBasligi("");
-    setAd("");
-    setSoyad("");
-    setAdres("");
-    setApartmanDaire("");
-    setSehir("");
-    setTelefon("");
+    setAddressTitle("");
+    setName("");
+    setSurname("");
+    setAddress("");
+    setApartmentFlat("");
+    setCity("");
+    setPhone("");
 
     // After saving, hide the form and clear editing state
     setShowAddressForm(false);
@@ -84,13 +84,13 @@ const Adressess = () => {
     const addressToEdit = addresses.find((addr) => addr.id === id);
     if (addressToEdit) {
       setEditingAddress(addressToEdit);
-      setAdresBasligi(addressToEdit.adresBasligi);
-      setAd(addressToEdit.ad);
-      setSoyad(addressToEdit.soyad);
-      setAdres(addressToEdit.adres);
-      setApartmanDaire(addressToEdit.apartmanDaire);
-      setSehir(addressToEdit.sehir);
-      setTelefon(addressToEdit.telefon);
+      setAddressTitle(addressToEdit.adresBasligi);
+      setName(addressToEdit.ad);
+      setSurname(addressToEdit.soyad);
+      setAddress(addressToEdit.adres);
+      setApartmentFlat(addressToEdit.apartmanDaire);
+      setCity(addressToEdit.sehir);
+      setPhone(addressToEdit.telefon);
       setShowAddressForm(true); // Show the form for editing
     }
   };
@@ -125,7 +125,7 @@ const Adressess = () => {
         >
           <PrevIcon />
         </TouchableOpacity>
-        <Text className="text-black text-md font-semibold ml-2">Adreslerim</Text>
+        <Text onPress={() => setShowAddressForm(false)} className="text-black text-md font-semibold ml-2">Adreslerim</Text>
         {addresses.length > 0 && !showAddressForm && (
           <TouchableOpacity onPress={() => setShowAddressForm(true)}>
             <Text className="text-blue-500 font-semibold">Yeni Adres Ekle</Text>
@@ -135,7 +135,6 @@ const Adressess = () => {
       <ScrollView className="flex-1">
         {
           showAddressForm || addresses.length === 0 ? (
-            // Address form
             <View>
               <View className="mx-6 py-3 my-4">
                 <Text className="self-start text-md my-2">Adres Başlığı</Text>
@@ -143,50 +142,49 @@ const Adressess = () => {
                   className="bg-InputBackground border p-4
              border-TextInputBorderColor w-full h-[50px] rounded"
                   placeholder="ev, iş vb..."
-                  value={adresBasligi}
-                  onChangeText={setAdresBasligi}
+                  value={addressTitle}
+                  onChangeText={setAddressTitle}
                 />
                 <Text className="self-start text-md my-2">Ad</Text>
                 <TextInput
                   className="bg-InputBackground border p-4
              border-TextInputBorderColor w-full h-[50px] rounded"
                   placeholder=""
-                  value={ad}
-                  onChangeText={setAd}
+                  value={name}
+                  onChangeText={setName}
                 />
                 <Text className="self-start text-md my-2">Soyad</Text>
                 <TextInput
                   className="bg-InputBackground border
              border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4"
                   placeholder=""
-                  value={soyad}
-                  onChangeText={setSoyad}
+                  value={surname}
+                  onChangeText={setSurname}
                 />
                 <Text className="self-start text-md my-2">Adres</Text>
                 <TextInput
                   className="bg-InputBackground border p-4
              border-TextInputBorderColor my-2 rounded w-full h-[50px]"
                   placeholder=""
-                  value={adres}
-                  onChangeText={setAdres}
+                  value={address}
+                  onChangeText={setAddress}
                 />
                 <Text className="self-start text-md my-2">Apartman, daire</Text>
                 <TextInput
                   className="bg-InputBackground border border-TextInputBorderColor 
             my-2 w-full h-[50px] rounded p-4"
                   placeholder=""
-                  value={apartmanDaire}
-                  onChangeText={setApartmanDaire}
+                  value={apartmentFlat}
+                  onChangeText={setApartmentFlat}
                 />
                 <Text className="self-start text-md my-2">Şehir</Text>
                 <TextInput
                   className="bg-InputBackground border
              border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4"
                   placeholder=""
-                  value={sehir}
-                  onChangeText={setSehir}
+                  value={city}
+                  onChangeText={setCity}
                 />
-
 
                 <Text className="text-md my-2">Telefon</Text>
                 <View className="bg-InputBackground border
@@ -200,8 +198,8 @@ const Adressess = () => {
                     className="flex-1 p-2"
                     placeholder="Telefon numaranızı giriniz"
                     keyboardType="phone-pad"
-                    value={telefon}
-                    onChangeText={setTelefon}
+                    value={phone}
+                    onChangeText={setPhone}
                   />
                 </View>
 
@@ -224,7 +222,7 @@ const Adressess = () => {
                 <Text className="text-gray-500">Henüz adres kaydedilmemiş.</Text>
               ) : (
                 addresses.map((addr) => (
-                  <View key={addr.id} className="bg-white rounded-lg shadow-md p-4 mb-4 border border-gray-200">
+                  <View key={addr.id} className="bg-white rounded-lg shadow-sm p-4 mb-4 border border-gray-200">
                     <View className="flex-row justify-between items-center mb-2">
                       <Text className="font-bold text-lg">{addr.adresBasligi}</Text>
                       <View className="flex-row">

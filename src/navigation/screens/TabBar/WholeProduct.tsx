@@ -48,7 +48,6 @@ const WholeProduct = () => {
       });
   }, []);
 
-  // Best seller ürünleri çek
   useEffect(() => {
     fetch(`${base_url}/products/best-sellers`)
       .then((response) => response.json())
@@ -62,13 +61,12 @@ const WholeProduct = () => {
       });
   }, []);
 
-  // Kategori slug'ına göre görsel eşleştirme
   const categoryImages: { [key: string]: any } = {
-    protein: require("../../../assets/categoryPics/protein.png"),
-    vitamin: require("../../../assets/categoryPics/vitamin.png"),
-    "spor-gidalari": require("../../../assets/categoryPics/spor-gidalari.png"),
-    gida: require("../../../assets/categoryPics/gida.png"),
-    saglik: require("../../../assets/categoryPics/saglik.png"),
+    protein: require("@/assets/categoryPics/protein.png"),
+    vitamin: require("@/assets/categoryPics/vitamin.png"),
+    "spor-gidalari": require("@/assets/categoryPics/spor-gidalari.png"),
+    gida: require("@/assets/categoryPics/gida.png"),
+    saglik: require("@/assets/categoryPics/saglik.png"),
   };
 
   // Kategori slug'ına göre ekran adı eşleştirme
