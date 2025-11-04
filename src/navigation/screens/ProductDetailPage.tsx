@@ -59,7 +59,6 @@ const ProductDetailPage = () => {
     </View>
   );
 
-
   useEffect(() => {
     if (productSlug) {
       setLoading(true);

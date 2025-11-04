@@ -93,7 +93,7 @@ const SearchScreen = () => {
         renderItem={({ item }) => (
           <TouchableOpacity
             onPress={() =>
-              navigation.navigate("ProductDetailPage", { productId: item.slug })
+              navigation.navigate("ProductDetailPage", { productSlug: item.slug })
             }
             className="flex-row items-center justify-between border-b h-25 border-gray-200 py-3"
           >
