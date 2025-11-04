@@ -3,6 +3,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import {
   createStaticNavigation,
   StaticParamList,
+  NavigatorScreenParams,
 } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 
@@ -39,7 +40,7 @@ export type HomeTabParamList = {
 };
 
 export type RootStackParamList = {
-  HomeTabs: HomeTabParamList;
+  HomeTabs: NavigatorScreenParams<HomeTabParamList>;
   CategoryPage: CategoryPageRouteParams;
   ProductDetailPage: ProductDetailRouteParams;
   DeliveredOrder: undefined;

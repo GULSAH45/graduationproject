@@ -27,6 +27,7 @@ const ProductDetailPage = () => {
   const [isUsageOpen, setIsUsageOpen] = useState(false);
   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
   const [isNutritionOpen, setIsNutritionOpen] = useState(false);
+
   const AccordionItem = ({
     title,
     isOpen,
@@ -57,6 +58,9 @@ const ProductDetailPage = () => {
       )}
     </View>
   );
+
+
+  console.log("Sepet ürünleri",useBasket().basket)
 
   useEffect(() => {
     if (productSlug) {
@@ -123,7 +127,6 @@ const ProductDetailPage = () => {
           >
             <Text className="text-sm text-gray-700">{product.explanation?.description}</Text>
           </AccordionItem>
-
           <AccordionItem
             title="Kullanım"
             isOpen={isUsageOpen}
@@ -131,7 +134,6 @@ const ProductDetailPage = () => {
           >
             <Text className="text-sm text-gray-700">{product.explanation?.usage}</Text>
           </AccordionItem>
-
           <AccordionItem
             title="Özellikler"
             isOpen={isFeaturesOpen}
@@ -139,7 +141,6 @@ const ProductDetailPage = () => {
           >
             <Text className="text-sm text-gray-700">{product.explanation?.features}</Text>
           </AccordionItem>
-
           {product.explanation?.nutritional_content?.nutrition_facts && (
             <AccordionItem
               title="Besin Değerleri"
@@ -187,7 +188,7 @@ const ProductDetailPage = () => {
                     id: product.id,
                     name: product.name,
                     price: variant.price.discounted_price || variant.price.total_price,
-                    photo: BASE_URL + (variant.photo_src || ''),
+                    photo: IMAGE_URL + (variant.photo_src || ''),
                     desc: product.short_explanation,
                     size: `${variant.size.pieces} Adet / ${variant.size.total_services} Servis`,
                     quantity: 1,

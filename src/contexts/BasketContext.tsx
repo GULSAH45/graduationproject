@@ -15,7 +15,6 @@ import { Product } from "@/types/Product";
 type BasketContextType = {
   basket: Product[];
   addToBasket: (product: Product) => void;
-  // İleride remove/update fonksiyonları da eklenebilir
 };
 
 const BasketContext = createContext<BasketContextType | undefined>(undefined);

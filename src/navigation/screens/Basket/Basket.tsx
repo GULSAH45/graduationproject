@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity, Image } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import { useBasket } from '@/contexts/BasketContext';
@@ -24,9 +24,12 @@ const BasketScreen = () => {
           </Text>
         ) : (
           basket.map((item, idx) => (
-            <View key={item.id + idx} className="w-full flex-row justify-between items-center py-2 border-b border-gray-200">
-              <Text className="text-base font-medium">{item.name}</Text>
-              <Text className="text-base font-bold">{item.price} TL</Text>
+            <View key={item.id + idx} className="w-full flex-row items-center py-2 border-b border-gray-200">
+              <Image source={{ uri: item.photo_src }} className="w-16 h-16 rounded-md mr-3" />
+              <View className="flex-1 justify-center">
+                <Text className="text-base font-medium">{item.name}</Text>
+                <Text className="text-base font-bold mt-1">{item.price} TL</Text>
+              </View>
             </View>
           ))
         )}
@@ -34,7 +37,7 @@ const BasketScreen = () => {
       {
         basket.length == 0 ? (
           <View className="items-center mt-5 justify-center">
-            <TouchableOpacity onPress={()=> navigation.navigate("HomeTabs", { screen: "Home" })} className="bg-black w-[324px] h-[55px]
+            <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" })} className="bg-black w-[324px] h-[55px]
        items-center justify-center rounded-lg">
               <Text className="text-2xl text-white text-center font-bold">Alışverişe Başla</Text>
             </TouchableOpacity>
