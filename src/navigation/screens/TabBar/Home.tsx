@@ -71,7 +71,7 @@ const MainpageMainScreen = () => {
         <View className="flex-row justify-between mx-3 ">
           {" "}
           <Image
-            source={require("../../../assets/LOGO.png")}
+            source={require("@/assets/LOGO.png")}
             className="w-[119px] h-[26px] mb-3 mt-3"
             resizeMode="contain"
           />
@@ -83,7 +83,7 @@ const MainpageMainScreen = () => {
               size={21}
               color="black"
             />
-            {basketLength > 0 && (
+            {basketLength >= 0 && (
               <View className="absolute top-2 right-2 bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
                 <Text className="text-white text-xs font-bold">
                   {basketLength}

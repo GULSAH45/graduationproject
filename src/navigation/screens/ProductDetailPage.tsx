@@ -5,6 +5,7 @@ import PrevIcon from '../../svgs/PrevIcon'
 import { useBasket } from '../../contexts/BasketContext';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { ProductDetailRouteParams, Product, Variant } from '@/types/Product';
+import Toast from 'react-native-toast-message';
 
 const { width } = Dimensions.get('window');
 
@@ -17,6 +18,17 @@ const ProductDetailPage = () => {
   const { addToBasket } = useBasket();
   const productSlug = (route.params as ProductDetailRouteParams)?.productSlug;
   // Removed productFromParams as it was redundant.
+
+  const handleAddBasket = (product: Product) => {
+    addToBasket(product)
+    Toast.show({
+      type: "successCustom",
+      text1: "Başarılı!",
+      text2: "Ürün sepete eklendi 🎉",
+      position: "top",
+      topOffset: 50,
+    });
+  }
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -181,7 +193,7 @@ const ProductDetailPage = () => {
                 </View>
                 <TouchableOpacity
                   className="bg-green-600 px-4 py-2 rounded-lg ml-2"
-                  onPress={() => addToBasket({
+                  onPress={() => handleAddBasket({
                     id: product.id,
                     name: product.name,
                     price: variant.price.discounted_price || variant.price.total_price,

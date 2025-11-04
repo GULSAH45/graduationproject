@@ -22,7 +22,7 @@ const BasketScreen = () => {
       <View className="flex-1 items-center mx-3 py-4">
         <Text className="text-lg font-bold">SEPETİM</Text>
         <View className="w-full h-[1px] border border-BasketBorderColor my-2" />
-        {basket.length === 0 ? (
+        {basket.length === 0? (
           <Text className="text-sm py-3 font-normal">
             Sepetinizde Ürün Bulunmamaktadır
           </Text>

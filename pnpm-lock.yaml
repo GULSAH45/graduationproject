@@ -98,6 +98,12 @@ importers:
       react-native-text-input-mask:
         specifier: ^3.2.0
         version: 3.2.0(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))
+      react-native-toast-message:
+        specifier: ^2.3.3
+        version: 2.3.3(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0)
+      react-native-vector-icons:
+        specifier: ^10.3.0
+        version: 10.3.0
       react-native-web:
         specifier: ^0.20.0
         version: 0.20.0(react-dom@19.0.0(react@19.0.0))(react@19.0.0)
@@ -2959,6 +2965,12 @@ packages:
     resolution: {integrity: sha512-YAV1MeZr5ME/GOUBSPCjAVCcDMPNcyoXw5FOdPkA8GK9Q+t1TcvD2QOGWglVxc9vAKMddub7EZ2wQhk2ph+ElQ==}
     peerDependencies:
       react-native: '>=0.69.0'
+
+  react-native-toast-message@2.3.3:
+    resolution: {integrity: sha512-4IIUHwUPvKHu4gjD0Vj2aGQzqPATiblL1ey8tOqsxOWRPGGu52iIbL8M/mCz4uyqecvPdIcMY38AfwRuUADfQQ==}
+    peerDependencies:
+      react: '*'
+      react-native: '*'
 
   react-native-vector-icons@10.3.0:
     resolution: {integrity: sha512-IFQ0RE57819hOUdFvgK4FowM5aMXg7C7XKsuGLevqXkkIJatc3QopN0wYrb2IrzUgmdpfP+QVIbI3S6h7M0btw==}
@@ -7095,6 +7107,11 @@ snapshots:
 
   react-native-text-input-mask@3.2.0(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0)):
     dependencies:
+      react-native: 0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0)
+
+  react-native-toast-message@2.3.3(react-native@0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0))(react@19.0.0):
+    dependencies:
+      react: 19.0.0
       react-native: 0.79.1(@babel/core@7.28.5)(@types/react@19.0.14)(react@19.0.0)
 
   react-native-vector-icons@10.3.0:
