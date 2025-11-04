@@ -15,6 +15,9 @@ import { Product } from "@/types/Product";
 type BasketContextType = {
   basket: Product[];
   addToBasket: (product: Product) => void;
+  increaseQuantity: (productId: string) => void;
+  decreaseQuantity: (productId: string) => void;
+  removeFromBasket: (productId: string) => void;
 };
 
 const BasketContext = createContext<BasketContextType | undefined>(undefined);
@@ -33,13 +36,33 @@ export const BasketProvider = ({ children }: { children: ReactNode }) => {
             : item
         );
       } else {
-        return [...prev, product];
+        return [...prev, { ...product, quantity: product.quantity || 1 }];
       }
     });
   };
 
+  const increaseQuantity = (productId: string) => {
+    setBasket((prev) =>
+      prev.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+      )
+    );
+  };
+
+  const decreaseQuantity = (productId: string) => {
+    setBasket((prev) =>
+      prev.map((item) =>
+        item.id === productId ? { ...item, quantity: item.quantity - 1 } : item
+      ).filter((item) => item.quantity > 0)
+    );
+  };
+
+  const removeFromBasket = (productId: string) => {
+    setBasket((prev) => prev.filter((item) => item.id !== productId));
+  };
+
   return (
-    <BasketContext.Provider value={{ basket, addToBasket }}>
+    <BasketContext.Provider value={{ basket, addToBasket, increaseQuantity, decreaseQuantity, removeFromBasket }}>
       {children}
     </BasketContext.Provider>
   );

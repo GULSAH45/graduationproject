@@ -28,7 +28,7 @@ export interface Product {
     price_per_servings: number;
     discount_percentage: number | null;
   };
-  photo_src: string;
+  photo: string;
   comment_count: number;
   average_star: number;
   explanation: {

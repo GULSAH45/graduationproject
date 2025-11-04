@@ -60,8 +60,6 @@ const ProductDetailPage = () => {
   );
 
 
-  console.log("Sepet ürünleri",useBasket().basket)
-
   useEffect(() => {
     if (productSlug) {
       setLoading(true);
