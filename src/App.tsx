@@ -5,7 +5,6 @@ import * as React from 'react';
 import { Navigation } from './navigation';
 import { BasketProvider } from "./contexts/BasketContext";
  import "./global.css"
-  import { useFonts, Inter_400Regular, Inter_700Bold,} from '@expo-google-fonts/inter';
 
 Asset.loadAsync([
   ...NavigationAssets,

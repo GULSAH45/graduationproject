@@ -15,7 +15,7 @@ const ProductDetailPage = () => {
   const navigation = useNavigation();
   const route = useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
   const { addToBasket } = useBasket();
-  const productSlug = (route.params as ProductDetailRouteParams)?.productId;
+  const productSlug = (route.params as ProductDetailRouteParams)?.productSlug;
   // Removed productFromParams as it was redundant.
 
   const [product, setProduct] = useState<Product | null>(null);
@@ -27,8 +27,6 @@ const ProductDetailPage = () => {
   const [isUsageOpen, setIsUsageOpen] = useState(false);
   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
   const [isNutritionOpen, setIsNutritionOpen] = useState(false);
-
-  // Akordiyon  componenti
   const AccordionItem = ({
     title,
     isOpen,

@@ -29,11 +29,18 @@ import AboutScreen from "@/navigation/screens/Menu/AboutScreen";
 
 import CategoryPage from "@/navigation/screens/Categories/CategoryPage";
 import ProductDetailPage from "@screens/ProductDetailPage";
-import { ProductDetailRouteParams } from "@/types/Product";
+import { ProductDetailRouteParams, CategoryPageRouteParams } from "@/types/Product";
 
-type RootStackParamList = {
-  HomeTabs: undefined;
-  CategoryPage: undefined;
+export type HomeTabParamList = {
+  MainpageMainScreen: undefined;
+  SearchScreen: undefined;
+  WholeProduct: undefined;
+  MenuListScreen: undefined;
+};
+
+export type RootStackParamList = {
+  HomeTabs: HomeTabParamList;
+  CategoryPage: CategoryPageRouteParams;
   ProductDetailPage: ProductDetailRouteParams;
   DeliveredOrder: undefined;
   FreqAskScreen: undefined;

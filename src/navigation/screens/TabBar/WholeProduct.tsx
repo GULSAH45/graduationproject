@@ -38,7 +38,6 @@ const WholeProduct = () => {
       .then((response) => response.json())
 
       .then((data: CategoryResponse) => {
-        console.log("Kategoriler:", data);
         if (data && Array.isArray(data.data.data)) {
           setCategories(data.data.data);
         }

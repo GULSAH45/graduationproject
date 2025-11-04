@@ -1,18 +1,15 @@
-import { View, Text, SafeAreaView, TouchableOpacity, Image, ScrollView, FlatList } from 'react-native'
+import { View, Text, SafeAreaView, Image, ScrollView, FlatList, TouchableOpacity } from 'react-native'
 import React, { useEffect, useState } from 'react'
 import PrevIcon from '@/svgs/PrevIcon'
 import { useNavigation, useRoute } from '@react-navigation/native'
+import { Product, CategoryPageRouteParams } from "@/types/Product"
 
 const CategoryPage = () => {
   const navigation = useNavigation()
   const route = useRoute()
-  
+
   // Route params'tan kategori bilgilerini al
-  const { categoryId, categoryName, categorySlug } = route.params as {
-    categoryId: string
-    categoryName: string
-    categorySlug: string
-  }
+  const { categoryId, categoryName, categorySlug } = route.params as CategoryPageRouteParams
 
   const [products, setProducts] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
@@ -27,8 +24,7 @@ const CategoryPage = () => {
         )
         if (!response.ok) throw new Error('Veri çekilemedi')
         const data = await response.json()
-        console.log("Kategori API DATA:", data)
-        
+
         // API response yapısına göre veriyi al
         if (data.data?.results && Array.isArray(data.data.results)) {
           setProducts(data.data.results)
@@ -55,7 +51,7 @@ const CategoryPage = () => {
           resizeMode="contain"
         />
       </View>
-      
+
       <View className="flex-row items-center mx-2 mt-4 my-4">
         <TouchableOpacity onPress={() => navigation.goBack()}>
           <PrevIcon />
@@ -89,7 +85,7 @@ const CategoryPage = () => {
                 <TouchableOpacity
                   className="mb-4 p-2 border-b border-gray-200"
                   style={{ width: '48%', alignSelf: 'flex-start' }}
-                  onPress={() => (navigation as any).navigate('ProductDetailPage', { product: item })}
+                  onPress={() => navigation.navigate('ProductDetailPage', { productSlug: item.slug })}
                 >
                   {item.photo_src && (
                     <Image

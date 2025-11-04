@@ -4,31 +4,33 @@ import {
   SafeAreaView,
   Image,
   TextInput,
-  TouchableOpacity,
   ScrollView,
   FlatList,
+  TouchableOpacity,
 } from "react-native";
 import React, { useEffect, useState } from "react";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { RootStackParamList, HomeTabParamList } from "@/navigation";
 
 import SearchBarComp from "@/components/SearchBarComp";
-import { CategoryParams, CategoryResponse } from "@/types/Product";
+import { BestSellerProductTypes, CategoryParams, CategoryResponse } from "@/types/Product";
+import { useBasket } from "@/contexts/BasketContext";
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
-
 const MainpageMainScreen = () => {
   const [categories, setCategories] = useState<CategoryParams[]>([]);
-  const [bestSellers, setBestSellers] = useState<any[]>([]);
-  const navigation = useNavigation();
+  const [bestSellers, setBestSellers] = useState<BestSellerProductTypes[]>([]);
+  const navigation = useNavigation<NavigationProp<RootStackParamList & HomeTabParamList>>();
+  const { basket } = useBasket();
+  const basketLength = basket.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
   useEffect(() => {
     fetch(`${base_url}/categories`)
       .then((response) => response.json())
 
       .then((data: CategoryResponse) => {
-        console.log("Kategoriler:", data);
         if (data && Array.isArray(data.data.data)) {
           setCategories(data.data.data);
         }
@@ -80,6 +82,13 @@ const MainpageMainScreen = () => {
               size={21}
               color="black"
             />
+            {basketLength > 0 && (
+              <View className="absolute top-2 right-2 bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
+                <Text className="text-white text-xs font-bold">
+                  {basketLength}
+                </Text>
+              </View>
+            )}
           </TouchableOpacity>
         </View>
         <View
@@ -92,7 +101,7 @@ const MainpageMainScreen = () => {
           }}
         ></View>
         // Search Bar
-        <TouchableOpacity onPress={() => (navigation as any).navigate("SearchScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "SearchScreen" })}>
           <SearchBarComp value={""} onChangeText={function (text: string): void {
             throw new Error("Function not implemented.");
           } } />
@@ -116,9 +125,9 @@ const MainpageMainScreen = () => {
                 onPress={() => {
                   // Kategori bilgilerini params olarak gönder
                   navigation.navigate('CategoryPage', {
-                    categoryId: cat.id, // API'den gelen kategori ID'si
+                    categoryId: cat.id,
                     categoryName: cat.name,
-                    categorySlug: cat.slug
+                    categorySlug: cat.slug,
                   });
                 }}
               >
@@ -158,7 +167,7 @@ const MainpageMainScreen = () => {
                 key={item.slug || idx}
                 className=" rounded-md mb-3 p-2 items-center shadow"
                 style={{ width: '150px' }}
-                onPress={() => (navigation as any).navigate('ProductDetailPage', { product: item })}
+                onPress={() => (navigation as any).navigate('ProductDetailPage', { productSlug: item.slug })}
               >
                 <Image
                   source={{

@@ -20,6 +20,7 @@ export interface Product {
   name: string;
   short_explanation: string;
   slug: string;
+  quantity?: number;
   price_info: {
     profit: number | null;
     total_price: number;
@@ -62,8 +63,30 @@ export interface Variant {
   is_available: boolean;
 }
 
+export interface BestSellerProductTypes {
+  name: string,
+  short_explanation: string,
+  slug: string,
+  price_info: {
+    profit: number,
+    total_price: number,
+    discounted_price: number,
+    price_per_servings: number,
+    discount_percentage: number
+  },
+  photo_src: string,
+  comment_count: number,
+  average_star: number
+}
+
+export interface CategoryPageRouteParams {
+  categoryId: number;
+  categoryName: string;
+  categorySlug: string;
+}
+
 export type ProductDetailRouteParams = {
   productId: string;
-  productSlug?:string;
-  product?: Product; // Ürün objesi
+  productSlug?: string | undefined;
+  product?: Product;
 };

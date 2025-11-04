@@ -7,6 +7,7 @@ import {
 import React, { useState } from "react";
 import LoginInput from "@/components/LoginInput";
 import { useNavigation } from "@react-navigation/native";
+
 //ana dres dosyadan gelen base url
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
@@ -32,12 +33,11 @@ const LogScreen = () => {
           //kullnıcı adı email
           username: email, 
           password,
-          api_key: "370718",
+          api_key: "370718", // TODO!!: bunuda .env dosyasına taşıyacagız hocam özel api key bu 
         }),
       });
-//data yı getir bakalım
+      //data yı getir bakalım
       const data = await response.json();
-      console.log("DATA:", data);
 
       if (response.ok) {
         navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" });

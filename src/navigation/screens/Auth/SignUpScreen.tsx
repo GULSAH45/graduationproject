@@ -42,7 +42,6 @@ const SignUpScreen = () => {
       });
 
       const data = await response.json();
-      console.log("SIGN UP RESPONSE:", data);
 
       if (response.ok) {
         navigation.navigate("HomeTabs", { screen: "Home" });
