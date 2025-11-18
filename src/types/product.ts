@@ -46,6 +46,7 @@ export interface Product {
   };
   tags: string[];
   variants: Variant[];
+  selectedVariant?: Variant;
 }
 
 export interface Variant {

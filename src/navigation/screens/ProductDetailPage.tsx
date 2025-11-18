@@ -7,17 +7,27 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
+<<<<<<< HEAD
 import React, { useEffect, useState, useRef } from "react";
 import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+=======
+import React, { useEffect, useState } from "react";
+import { useNavigation, useRoute, RouteProp, NavigationProp } from "@react-navigation/native";
+>>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
 import PrevIcon from "../../svgs/PrevIcon";
 import { useBasket } from "../../contexts/BasketContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { ProductDetailRouteParams, Product, Variant } from "@/types/Product";
 import Toast from "react-native-toast-message";
 import TruckSVG from "@/svgs/TruckSVG";
+<<<<<<< HEAD
 import TikSVG from "@/svgs/TikSVG";
 import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
+=======
+import { RootStackParamList } from "@/navigation";
+
+>>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
 
 const { width } = Dimensions.get("window");
 
@@ -27,11 +37,17 @@ export const IMAGE_URL = "https://fe1111.projects.academy.onlyjs.com";
 const ProductDetailPage = () => {
   const route =
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
+<<<<<<< HEAD
   const { addToBasket } = useBasket();
   const navigator = useNavigation();
   const scrollRef = useRef<ScrollView>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
+=======
+  const { addToBasket, basket } = useBasket();
+  const navigator = useNavigation<NavigationProp<RootStackParamList>>();
+  const basketLength = basket.reduce((sum, item) => sum + (item.quantity || 0), 0);
+>>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
   // Extract productSlug from route params
   const productSlug = route.params?.productSlug;
 
@@ -63,15 +79,20 @@ const ProductDetailPage = () => {
 
   // Sepete ekle fonksiyonu
   const handleAddBasket = () => {
+<<<<<<< HEAD
     if (!selectedAroma || !selectedVariantId) return;
     const selectedVariant = product?.variants?.find(
       (v) => v.id === selectedVariantId
     );
+=======
+    if (!selectedAroma || !selectedVariantId || !product) return;
+    const selectedVariant = product.variants?.find(v => v.id === selectedVariantId);
+>>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
     if (selectedVariant) {
       addToBasket({
         ...product,
         selectedVariant,
-      });
+      } as Product);
       Toast.show({
         type: "successCustom",
         text1: "Başarılı!",
@@ -158,6 +179,7 @@ const ProductDetailPage = () => {
       </SafeAreaView>
     );
   }
+  
   if (error || !product) {
     return (
       <SafeAreaView className="flex-1 justify-center items-center bg-white">
@@ -169,11 +191,27 @@ const ProductDetailPage = () => {
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
-        <View className="flex-row items-center p-4">
-          <TouchableOpacity onPress={() => navigator.goBack()}>
-            <PrevIcon />
+        <View className="flex-row items-center justify-between p-4">
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={() => navigator.goBack()}>
+              <PrevIcon />
+            </TouchableOpacity>
+            <Text className="text-lg font-bold ml-4">Ürün Detayı</Text>
+          </View>
+          <TouchableOpacity onPress={() => navigator.navigate("BasketScreen")} className="relative">
+            <AntDesign
+              name="shoppingcart"
+              size={21}
+              color="black"
+            />
+            {basketLength > 0 && (
+              <View className="absolute -top-1 -right-1 bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
+                <Text className="text-white text-xs font-bold">
+                  {basketLength}
+                </Text>
+              </View>
+            )}
           </TouchableOpacity>
-          <Text className="text-lg font-bold ml-4">Ürün Detayı</Text>
         </View>
         <Image
           source={{ uri: IMAGE_URL + (product.variants[0]?.photo_src || "") }}
@@ -273,7 +311,7 @@ const ProductDetailPage = () => {
                     onPress={() => setSelectedVariantId(variant.id)}
                   >
                     <Text className="text-sm text-gray-700">
-                      {variant.size.gram}g / {variant.size.pieces} Adet
+                      {variant.size.pieces} Adet
                     </Text>
                     <View
                       style={{

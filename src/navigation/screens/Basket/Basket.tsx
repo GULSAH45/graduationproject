@@ -6,11 +6,12 @@ import PrevIcon from "@svgs/PrevIcon";
 import PlusIcon from "@svgs/PlusIcon";
 import MinusIcon from "@svgs/MinusIcon";
 import TrashIcon from "@svgs/TrashIcon";
+import { IMAGE_URL } from "../ProductDetailPage";
 
 const BasketScreen = () => {
   const navigation = useNavigation();
   const { basket, increaseQuantity, decreaseQuantity, removeFromBasket } = useBasket();
-
+  console.log("sepet ürünleri", basket);
   return (
     <SafeAreaView className="flex-1 py-4">
       <View className="flex-row items-center mt-4 mx-4 mb-2">
@@ -22,35 +23,56 @@ const BasketScreen = () => {
       <View className="flex-1 items-center mx-3 py-4">
         <Text className="text-lg font-bold">SEPETİM</Text>
         <View className="w-full h-[1px] border border-BasketBorderColor my-2" />
-        {basket.length === 0? (
+        {basket.length === 0 ? (
           <Text className="text-sm py-3 font-normal">
             Sepetinizde Ürün Bulunmamaktadır
           </Text>
         ) : (
-          basket.map((item, idx) => (
-            <View key={item.id + idx} className="w-full flex-row items-center py-2 border-b border-gray-200">
-              <Image source={{ uri: item.photo }} className="w-16 h-16 rounded-md mr-3" />
-              <View className="flex-1 justify-center">
-                <Text className="text-base font-medium">{item.name}</Text>
-                <Text className="text-red-500 font-bold mt-1">{(item.price * (item.quantity || 1)).toFixed(2)} TL</Text>
+          basket.map((item, idx) => {
+            const variant = item.selectedVariant;
+            const photoSrc = variant?.photo_src 
+              ? IMAGE_URL + variant.photo_src 
+              : item.photo;
+            const price = variant?.price?.discounted_price ?? variant?.price?.total_price ?? item.price_info?.total_price ?? 0;
+            const totalPrice = price * (item.quantity || 1);
+            const aroma = variant?.aroma || "";
+            const pieces = variant?.size?.pieces || 0;
+            
+            return (
+              <View key={item.id + idx} className="w-full flex-row items-center py-2 border-b border-gray-200">
+                <Image 
+                  source={{ uri: photoSrc }} 
+                  className="w-16 h-16 rounded-md mr-3" 
+                  resizeMode="contain"
+                />
+                <View className="flex-1 justify-center">
+                  <Text className="text-base font-medium">{item.name}</Text>
+                  {aroma && (
+                    <Text className="text-sm text-gray-600 mt-1">Aroma: {aroma}</Text>
+                  )}
+                  {pieces > 0 && (
+                    <Text className="text-xs text-gray-500 mt-1">{pieces} Adet</Text>
+                  )}
+                  <Text className="text-red-500 font-bold mt-1">{totalPrice.toFixed(2)} TL</Text>
+                </View>
+                <View className="flex-row items-center space-x-2">
+                  <TouchableOpacity
+                    onPress={() => item.quantity === 1 ? removeFromBasket(item.id) : decreaseQuantity(item.id)}
+                    className="p-2 rounded-lg  border-gray-300"
+                  >
+                    {item.quantity === 1 ? <TrashIcon /> : <MinusIcon />}
+                  </TouchableOpacity>
+                  <Text className="text-lg font-bold">{item.quantity}</Text>
+                  <TouchableOpacity
+                    onPress={() => increaseQuantity(item.id)}
+                    className="p-2 rounded-lg  border-gray-300"
+                  >
+                    <PlusIcon />
+                  </TouchableOpacity>
+                </View>
               </View>
-              <View className="flex-row items-center space-x-2">
-                <TouchableOpacity
-                  onPress={() => item.quantity === 1 ? removeFromBasket(item.id) : decreaseQuantity(item.id)}
-                  className="p-2 rounded-lg  border-gray-300"
-                >
-                  {item.quantity === 1 ? <TrashIcon /> : <MinusIcon />}
-                </TouchableOpacity>
-                <Text className="text-lg font-bold">{item.quantity}</Text>
-                <TouchableOpacity
-                  onPress={() => increaseQuantity(item.id)}
-                  className="p-2 rounded-lg  border-gray-300"
-                >
-                  <PlusIcon />
-                </TouchableOpacity>
-              </View>
-            </View>
-          ))
+            );
+          })
         )}
       </View>
       {
@@ -69,7 +91,6 @@ const BasketScreen = () => {
             </TouchableOpacity>
           </View>
         )
-
       }
     </SafeAreaView>
   )
