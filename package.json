@@ -42,7 +42,8 @@
     "react-native-toast-message": "^2.3.3",
     "react-native-vector-icons": "^10.3.0",
     "react-native-web": "^0.20.0",
-    "tailwindcss": "^3.4.17"
+    "tailwindcss": "^3.4.17",
+    "zustand": "^5.0.8"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

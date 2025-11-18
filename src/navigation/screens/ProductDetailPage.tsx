@@ -15,6 +15,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { ProductDetailRouteParams, Product, Variant } from "@/types/Product";
 import Toast from "react-native-toast-message";
 import TruckSVG from "@/svgs/TruckSVG";
+import { useLastViewedStore } from "@/stores/lastViewedStore";
 
 const { width } = Dimensions.get("window");
 
@@ -26,7 +27,6 @@ const ProductDetailPage = () => {
   const route =
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
   const { addToBasket } = useBasket();
-  const productSlug = (route.params as ProductDetailRouteParams)?.productSlug;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
