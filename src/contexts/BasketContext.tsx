@@ -26,13 +26,16 @@ export const BasketProvider = ({ children }: { children: ReactNode }) => {
   const [basket, setBasket] = useState<Product[]>([]);
 
   const addToBasket = (product: Product) => {
-    // Eğer ürün sepette varsa, quantity artır
+    // Eğer ürün sepette varsa ve aynı variant ise, quantity artır
     setBasket((prev) => {
-      const existing = prev.find((item) => item.id === product.id);
+      const existing = prev.find((item) => 
+        item.id === product.id && 
+        item.selectedVariant?.id === product.selectedVariant?.id
+      );
       if (existing) {
         return prev.map((item) =>
-          item.id === product.id
-            ? { ...item, quantity: item.quantity + product.quantity }
+          item.id === product.id && item.selectedVariant?.id === product.selectedVariant?.id
+            ? { ...item, quantity: (item.quantity || 0) + (product.quantity || 1) }
             : item
         );
       } else {

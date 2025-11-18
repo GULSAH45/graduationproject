@@ -121,6 +121,7 @@ const ProductDetailPage = () => {
       </SafeAreaView>
     );
   }
+  
   if (error || !product) {
     return (
       <SafeAreaView className="flex-1 justify-center items-center bg-white">
