@@ -211,6 +211,28 @@ const ProductDetailPage = () => {
         />
         <View className="p-4">
           <Text className="text-2xl font-bold mb-2">{product.name}</Text>
+          <View style={{ flexDirection: "row", alignItems: "center", marginBottom: 8 }}>
+            {/* Yıldızlar */}
+            {typeof product.average_star === "number" && (
+              <View style={{ flexDirection: "row", marginRight: 8 }}>
+                {Array.from({ length: 5 }).map((_, i) => (
+                  <AntDesign
+                    key={i}
+                    name={i < Math.round(product.average_star) ? "star" : "staro"}
+                    size={18}
+                    color="#FFD700"
+                    style={{ marginHorizontal: 1 }}
+                  />
+                ))}
+              </View>
+            )}
+            {/* Yorum sayısı */}
+            {typeof product.comment_count === "number" && (
+              <Text style={{ color: "#6B7280", fontSize: 14 }}>
+                {product.comment_count} yorum
+              </Text>
+            )}
+          </View>
           <Text className="text-base text-gray-600 mb-2">
             {product.short_explanation}
           </Text>
