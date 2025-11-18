@@ -31,6 +31,55 @@ const { width } = Dimensions.get("window");
 const BASE_URL = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 export const IMAGE_URL = "https://fe1111.projects.academy.onlyjs.com";
 
+// Aroma isimlerini icon dosyalarıyla eşleştiren fonksiyon
+const getAromaIcon = (aroma: string): any => {
+  const aromaLower = aroma.toLowerCase().trim();
+  
+  // Aroma isimlerini icon dosyalarıyla eşleştir
+  const aromaMap: { [key: string]: any } = {
+    "limonata": require("@/assets/icons/limonata.webp"),
+    "çilek": require("@/assets/icons/çilek.webp"),
+    "muz": require("@/assets/icons/muz.webp"),
+    "muhallebi": require("@/assets/icons/muhallebi.webp"),
+    "bisküvi": require("@/assets/icons/bisküvi.webp"),
+    "cookie & cream": require("@/assets/icons/bisküvi.webp"),
+    "çikolata": require("@/assets/icons/çikolata.webp"),
+    "dubai çikolatası": require("@/assets/icons/çikolata.webp"),
+    "choco nut": require("@/assets/icons/çokonat.webp"),
+    "çokonat": require("@/assets/icons/çokonat.webp"),
+    "karamel": require("@/assets/icons/karamel.webp"),
+    "salted caramel": require("@/assets/icons/karamel.webp"),
+    "cake": require("@/assets/icons/cake.webp"),
+    "birthday cake": require("@/assets/icons/cake.webp"),
+    "blueberry muffin": require("@/assets/icons/cake.webp"),
+    "raspberry cheesecake": require("@/assets/icons/rasperryChescake.webp"),
+    "rasperry cheesecake": require("@/assets/icons/rasperryChescake.webp"),
+    "lemon cheesecake": require("@/assets/icons/lemonCheescake.webp"),
+    "fruit fusion": require("@/assets/icons/fruitfusion.webp"),
+    "tigers": require("@/assets/icons/tigers.webp"),
+    "yeşil elma": require("@/assets/icons/yesilelma.webp"),
+    "seftali": require("@/assets/icons/seftali.webp"),
+    "şeftali": require("@/assets/icons/seftali.webp"),
+    "karpuz": require("@/assets/icons/karpuz.webp"),
+    "ahududu": require("@/assets/icons/ahududu.webp"),
+    "aromasız": require("@/assets/icons/aromasız.webp"),
+  };
+
+  // Direkt eşleşme kontrolü
+  if (aromaMap[aromaLower]) {
+    return aromaMap[aromaLower];
+  }
+
+  for (const key in aromaMap) {
+    if (aromaLower.includes(key) || key.includes(aromaLower)) {
+      return aromaMap[key];
+    }
+  }
+
+  // Eşleşme bulunamazsa varsayılan icon
+  return require("@/assets/icons/aromasız.webp");
+};
+
 const ProductDetailPage = () => {
   const route =
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
@@ -92,6 +141,10 @@ const ProductDetailPage = () => {
         position: "top",
         topOffset: 50,
       });
+
+      setTimeout(() => {
+        navigator.navigate("BasketScreen");
+      }, 100);
     }
   };
 
@@ -120,7 +173,6 @@ const ProductDetailPage = () => {
 
   const { lastViewed, addLastViewed } = useLastViewedStore();
 
-  // Son görüntülenenler için grup oluştur
   const viewedGroups = lastViewed
     .filter((p) => p.id !== product?.id)
     .slice(0, 12)
@@ -129,7 +181,6 @@ const ProductDetailPage = () => {
       return result;
     }, []);
 
-  // Sayfa değiştirme fonksiyonu
   const handleArrow = (direction: "left" | "right") => {
     let nextPage = currentPage;
     if (direction === "left" && currentPage > 0) nextPage -= 1;
@@ -251,60 +302,40 @@ const ProductDetailPage = () => {
           <Text className="font-semibold mb-2">Aroma Seçimi</Text>
           <View className="flex-row flex-wrap mb-4">
             {uniqueAromas.map((aroma, idx) => {
-              const aromaVariant = product.variants?.find(
-                (v) => v.aroma === aroma
-              );
+              const aromaIcon = getAromaIcon(aroma);
+              const isSelected = selectedAroma === aroma;
               return (
-                <TouchableOpacity
-                  key={idx}
-                  className={`flex-row items-center px-3 py-1 mr-2 mb-2 rounded-full border ${
-                    selectedAroma === aroma
-                      ? "bg-green-200 border-green-600"
-                      : "bg-gray-200 border-gray-400"
-                  }`}
-                  onPress={() => {
-                    setSelectedAroma(aroma);
-                    setSelectedVariantId(null); // Aroma değişince gramaj sıfırlansın
-                  }}
-                >
-                  {aromaVariant?.photo_src && (
+                <View key={idx} className="mr-2 mb-2 relative">
+                  <TouchableOpacity
+                    className={`flex-row items-center px-3 py-2 rounded-full border ${
+                      isSelected
+                        ? "bg-green-200 border-green-600"
+                        : "bg-white border-gray-300"
+                    }`}
+                    onPress={() => {
+                      setSelectedAroma(aroma);
+                      setSelectedVariantId(null); // Aroma değişince gramaj sıfırlansın
+                    }}
+                  >
                     <Image
-                      source={{ uri: IMAGE_URL + aromaVariant.photo_src }}
+                      source={aromaIcon}
                       style={{
-                        width: 38,
-                        height: 28,
-                        borderRadius: 14,
-                        marginRight: 6,
+                        width: 45,
+                        height: 35,
+                        borderRadius: 8,
+                        marginRight: 8,
                       }}
                       resizeMode="contain"
                     />
+                    <Text className="text-sm text-gray-700">{aroma}</Text>
+                  </TouchableOpacity>
+
+                  {isSelected && (
+                    <View className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-green-600 items-center justify-center">
+                      <AntDesign name="check" size={10} color="#fff" />
+                    </View>
                   )}
-                  <Text className="text-sm text-gray-700">{aroma}</Text>
-                  <View
-                    style={{
-                      width: 18,
-                      height: 18,
-                      borderRadius: 9,
-                      borderWidth: 2,
-                      borderColor: selectedAroma === aroma ? "#16a34a" : "#888",
-                      marginLeft: 8,
-                      alignItems: "center",
-                      justifyContent: "center",
-                      backgroundColor: "#fff",
-                    }}
-                  >
-                    {selectedAroma === aroma && (
-                      <View
-                        style={{
-                          width: 10,
-                          height: 10,
-                          borderRadius: 5,
-                          backgroundColor: "#16a34a",
-                        }}
-                      />
-                    )}
-                  </View>
-                </TouchableOpacity>
+                </View>
               );
             })}
           </View>
