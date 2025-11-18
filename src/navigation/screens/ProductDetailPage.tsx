@@ -15,7 +15,7 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 import { ProductDetailRouteParams, Product, Variant } from "@/types/Product";
 import Toast from "react-native-toast-message";
 import TruckSVG from "@/svgs/TruckSVG";
-import { useLastViewedStore } from "@/stores/lastViewedStore";
+
 
 const { width } = Dimensions.get("window");
 
@@ -23,10 +23,13 @@ const BASE_URL = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 export const IMAGE_URL = "https://fe1111.projects.academy.onlyjs.com";
 
 const ProductDetailPage = () => {
-  const navigation = useNavigation();
+
   const route =
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
   const { addToBasket } = useBasket();
+const navigator = useNavigation();
+  // Extract productSlug from route params
+  const productSlug = route.params?.productSlug;
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -128,7 +131,7 @@ const ProductDetailPage = () => {
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
         <View className="flex-row items-center p-4">
-          <TouchableOpacity onPress={() => navigation.goBack()}>
+          <TouchableOpacity onPress={() => navigator.goBack()}>
             <PrevIcon />
           </TouchableOpacity>
           <Text className="text-lg font-bold ml-4">Ürün Detayı</Text>
