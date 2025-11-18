@@ -27,18 +27,6 @@ const ProductDetailPage = () => {
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
   const { addToBasket } = useBasket();
   const productSlug = (route.params as ProductDetailRouteParams)?.productSlug;
-  // Removed productFromParams as it was redundant.
-
-  const handleAddBasket = (product: Product) => {
-    addToBasket(product);
-    Toast.show({
-      type: "successCustom",
-      text1: "Başarılı!",
-      text2: "Ürün sepete eklendi 🎉",
-      position: "top",
-      topOffset: 50,
-    });
-  };
 
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
@@ -49,6 +37,35 @@ const ProductDetailPage = () => {
   const [isUsageOpen, setIsUsageOpen] = useState(false);
   const [isFeaturesOpen, setIsFeaturesOpen] = useState(false);
   const [isNutritionOpen, setIsNutritionOpen] = useState(false);
+
+  // Aroma ve varyant seçimi için state
+  const [selectedAroma, setSelectedAroma] = useState<string | null>(null);
+  const [selectedVariantId, setSelectedVariantId] = useState<string | null>(null);
+
+  // Benzersiz aromaları bul
+  const uniqueAromas = Array.from(new Set(product?.variants?.map(v => v.aroma)));
+
+  // Seçilen aroma için varyantlar (boyutlar)
+  const availableVariants = product?.variants?.filter(v => v.aroma === selectedAroma);
+
+  // Sepete ekle fonksiyonu
+  const handleAddBasket = () => {
+    if (!selectedAroma || !selectedVariantId) return;
+    const selectedVariant = product?.variants?.find(v => v.id === selectedVariantId);
+    if (selectedVariant) {
+      addToBasket({
+        ...product,
+        selectedVariant,
+      });
+      Toast.show({
+        type: "successCustom",
+        text1: "Başarılı!",
+        text2: "Ürün sepete eklendi 🎉",
+        position: "top",
+        topOffset: 50,
+      });
+    }
+  };
 
   const AccordionItem = ({
     title,
@@ -134,13 +151,134 @@ const ProductDetailPage = () => {
                 <Text className="text-xs text-green-800">{tag}</Text>
               </View>
             ))}
-
-
-          
             <TruckSVG />
             <Text className="ml-1">Ücretsiz Kargo</Text>
-         
           </View>
+
+          {/* Aroma Seçimi */}
+          <Text className="font-semibold mb-2">Aroma Seçimi</Text>
+          <View className="flex-row flex-wrap mb-4">
+            {uniqueAromas.map((aroma, idx) => {
+              const aromaVariant = product.variants?.find(v => v.aroma === aroma);
+              return (
+                <TouchableOpacity
+                  key={idx}
+                  className={`flex-row items-center px-3 py-1 mr-2 mb-2 rounded-full border ${
+                    selectedAroma === aroma
+                      ? "bg-green-200 border-green-600"
+                      : "bg-gray-200 border-gray-400"
+                  }`}
+                  onPress={() => {
+                    setSelectedAroma(aroma);
+                    setSelectedVariantId(null); // Aroma değişince gramaj sıfırlansın
+                  }}
+                >
+                  {aromaVariant?.photo_src && (
+                    <Image
+                      source={{ uri: IMAGE_URL + aromaVariant.photo_src }}
+                      style={{ width: 38, height: 28, borderRadius: 14, marginRight: 6 }}
+                      resizeMode="contain"
+                    />
+                  )}
+                  <Text className="text-sm text-gray-700">{aroma}</Text>
+                  <View
+                    style={{
+                      width: 18,
+                      height: 18,
+                      borderRadius: 9,
+                      borderWidth: 2,
+                      borderColor: selectedAroma === aroma ? "#16a34a" : "#888",
+                      marginLeft: 8,
+                      alignItems: "center",
+                      justifyContent: "center",
+                      backgroundColor: "#fff",
+                    }}
+                  >
+                    {selectedAroma === aroma && (
+                      <View
+                        style={{
+                          width: 10,
+                          height: 10,
+                          borderRadius: 5,
+                          backgroundColor: "#16a34a",
+                        }}
+                      />
+                    )}
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+
+          {/* Gramaj/Boyut Seçimi */}
+          {selectedAroma && (
+            <>
+              <Text className="font-semibold mb-2">Gramaj Seçimi</Text>
+              <View className="flex-row flex-wrap mb-4">
+                {availableVariants?.map((variant) => (
+                  <TouchableOpacity
+                    key={variant.id}
+                    className={`flex-row items-center px-3 py-1 mr-2 mb-2 rounded-full border ${
+                      selectedVariantId === variant.id
+                        ? "bg-blue-200 border-blue-600"
+                        : "bg-gray-200 border-gray-400"
+                    }`}
+                    onPress={() => setSelectedVariantId(variant.id)}
+                  >
+                    <Text className="text-sm text-gray-700">
+                      {variant.size.gram}g / {variant.size.pieces} Adet
+                    </Text>
+                    <View
+                      style={{
+                        width: 18,
+                        height: 18,
+                        borderRadius: 9,
+                        borderWidth: 2,
+                        borderColor: selectedVariantId === variant.id ? "#2563eb" : "#888",
+                        marginLeft: 8,
+                        alignItems: "center",
+                        justifyContent: "center",
+                        backgroundColor: "#fff",
+                      }}
+                    >
+                      {selectedVariantId === variant.id && (
+                        <View
+                          style={{
+                            width: 10,
+                            height: 10,
+                            borderRadius: 5,
+                            backgroundColor: "#2563eb",
+                          }}
+                        />
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </>
+          )}
+
+          {selectedAroma && selectedVariantId && (() => {
+            const selectedVariant = availableVariants?.find(v => v.id === selectedVariantId);
+            if (!selectedVariant) return null;
+            const price = selectedVariant.price?.discounted_price ?? selectedVariant.price?.total_price;
+            return (
+              <Text className="text-xl font-bold text-green-700 mb-2">
+                {price} TL
+              </Text>
+            );
+          })()}
+
+          {/* Sepete Ekle Butonu */}
+          <TouchableOpacity
+            disabled={!selectedAroma || !selectedVariantId}
+            onPress={handleAddBasket}
+            className={`mt-2 py-3 rounded-lg ${selectedAroma && selectedVariantId ? "bg-green-600" : "bg-gray-400"}`}
+          >
+            <Text className="text-white text-center font-bold text-lg">
+              Sepete Ekle
+            </Text>
+          </TouchableOpacity>
 
           {/* Akordiyon Bölümleri */}
           <AccordionItem
@@ -192,67 +330,6 @@ const ProductDetailPage = () => {
               </View>
             </AccordionItem>
           )}
-          <View className="mt-4">
-            <Text className="font-semibold mb-2">Varyantlar</Text>
-            {product.variants?.map((variant: Variant) => (
-              <View
-                key={variant.id}
-                className="flex-row w-100 items-center mb-4 p-2 shadow-lg rounded-lg"
-              >
-                <Image
-                  source={{ uri: IMAGE_URL + (variant.photo_src || "") }}
-                  style={{
-                    width: 80,
-                    height: 80,
-                    borderRadius: 8,
-                    marginRight: 12,
-                  }}
-                />
-                <View className="flex-1">
-                  <Text className="font-bold">
-                    {variant.size.pieces} Adet / {variant.size.total_services}{" "}
-                    Servis
-                  </Text>
-                  <Text className="text-sm text-gray-700">
-                    Aroma: {variant.aroma}
-                  </Text>
-                  <Text className="text-lg font-bold text-green-700 mt-1">
-                    {variant.price.discounted_price ? (
-                      <>
-                        <Text className="line-through text-gray-400 text-base mr-2">
-                          {variant.price.total_price}₺
-                        </Text>
-                        {variant.price.discounted_price}₺
-                      </>
-                    ) : (
-                      `${variant.price.total_price}₺`
-                    )}
-                  </Text>
-                  <Text className="text-xs text-gray-500">
-                    Servis başı: {variant.price.price_per_servings}₺
-                  </Text>
-                </View>
-                <TouchableOpacity
-                  className="bg-green-600 px-4 py-2 rounded-lg ml-2"
-                  onPress={() =>
-                    handleAddBasket({
-                      id: product.id,
-                      name: product.name,
-                      price:
-                        variant.price.discounted_price ||
-                        variant.price.total_price,
-                      photo: IMAGE_URL + (variant.photo_src || ""),
-                      desc: product.short_explanation,
-                      size: `${variant.size.pieces} Adet / ${variant.size.total_services} Servis`,
-                      quantity: 1,
-                    })
-                  }
-                >
-                  <Text className="text-white font-bold">Sepete Ekle</Text>
-                </TouchableOpacity>
-              </View>
-            ))}
-          </View>
         </View>
       </ScrollView>
     </SafeAreaView>

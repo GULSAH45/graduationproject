@@ -3,6 +3,7 @@ import React, { useEffect, useState } from 'react'
 import PrevIcon from '@/svgs/PrevIcon'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Product, CategoryPageRouteParams } from "@/types/Product"
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 const CategoryPage = () => {
   const navigation = useNavigation()
@@ -81,65 +82,85 @@ const CategoryPage = () => {
         <Text className="text-center mt-4 text-red-500">Hata: {error}</Text>
       )}
       {!loading && !error && (
-        <ScrollView>
-          <View className="flex-row">
-            <FlatList
-              data={products}
-              keyExtractor={(item, idx) =>
-                item.id ? item.id.toString() : idx.toString()
+        <FlatList
+          data={products}
+          keyExtractor={(item, idx) =>
+            item.id ? item.id.toString() : idx.toString()
+          }
+          numColumns={2}
+          contentContainerStyle={{ paddingHorizontal: 8, paddingTop: 8, paddingBottom: 3}}
+          columnWrapperStyle={{ justifyContent: 'space-between', alignItems: 'flex-start' }}
+          ListEmptyComponent={<Text>Ürün bulunamadı.</Text>}
+          renderItem={({ item }) => (
+            <TouchableOpacity
+              className="mb-4 p-2"
+              style={{
+                width: '48%',
+                alignSelf: 'flex-start',
+                backgroundColor: '',
+                borderRadius: 16,
+                shadowColor: "#000",
+                shadowOffset: { width: 0, height: 1 },
+                shadowOpacity: 0.07,
+                shadowRadius: 2,
+                elevation: 1,
+              }}
+              onPress={() =>
+                navigation.navigate('ProductDetailPage', {
+                  productId: item.id?.toString?.() || String(item.id),
+                  productSlug: item.slug,
+                })
               }
-              numColumns={2}
-              contentContainerStyle={{ paddingHorizontal: 16, paddingTop: 8 }}
-              columnWrapperStyle={{ justifyContent: 'space-between' }}
-              ListEmptyComponent={<Text>Ürün bulunamadı.</Text>}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  className="mb-4 p-2 border-b border-gray-200"
-                  style={{ width: '48%', alignSelf: 'flex-start' }}
-                  onPress={() => navigation.navigate('ProductDetailPage', { productId: item.id?.toString?.() || String(item.id), productSlug: item.slug })}
-                >
-                  {item.photo_src && (
-                    <Image
-                      source={{
-                        uri: `https://fe1111.projects.academy.onlyjs.com${item.photo_src}`,
-                      }}
-                      style={{
-                        width: '100%',
-                        height: 100,
-                        marginVertical: 8,
-                        borderRadius: 18,
-                      }}
-                      resizeMode="contain"
-                    />
-                  )}
-                  <Text className="font-semibold text-lg">{item.name}</Text>
-                  <View className="items-center">
-                    {item.short_explanation && (
-                      <Text className="text-gray-600 mb-1 text-center">
-                        {item.short_explanation}
-                      </Text>
-                    )}
-                    {item.price_info?.total_price !== null && (
-                      <Text className="text-gray-700">
-                        Fiyat: {item.price_info.total_price} TL
-                      </Text>
-                    )}
-                    {typeof item.average_star === 'number' && (
-                      <Text className="text-yellow-600">
-                        Yıldız: {item.average_star} ⭐
-                      </Text>
-                    )}
-                    {typeof item.comment_count === 'number' && (
-                      <Text className="text-gray-500">
-                        Yorum: {item.comment_count}
-                      </Text>
-                    )}
-                  </View>
-                </TouchableOpacity>
+            >
+              {item.photo_src && (
+                <Image
+                  source={{
+                    uri: `https://fe1111.projects.academy.onlyjs.com${item.photo_src}`,
+                  }}
+                  style={{
+                    width: '100%',
+                    height: 100,
+                    marginVertical: 8,
+                    borderRadius: 18,
+                  }}
+                  resizeMode="contain"
+                />
               )}
-            />
-          </View>
-        </ScrollView>
+              <View className="items-center">
+                <Text className="font-semibold text-lg mb-1 text-center">{item.name}</Text>
+                {item.short_explanation && (
+                  <Text className="text-gray-500 mb-1 text-center">
+                    {item.short_explanation}
+                  </Text>
+                )}
+                {typeof item.average_star === 'number' && (
+                  <View className="flex-row justify-center mb-1">
+                    {Array.from({ length: 5 }).map((_, i) => (
+                      <AntDesign
+                        key={i}
+                        name={i < Math.round(item.average_star) ? "star" : "staro"}
+                        size={16}
+                        color="#FFD700"
+                        style={{ marginHorizontal: 1 }}
+                      />
+                    ))}
+                  </View>
+                )}
+                {item.price_info?.total_price !== null && (
+                  <Text className="text-black font-semibold mb-1 text-center">
+                    {item.price_info.total_price} TL
+                  </Text>
+                )}
+                {typeof item.comment_count === 'number' && item.comment_count > 0 && (
+                  <Text className="text-gray-500 mb-1 text-center">
+                    {item.comment_count} yorum
+                  </Text>
+                )}
+              </View>
+            </TouchableOpacity>
+          )}
+          showsVerticalScrollIndicator={false}
+        />
       )}
     </SafeAreaView>
   )
