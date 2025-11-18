@@ -1,23 +1,18 @@
 import React, { createContext, useContext, useState, ReactNode } from "react";
 import { Product } from "@/types/Product";
+import uuid from 'react-native-uuid';
 
-// Ürün tipini ihtiyaca göre genişletebilirsin
-// export type Product = {
-//   id: string;
-//   name: string;
-//   price: number;
-//   photo: string; // ürün görseli
-//   desc: string; // kısa açıklama
-//   size: string; // gramaj veya boyut
-//   quantity: number; // sepetteki adet
-// };
+// UUID oluşturucu fonksiyon
+const generateUUID = (): string => {
+  return uuid.v4() as string;
+};
 
 type BasketContextType = {
   basket: Product[];
   addToBasket: (product: Product) => void;
-  increaseQuantity: (productId: string) => void;
-  decreaseQuantity: (productId: string) => void;
-  removeFromBasket: (productId: string) => void;
+  increaseQuantity: (basketItemId: string) => void;
+  decreaseQuantity: (basketItemId: string) => void;
+  removeFromBasket: (basketItemId: string) => void;
 };
 
 const BasketContext = createContext<BasketContextType | undefined>(undefined);
@@ -39,29 +34,35 @@ export const BasketProvider = ({ children }: { children: ReactNode }) => {
             : item
         );
       } else {
-        return [...prev, { ...product, quantity: product.quantity || 1 }];
+        // Yeni ürüne benzersiz basketItemId ata
+        const newProduct = {
+          ...product,
+          basketItemId: generateUUID(),
+          quantity: product.quantity || 1
+        };
+        return [...prev, newProduct];
       }
     });
   };
 
-  const increaseQuantity = (productId: string) => {
+  const increaseQuantity = (basketItemId: string) => {
     setBasket((prev) =>
       prev.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity + 1 } : item
+        item.basketItemId === basketItemId ? { ...item, quantity: (item.quantity || 0) + 1 } : item
       )
     );
   };
 
-  const decreaseQuantity = (productId: string) => {
+  const decreaseQuantity = (basketItemId: string) => {
     setBasket((prev) =>
       prev.map((item) =>
-        item.id === productId ? { ...item, quantity: item.quantity - 1 } : item
-      ).filter((item) => item.quantity > 0)
+        item.basketItemId === basketItemId ? { ...item, quantity: (item.quantity || 0) - 1 } : item
+      ).filter((item) => (item.quantity || 0) > 0)
     );
   };
 
-  const removeFromBasket = (productId: string) => {
-    setBasket((prev) => prev.filter((item) => item.id !== productId));
+  const removeFromBasket = (basketItemId: string) => {
+    setBasket((prev) => prev.filter((item) => item.basketItemId !== basketItemId));
   };
 
   return (

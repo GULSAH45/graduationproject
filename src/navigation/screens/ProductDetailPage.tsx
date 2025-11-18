@@ -118,10 +118,12 @@ const ProductDetailPage = () => {
     new Set(product?.variants?.map((v) => v.aroma))
   );
 
-  // Seçilen aroma için varyantlar (boyutlar)
-  const availableVariants = product?.variants?.filter(
-    (v) => v.aroma === selectedAroma
-  );
+  // Seçilen aroma için varyantlar (boyutlar) - unique pieces
+  const availableVariants = product?.variants
+    ?.filter((v) => v.aroma === selectedAroma)
+    .filter((variant, index, self) => 
+      index === self.findIndex((v) => v.size.pieces === variant.size.pieces)
+    );
 
   // Sepete ekle fonksiyonu
   const handleAddBasket = () => {
@@ -134,6 +136,7 @@ const ProductDetailPage = () => {
         ...product,
         selectedVariant,
       } as Product);
+
       Toast.show({
         type: "successCustom",
         text1: "Başarılı!",
@@ -144,7 +147,7 @@ const ProductDetailPage = () => {
 
       setTimeout(() => {
         navigator.navigate("BasketScreen");
-      }, 100);
+      }, 150);
     }
   };
 
@@ -500,7 +503,7 @@ const ProductDetailPage = () => {
                       style={{
                         flexDirection: "row",
                         width: width - 32,
-                        justifyContent: "space-center",
+                        justifyContent: "center",
                         columnGap: 50,
               
                       }}
@@ -523,6 +526,7 @@ const ProductDetailPage = () => {
                           }}
                           onPress={() =>
                             navigator.navigate("ProductDetailPage", {
+                              productId: item.id,
                               productSlug: item.slug,
                             })
                           }

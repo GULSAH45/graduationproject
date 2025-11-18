@@ -21,6 +21,7 @@ export interface Product {
   short_explanation: string;
   slug: string;
   quantity?: number;
+  basketItemId?: string; // Sepet için benzersiz ID
   price_info: {
     profit: number | null;
     total_price: number;

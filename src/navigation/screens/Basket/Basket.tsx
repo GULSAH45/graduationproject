@@ -28,7 +28,7 @@ const BasketScreen = () => {
             Sepetinizde Ürün Bulunmamaktadır
           </Text>
         ) : (
-          basket.map((item, idx) => {
+          basket.map((item) => {
             const variant = item.selectedVariant;
             const photoSrc = variant?.photo_src 
               ? IMAGE_URL + variant.photo_src 
@@ -37,9 +37,10 @@ const BasketScreen = () => {
             const totalPrice = price * (item.quantity || 1);
             const aroma = variant?.aroma || "";
             const pieces = variant?.size?.pieces || 0;
+            const basketItemId = item.basketItemId || item.id; // Fallback için
             
             return (
-              <View key={item.id + idx} className="w-full flex-row items-center py-2 border-b border-gray-200">
+              <View key={basketItemId} className="w-full flex-row items-center py-2 border-b border-gray-200">
                 <Image 
                   source={{ uri: photoSrc }} 
                   className="w-16 h-16 rounded-md mr-3" 
@@ -57,14 +58,14 @@ const BasketScreen = () => {
                 </View>
                 <View className="flex-row items-center space-x-2">
                   <TouchableOpacity
-                    onPress={() => item.quantity === 1 ? removeFromBasket(item.id) : decreaseQuantity(item.id)}
+                    onPress={() => item.quantity === 1 ? removeFromBasket(basketItemId) : decreaseQuantity(basketItemId)}
                     className="p-2 rounded-lg  border-gray-300"
                   >
                     {item.quantity === 1 ? <TrashIcon /> : <MinusIcon />}
                   </TouchableOpacity>
                   <Text className="text-lg font-bold">{item.quantity}</Text>
                   <TouchableOpacity
-                    onPress={() => increaseQuantity(item.id)}
+                    onPress={() => increaseQuantity(basketItemId)}
                     className="p-2 rounded-lg  border-gray-300"
                   >
                     <PlusIcon />
