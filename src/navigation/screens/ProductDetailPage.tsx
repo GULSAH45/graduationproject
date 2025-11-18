@@ -423,6 +423,37 @@ const ProductDetailPage = () => {
               Sepete Ekle
             </Text>
           </TouchableOpacity>
+
+          {/* Özellikler Bölümü */}
+          <View className="flex-row justify-between items-center py-6 px-2 mt-4 bg-white">
+            <View className="flex-1 items-center">
+              <TruckSVG width={40} height={40} />
+              <Text className="text-sm font-semibold text-gray-800 mt-2 text-center">
+                Aynı Gün
+              </Text>
+              <Text className="text-xs text-gray-600 text-center">
+                Ücretsiz Kargo
+              </Text>
+            </View>
+            <View className="flex-1 items-center">
+              <TikSVG width={40} height={40} />
+              <Text className="text-sm font-semibold text-gray-800 mt-2 text-center">
+                750.000+
+              </Text>
+              <Text className="text-xs text-gray-600 text-center">
+                Mutlu Müşteri
+              </Text>
+            </View>
+            <View className="flex-1 items-center">
+              <PercentageSVG width={40} height={40} />
+              <Text className="text-sm font-semibold text-gray-800 mt-2 text-center">
+                Memnuniyet
+              </Text>
+              <Text className="text-xs text-gray-600 text-center">
+                Garantisi
+              </Text>
+            </View>
+          </View>
      
           {/* Akordiyon Bölümleri */}
           <AccordionItem
