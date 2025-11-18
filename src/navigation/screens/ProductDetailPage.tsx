@@ -8,13 +8,14 @@ import {
   Dimensions,
 } from "react-native";
 import React, { useEffect, useState } from "react";
-import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
+import { useNavigation, useRoute, RouteProp, NavigationProp } from "@react-navigation/native";
 import PrevIcon from "../../svgs/PrevIcon";
 import { useBasket } from "../../contexts/BasketContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { ProductDetailRouteParams, Product, Variant } from "@/types/Product";
 import Toast from "react-native-toast-message";
 import TruckSVG from "@/svgs/TruckSVG";
+import { RootStackParamList } from "@/navigation";
 
 
 const { width } = Dimensions.get("window");
@@ -26,8 +27,9 @@ const ProductDetailPage = () => {
 
   const route =
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
-  const { addToBasket } = useBasket();
-const navigator = useNavigation();
+  const { addToBasket, basket } = useBasket();
+  const navigator = useNavigation<NavigationProp<RootStackParamList>>();
+  const basketLength = basket.reduce((sum, item) => sum + (item.quantity || 0), 0);
   // Extract productSlug from route params
   const productSlug = route.params?.productSlug;
 
@@ -53,13 +55,13 @@ const navigator = useNavigation();
 
   // Sepete ekle fonksiyonu
   const handleAddBasket = () => {
-    if (!selectedAroma || !selectedVariantId) return;
-    const selectedVariant = product?.variants?.find(v => v.id === selectedVariantId);
+    if (!selectedAroma || !selectedVariantId || !product) return;
+    const selectedVariant = product.variants?.find(v => v.id === selectedVariantId);
     if (selectedVariant) {
       addToBasket({
         ...product,
         selectedVariant,
-      });
+      } as Product);
       Toast.show({
         type: "successCustom",
         text1: "Başarılı!",
@@ -130,11 +132,27 @@ const navigator = useNavigation();
   return (
     <SafeAreaView className="flex-1 bg-white">
       <ScrollView>
-        <View className="flex-row items-center p-4">
-          <TouchableOpacity onPress={() => navigator.goBack()}>
-            <PrevIcon />
+        <View className="flex-row items-center justify-between p-4">
+          <View className="flex-row items-center">
+            <TouchableOpacity onPress={() => navigator.goBack()}>
+              <PrevIcon />
+            </TouchableOpacity>
+            <Text className="text-lg font-bold ml-4">Ürün Detayı</Text>
+          </View>
+          <TouchableOpacity onPress={() => navigator.navigate("BasketScreen")} className="relative">
+            <AntDesign
+              name="shoppingcart"
+              size={21}
+              color="black"
+            />
+            {basketLength > 0 && (
+              <View className="absolute -top-1 -right-1 bg-red-500 rounded-full w-5 h-5 flex items-center justify-center">
+                <Text className="text-white text-xs font-bold">
+                  {basketLength}
+                </Text>
+              </View>
+            )}
           </TouchableOpacity>
-          <Text className="text-lg font-bold ml-4">Ürün Detayı</Text>
         </View>
         <Image
           source={{ uri: IMAGE_URL + (product.variants[0]?.photo_src || "") }}
@@ -229,7 +247,7 @@ const navigator = useNavigation();
                     onPress={() => setSelectedVariantId(variant.id)}
                   >
                     <Text className="text-sm text-gray-700">
-                      {variant.size.gram}g / {variant.size.pieces} Adet
+                      {variant.size.pieces} Adet
                     </Text>
                     <View
                       style={{
