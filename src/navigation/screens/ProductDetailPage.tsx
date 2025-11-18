@@ -7,27 +7,24 @@ import {
   ScrollView,
   Dimensions,
 } from "react-native";
-<<<<<<< HEAD
-import React, { useEffect, useState, useRef } from "react";
-import { useNavigation, useRoute, RouteProp } from "@react-navigation/native";
-=======
-import React, { useEffect, useState } from "react";
+
+
+import React, { useEffect, useRef, useState } from "react";
 import { useNavigation, useRoute, RouteProp, NavigationProp } from "@react-navigation/native";
->>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
+
 import PrevIcon from "../../svgs/PrevIcon";
 import { useBasket } from "../../contexts/BasketContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
 import { ProductDetailRouteParams, Product, Variant } from "@/types/Product";
 import Toast from "react-native-toast-message";
 import TruckSVG from "@/svgs/TruckSVG";
-<<<<<<< HEAD
 import TikSVG from "@/svgs/TikSVG";
 import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
-=======
+
 import { RootStackParamList } from "@/navigation";
 
->>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
+
 
 const { width } = Dimensions.get("window");
 
@@ -37,17 +34,17 @@ export const IMAGE_URL = "https://fe1111.projects.academy.onlyjs.com";
 const ProductDetailPage = () => {
   const route =
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
-<<<<<<< HEAD
-  const { addToBasket } = useBasket();
-  const navigator = useNavigation();
+
+
+ 
   const scrollRef = useRef<ScrollView>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
-=======
+
   const { addToBasket, basket } = useBasket();
   const navigator = useNavigation<NavigationProp<RootStackParamList>>();
   const basketLength = basket.reduce((sum, item) => sum + (item.quantity || 0), 0);
->>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
+
   // Extract productSlug from route params
   const productSlug = route.params?.productSlug;
 
@@ -79,15 +76,10 @@ const ProductDetailPage = () => {
 
   // Sepete ekle fonksiyonu
   const handleAddBasket = () => {
-<<<<<<< HEAD
-    if (!selectedAroma || !selectedVariantId) return;
-    const selectedVariant = product?.variants?.find(
-      (v) => v.id === selectedVariantId
-    );
-=======
+
     if (!selectedAroma || !selectedVariantId || !product) return;
     const selectedVariant = product.variants?.find(v => v.id === selectedVariantId);
->>>>>>> 73d96239b675578cf894d336e10676de094c4cfb
+
     if (selectedVariant) {
       addToBasket({
         ...product,
@@ -133,7 +125,7 @@ const ProductDetailPage = () => {
     .filter((p) => p.id !== product?.id)
     .slice(0, 12)
     .reduce((result: Product[][], item, idx, arr) => {
-      if (idx % 2 === 0) result.push(arr.slice(idx, idx + 2));
+      if (idx % 3 === 0) result.push(arr.slice(idx, idx + 3));
       return result;
     }, []);
 
@@ -144,7 +136,7 @@ const ProductDetailPage = () => {
     if (direction === "right" && currentPage < viewedGroups.length - 1)
       nextPage += 1;
     setCurrentPage(nextPage);
-    scrollRef.current?.scrollTo({ x: nextPage * (width - 22), animated: true });
+    scrollRef.current?.scrollTo({ x: nextPage * (width - 32), animated: true });
   };
 
   useEffect(() => {
