@@ -18,29 +18,40 @@ const CategoryPage = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        // Dinamik API endpoint - categoryId'yi kullanarak ürünleri çek
-        const response = await fetch(
-          `https://fe1111.projects.academy.onlyjs.com/api/v1/products?limit=20&offset=0&main_category=${categoryId}`
-        )
-        if (!response.ok) throw new Error('Veri çekilemedi')
-        const data = await response.json()
-
-        // API response yapısına göre veriyi al
-        if (data.data?.results && Array.isArray(data.data.results)) {
-          setProducts(data.data.results)
-        } else if (data.data && Array.isArray(data.data)) {
-          setProducts(data.data)
+        let url;
+        if (categorySlug === "vitamin") {
+          url = `https://fe1111.projects.academy.onlyjs.com/api/v1/products?limit=20&offset=0&search=vitamin`;
+        } else if (categorySlug === "tum-urunler") {
+          url = `https://fe1111.projects.academy.onlyjs.com/api/v1/products?limit=100&offset=0`;
         } else {
-          setProducts([])
+          url = `https://fe1111.projects.academy.onlyjs.com/api/v1/products?limit=20&offset=0&main_category=${categoryId}`;
         }
+        const response = await fetch(url);
+        if (!response.ok) {
+          const text = await response.text();
+          throw new Error(`Veri çekilemedi: ${response.status} ${text}`);
+        }
+        const data = await response.json();
+        let results: any[] = [];
+        if (Array.isArray(data.data?.results)) {
+          results = data.data.results;
+        } else if (Array.isArray(data.data?.data)) {
+          results = data.data.data;
+        } else if (Array.isArray(data.data)) {
+          results = data.data;
+        } else if (Array.isArray(data)) {
+          results = data;
+        }
+        setProducts(results);
       } catch (err: any) {
-        setError(err.message || 'Bilinmeyen hata')
+        console.error('Category fetch error:', err);
+        setError(err.message || 'Bilinmeyen hata');
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
-    fetchProducts()
-  }, [categoryId])
+    };
+    fetchProducts();
+  }, [categoryId, categorySlug]);
 
   return (
     <SafeAreaView>
@@ -85,7 +96,7 @@ const CategoryPage = () => {
                 <TouchableOpacity
                   className="mb-4 p-2 border-b border-gray-200"
                   style={{ width: '48%', alignSelf: 'flex-start' }}
-                  onPress={() => navigation.navigate('ProductDetailPage', { productSlug: item.slug })}
+                  onPress={() => navigation.navigate('ProductDetailPage', { productId: item.id?.toString?.() || String(item.id), productSlug: item.slug })}
                 >
                   {item.photo_src && (
                     <Image

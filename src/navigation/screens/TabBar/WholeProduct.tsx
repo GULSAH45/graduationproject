@@ -12,18 +12,8 @@ import { AntDesign } from "@expo/vector-icons";
 import SearchBarComp from "@/components/SearchBarComp";
 import { useNavigation } from "@react-navigation/native";
 import { CategoryParams, CategoryResponse } from "@/types/Product";
-
-/**
- * TODO!!!!: Bu sayfada 137.satırda cat.slug yerine cat.id ile fonksiyona parametre gönderilcek
- * ama sayfayı bulmadıgı için hata veriyor CategoryPage göndericek id'yi
- 
- * typescript tipleri dosyalara taşıncak
-
- * fetch then yerine async await kullanılcak
-
- * sepetde uzunluk badge gösterilcek
-
-*/
+import Categories from "@/components/Categories";
+import Bestsellers from "@/components/Bestsellers";
 
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 // Fetch categories from the API
@@ -33,53 +23,11 @@ const WholeProduct = () => {
   const [bestSellers, setBestSellers] = useState<any[]>([]);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    fetch(`${base_url}/categories`)
-      .then((response) => response.json())
-
-      .then((data: CategoryResponse) => {
-        if (data && Array.isArray(data.data.data)) {
-          setCategories(data.data.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching categories:", error);
-      });
-  }, []);
-
-  useEffect(() => {
-    fetch(`${base_url}/products/best-sellers`)
-      .then((response) => response.json())
-      .then((data) => {
-        if (data && Array.isArray(data.data)) {
-          setBestSellers(data.data);
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching best sellers:", error);
-      });
-  }, []);
-
-  const categoryImages: { [key: string]: any } = {
-    protein: require("@/assets/categoryPics/protein.png"),
-    vitamin: require("@/assets/categoryPics/vitamin.png"),
-    "spor-gidalari": require("@/assets/categoryPics/spor-gidalari.png"),
-    gida: require("@/assets/categoryPics/gida.png"),
-    saglik: require("@/assets/categoryPics/saglik.png"),
-  };
-
-  // Kategori slug'ına göre ekran adı eşleştirme
-  const categoryScreens: { [key: string]: string } = {
-    protein: "ProteinPage",
-    vitamin: "VitaminPage",
-    "spor-gidalari": "SporGidalariPage",
-    gida: "GidaPage",
-    saglik: "SaglikPage",
-  };
 
   return (
-    <ScrollView>
+
       <SafeAreaView className="flex-1 bg-MainBackground">
+            <ScrollView>
         <View className="flex-row justify-between mx-3 ">
           {" "}
           <Image
@@ -107,97 +55,15 @@ const WholeProduct = () => {
           }}
         ></View>
         // Search Bar
-        <SearchBarComp value={""} onChangeText={function (text: string): void {
+        <SearchBarComp value={""} editable={false} onChangeText={function (text: string): void {
           throw new Error("Function not implemented.");
         } } />
   
-        {/* Categories */}
-        <View>
-          <Text className="text-md text-TextColor font-semibold ml-3 ">
-            Kategoriler
-          </Text>
-          <View className="flex-row flex-wrap justify-between px-3 mt-2">
-            {categories.map((cat, idx) => (
-              <TouchableOpacity
-                key={cat.id || idx}
-                className="w-[48%] h-[100px] bg-white rounded-lg mb-3 items-center justify-center shadow"
-                style={{ minWidth: 100}}
-                onPress={() => {
-                  (navigation as any).navigate('CategoryPage', {
-                    categoryId: cat.id, 
-                    categoryName: cat.name,
-                    categorySlug: cat.slug
-                  });
-                }}
-              >
-                <Image
-                  source={categoryImages[cat.slug]}
-                  style={{ width: "100%", height: "100%" }}
-                  resizeMode="contain"
-                />
-                <View className="absolute bottom-3 right-5 w-[100%] items-end">
-                  <Text className="text-base font-extrabold text-right">
-                    {cat.name}
-                  </Text>
-                  <View className="mt-2 bg-black rounded-xl px-3 py-1">
-                    <Text className="text-white font-extrabold text-xs text-right">
-                      İNCELE
-                    </Text>
-                  </View>
-                </View>
-              </TouchableOpacity>
-            ))}
-          </View>
-        </View>
-        {/* Best Seller Ürünler */}
-        <View className="mt-4">
-          <Text className="text-md text-TextColor font-semibold ml-3 mb-2">
-            Çok Satanlar
-          </Text>
-          <FlatList
-            data={bestSellers}
-            horizontal
-            className="relative"
-            keyExtractor={(item) => item.slug}
-            showsHorizontalScrollIndicator={false}
-            contentContainerStyle={{ paddingHorizontal: 8}}
-            renderItem={({ item }) => (
-              <View
-                className="bg-white   rounded-md mr-3 p-2 items-center"
-                style={{ width: 160 }}
-              >
-                  {item.price_info.discounted_price && (
-                  <View className="relative z-50 -top-4 -right-20 bg-red-500 rounded-md px-2 py-3">
-                    <Text className="text-white text-xs font-bold">
-                      %{Math.round(((item.price_info.total_price - item.price_info.discounted_price) / item.price_info.total_price) * 100)} İNDİRİM
-                    </Text>
-                  </View>
-                )}
-                <Image
-                  source={{
-                    uri: `https://fe1111.projects.academy.onlyjs.com${item.photo_src}`,
-                  }}
-                  style={{ width: 120, height: 120, borderRadius: 2 }}
-                  resizeMode="contain"
-                />
-                <Text className="font-bold text-sm mt-2 text-center">
-                  {item.name}
-                </Text>
-                <Text className="text-xs text-gray-500 text-center">
-                  {item.short_explanation}
-                </Text>
-                <Text className="font-bold text-green-700 mt-1">
-                  {item.price_info.discounted_price
-                    ? `${item.price_info.discounted_price}₺`
-                    : `${item.price_info.total_price}₺`}
-                </Text>
-              </View>
-            )}
-          />
-        </View>
-    
+<Categories />
+<Bestsellers />
+       </ScrollView>
       </SafeAreaView>
-    </ScrollView>
+ 
   )
 }
 

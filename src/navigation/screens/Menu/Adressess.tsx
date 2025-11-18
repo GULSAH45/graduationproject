@@ -29,7 +29,8 @@ const Adressess = () => {
   const [showAddressForm, setShowAddressForm] = useState(false); // New state for form visibility
   const [editingAddress, setEditingAddress] = useState<Address | null>(null); // New state for editing
 
-  const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1"; // Gerekirse burayı .env veya config dosyasından alabilirsin
+  const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1"; 
+  // Gerekirse burayı .env veya config dosyasından alabilirsin
 
   const handleSave = async () => {
     if (editingAddress) {

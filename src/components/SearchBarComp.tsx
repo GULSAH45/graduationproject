@@ -5,9 +5,10 @@ import AntDesign from "@expo/vector-icons/AntDesign";
 interface SearchBarCompProps {
   value: string;
   onChangeText: (text: string) => void;
+  editable?: boolean;
 }
 
-const SearchBarComp = ({ value, onChangeText }: SearchBarCompProps) => {
+const SearchBarComp = ({ value, onChangeText, editable = true }: SearchBarCompProps) => {
 
   const handleOnCancel = () => {
     onChangeText("")
@@ -25,6 +26,7 @@ const SearchBarComp = ({ value, onChangeText }: SearchBarCompProps) => {
             placeholder="Aradığınız ürünü yazınız..."
             value={value}
             onChangeText={onChangeText}
+            editable={editable}
           />
           <TouchableOpacity onPress={handleOnCancel}><Text className='text-blue-600'>Vazgeç</Text></TouchableOpacity>
         </View>
