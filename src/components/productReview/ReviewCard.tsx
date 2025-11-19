@@ -10,6 +10,7 @@ interface ReviewCardProps {
     title: string;
     content: string;
     isVerified: boolean;
+    aroma?: string;
   };
 }
 
@@ -38,7 +39,15 @@ export const ReviewCard = ({ review }: ReviewCardProps) => {
 
       <View className="mb-3">
         <Text className="font-bold text-lg text-gray-900">{review.author}</Text>
-        <Text className="text-sm text-gray-600">{review.date}</Text>
+        <View className="flex-row items-center" style={{ gap: 8 }}>
+          <Text className="text-sm text-gray-600">{review.date}</Text>
+          {review.aroma && (
+            <>
+              <Text className="text-sm text-gray-400">•</Text>
+              <Text className="text-sm text-gray-600">{review.aroma}</Text>
+            </>
+          )}
+        </View>
       </View>
 
       <View>

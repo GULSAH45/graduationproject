@@ -13,6 +13,7 @@ interface Review {
   title: string;
   content: string;
   isVerified: boolean;
+  aroma?: string;
 }
 
 interface ReviewsSectionProps {
@@ -59,7 +60,7 @@ export const ReviewsSection = ({
       <View className="mt-8">
         <Text className="text-2xl font-bold mb-6 text-gray-900">YORUMLAR</Text>
         <View className="gap-4">
-          {currentReviews.slice(0, 6).map((review) => (
+          {currentReviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
         </View>

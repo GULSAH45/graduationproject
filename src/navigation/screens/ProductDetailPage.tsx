@@ -101,6 +101,8 @@ const ProductDetailPage = () => {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [reviews, setReviews] = useState<any[]>([]);
+  const [reviewsLoading, setReviewsLoading] = useState(false);
 
   // Akordiyon state'leri
   const [isDescriptionOpen, setIsDescriptionOpen] = useState(false);
@@ -151,26 +153,53 @@ const ProductDetailPage = () => {
       }, 150);
     }
   };
-  const mockData = {
-    averageRating: 4.8,
-    totalReviews: 10869,
-    ratingBreakdown: {
-      5: 9284,
-      4: 1316,
-      3: 226,
-      2: 32,
-      1: 11,
-    },
-    reviews: Array.from({ length: 25 }, (_, i) => ({
-      id: `${i + 1}`,
-      author: i % 3 === 0 ? "Ahmet K." : i % 3 === 1 ? "Ayşe Y." : "Eren U.",
-      date: "06/05/24",
-      rating: i % 5 === 0 ? 4 : 5,
-      title: "Her zamanki kalite. Teşekkürler",
-      content: "Her zamanki kalite. Teşekkürler",
-      isVerified: true,
-    })),
+  // Yorumları formatla ve istatistikleri hesapla
+  const formatReviewsData = () => {
+    if (reviews.length === 0) {
+      return {
+        averageRating: 0,
+        totalReviews: 0,
+        ratingBreakdown: { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 },
+        formattedReviews: [],
+      };
+    }
+
+    // Rating breakdown hesapla
+    const breakdown = { 5: 0, 4: 0, 3: 0, 2: 0, 1: 0 };
+    let totalRating = 0;
+
+    const formattedReviews = reviews.map((review, index) => {
+      const rating = parseInt(review.stars) || 5;
+      breakdown[rating as keyof typeof breakdown]++;
+      totalRating += rating;
+
+      // Tarihi formatla
+      const date = new Date(review.created_at);
+      const formattedDate = `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1).toString().padStart(2, "0")}/${date.getFullYear().toString().slice(-2)}`;
+
+      return {
+        id: `${index}`,
+        author: `${review.first_name} ${review.last_name}`.trim(),
+        date: formattedDate,
+        rating: rating,
+        title: review.title || "",
+        content: review.comment || "",
+        isVerified: true,
+        aroma: review.aroma || "",
+      };
+    });
+
+    const averageRating = totalRating / reviews.length;
+
+    return {
+      averageRating,
+      totalReviews: reviews.length,
+      ratingBreakdown: breakdown,
+      formattedReviews,
+    };
   };
+
+  const reviewsData = formatReviewsData();
   const AccordionItem = ({
     title,
     isOpen,
@@ -237,6 +266,24 @@ const ProductDetailPage = () => {
       addLastViewed(product);
     }
   }, [product]);
+
+  // Yorumları çek
+  useEffect(() => {
+    if (productSlug) {
+      setReviewsLoading(true);
+      fetch(`${BASE_URL}/products/${productSlug}/comments?limit=10&offset=0`)
+        .then((res) => res.json())
+        .then((json) => {
+          if (json.status === "success" && json.data?.results) {
+            setReviews(json.data.results);
+          }
+          setReviewsLoading(false);
+        })
+        .catch(() => {
+          setReviewsLoading(false);
+        });
+    }
+  }, [productSlug]);
 
   if (loading) {
     return (
@@ -647,12 +694,14 @@ const ProductDetailPage = () => {
             </View>
           )}
 
-<ReviewsSection
-        averageRating={mockData.averageRating}
-        totalReviews={mockData.totalReviews}
-        ratingBreakdown={mockData.ratingBreakdown}
-        reviews={mockData.reviews}
-      />
+          {reviewsData.totalReviews > 0 && (
+            <ReviewsSection
+              averageRating={reviewsData.averageRating}
+              totalReviews={reviewsData.totalReviews}
+              ratingBreakdown={reviewsData.ratingBreakdown}
+              reviews={reviewsData.formattedReviews}
+            />
+          )}
 
         </View>
       </ScrollView>
