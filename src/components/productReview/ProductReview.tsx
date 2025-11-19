@@ -59,7 +59,7 @@ export const ReviewsSection = ({
       <View className="mt-8">
         <Text className="text-2xl font-bold mb-6 text-gray-900">YORUMLAR</Text>
         <View className="gap-4">
-          {currentReviews.map((review) => (
+          {currentReviews.slice(0, 6).map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
         </View>
