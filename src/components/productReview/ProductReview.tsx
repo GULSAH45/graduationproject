@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { RatingSummary } from "./RatingSummary";
-import { RatingBreakdown } from "./RatingBreakdown";
-import { ReviewCard } from "./ReviewCard";
-import { Pagination } from "./Pagination";
+import { RatingSummary } from "@/components/ProductReview/RatingSummary";
+import { RatingBreakdown } from "@/components/ProductReview/RatingBreakdown";
+import { ReviewCard } from "@/components/ProductReview/ReviewCard";
+import { Pagination } from "@/components/ProductReview/Pagination";
 
 interface Review {
   id: string;
