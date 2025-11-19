@@ -23,12 +23,13 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
+import { ReviewsSection } from "@/components/productReview/ProductReview";
 
 
 
 const { width } = Dimensions.get("window");
 
-const BASE_URL = "https://fe1111.projects.academy.onlyjs.com/api/v1";
+export const BASE_URL = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 export const IMAGE_URL = "https://fe1111.projects.academy.onlyjs.com";
 
 // Aroma isimlerini icon dosyalarıyla eşleştiren fonksiyon
@@ -150,7 +151,26 @@ const ProductDetailPage = () => {
       }, 150);
     }
   };
-
+  const mockData = {
+    averageRating: 4.8,
+    totalReviews: 10869,
+    ratingBreakdown: {
+      5: 9284,
+      4: 1316,
+      3: 226,
+      2: 32,
+      1: 11,
+    },
+    reviews: Array.from({ length: 25 }, (_, i) => ({
+      id: `${i + 1}`,
+      author: i % 3 === 0 ? "Ahmet K." : i % 3 === 1 ? "Ayşe Y." : "Eren U.",
+      date: "06/05/24",
+      rating: i % 5 === 0 ? 4 : 5,
+      title: "Her zamanki kalite. Teşekkürler",
+      content: "Her zamanki kalite. Teşekkürler",
+      isVerified: true,
+    })),
+  };
   const AccordionItem = ({
     title,
     isOpen,
@@ -620,9 +640,20 @@ const ProductDetailPage = () => {
                 >
                   <AntDesign name="arrowright" size={28} color="#888" />
                 </TouchableOpacity>
+
+
+
               </View>
             </View>
           )}
+
+<ReviewsSection
+        averageRating={mockData.averageRating}
+        totalReviews={mockData.totalReviews}
+        ratingBreakdown={mockData.ratingBreakdown}
+        reviews={mockData.reviews}
+      />
+
         </View>
       </ScrollView>
     </SafeAreaView>

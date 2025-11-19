@@ -25,6 +25,7 @@
     "expo-dev-client": "~5.1.7",
     "expo-splash-screen": "~0.30.7",
     "expo-system-ui": "~5.0.6",
+    "lucide-react": "^0.554.0",
     "nativewind": "^4.1.23",
     "react": "19.0.0",
     "react-dom": "19.0.0",
