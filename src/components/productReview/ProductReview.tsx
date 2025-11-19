@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { View, Text, ScrollView } from "react-native";
 import { RatingSummary } from "./RatingSummary";
 import { RatingBreakdown } from "./RatingBreakdown";
 import { ReviewCard } from "./ReviewCard";
@@ -44,11 +45,10 @@ export const ReviewsSection = ({
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page);
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <section className="w-full max-w-4xl mx-auto px-4 py-8">
+    <View className="w-full px-4 py-8">
       <RatingSummary averageRating={averageRating} totalReviews={totalReviews} />
       
       <RatingBreakdown 
@@ -56,13 +56,13 @@ export const ReviewsSection = ({
         totalReviews={totalReviews} 
       />
 
-      <div className="mt-8">
-        <h2 className="text-2xl font-bold mb-6 text-foreground">YORUMLAR</h2>
-        <div className="space-y-4">
+      <View className="mt-8">
+        <Text className="text-2xl font-bold mb-6 text-gray-900">YORUMLAR</Text>
+        <View className="gap-4">
           {currentReviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
-        </div>
+        </View>
 
         {totalPages > 1 && (
           <Pagination
@@ -71,7 +71,7 @@ export const ReviewsSection = ({
             onPageChange={handlePageChange}
           />
         )}
-      </div>
-    </section>
+      </View>
+    </View>
   );
 };

@@ -1,4 +1,5 @@
-import { Star } from "lucide-react";
+import { View, Text } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface ReviewCardProps {
   review: {
@@ -14,36 +15,36 @@ interface ReviewCardProps {
 
 export const ReviewCard = ({ review }: ReviewCardProps) => {
   return (
-    <div className="border-2 border-primary rounded-2xl p-6 bg-card shadow-sm hover:shadow-md transition-shadow">
-      <div className="flex items-start justify-between mb-4">
-        <div className="flex gap-1">
+    <View className="border-2 border-gray-300 rounded-2xl p-6 bg-white mb-4">
+      <View className="flex-row items-start justify-between mb-4">
+        <View className="flex-row gap-1">
           {[1, 2, 3, 4, 5].map((star) => (
-            <Star
+            <AntDesign
               key={star}
-              className={`w-6 h-6 ${
-                star <= review.rating
-                  ? "fill-star text-star"
-                  : "fill-muted text-muted"
-              }`}
+              name="star"
+              size={24}
+              color={star <= review.rating ? "#FFD700" : "#E5E7EB"}
             />
           ))}
-        </div>
+        </View>
         {review.isVerified && (
-          <span className="bg-verified text-accent-foreground px-4 py-1.5 rounded-full text-xs font-semibold whitespace-nowrap">
-            DOĞRULANMIŞ MÜŞTERİ
-          </span>
+          <View className="bg-green-100 px-4 py-1.5 rounded-full">
+            <Text className="text-green-800 text-xs font-semibold">
+              DOĞRULANMIŞ MÜŞTERİ
+            </Text>
+          </View>
         )}
-      </div>
+      </View>
 
-      <div className="mb-3">
-        <h3 className="font-bold text-lg text-foreground">{review.author}</h3>
-        <p className="text-sm text-muted-foreground">{review.date}</p>
-      </div>
+      <View className="mb-3">
+        <Text className="font-bold text-lg text-gray-900">{review.author}</Text>
+        <Text className="text-sm text-gray-600">{review.date}</Text>
+      </View>
 
-      <div>
-        <h4 className="font-bold text-lg mb-2 text-foreground">{review.title}</h4>
-        <p className="text-foreground leading-relaxed">{review.content}</p>
-      </div>
-    </div>
+      <View>
+        <Text className="font-bold text-lg mb-2 text-gray-900">{review.title}</Text>
+        <Text className="text-gray-900 leading-6">{review.content}</Text>
+      </View>
+    </View>
   );
 };

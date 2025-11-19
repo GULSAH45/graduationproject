@@ -1,4 +1,5 @@
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { View, Text, TouchableOpacity } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface PaginationProps {
   currentPage: number;
@@ -12,7 +13,7 @@ export const Pagination = ({
   onPageChange,
 }: PaginationProps) => {
   const getPageNumbers = () => {
-    const pages = [];
+    const pages: (number | string)[] = [];
     const maxVisible = 5;
     
     if (totalPages <= maxVisible) {
@@ -33,41 +34,47 @@ export const Pagination = ({
   };
 
   return (
-    <div className="flex items-center justify-center gap-2 mt-8">
-      <button
-        onClick={() => onPageChange(currentPage - 1)}
+    <View className="flex-row items-center justify-center gap-2 mt-8">
+      <TouchableOpacity
+        onPress={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}
-        className="h-10 w-10 flex items-center justify-center rounded-lg border border-border bg-background hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-background disabled:hover:text-foreground"
+        className="h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-white"
+        style={{ opacity: currentPage === 1 ? 0.5 : 1 }}
       >
-        <ChevronLeft className="h-4 w-4" />
-      </button>
+        <AntDesign name="left" size={16} color={currentPage === 1 ? "#9CA3AF" : "#000"} />
+      </TouchableOpacity>
 
       {getPageNumbers().map((page, index) => (
-        <div key={index}>
+        <View key={index}>
           {page === "..." ? (
-            <span className="px-3 py-2 text-muted-foreground">...</span>
+            <Text className="px-3 py-2 text-gray-600">...</Text>
           ) : (
-            <button
-              onClick={() => onPageChange(page as number)}
-              className={`h-10 px-4 rounded-lg border transition-colors ${
+            <TouchableOpacity
+              onPress={() => onPageChange(page as number)}
+              className={`h-10 px-4 rounded-lg border ${
                 currentPage === page
-                  ? "bg-primary text-primary-foreground border-primary font-medium"
-                  : "border-border bg-background hover:bg-primary hover:text-primary-foreground"
+                  ? "bg-green-600 text-white border-green-600"
+                  : "border-gray-300 bg-white"
               }`}
             >
-              {page}
-            </button>
+              <Text className={`${
+                currentPage === page ? "text-white font-medium" : "text-gray-900"
+              }`}>
+                {page}
+              </Text>
+            </TouchableOpacity>
           )}
-        </div>
+        </View>
       ))}
 
-      <button
-        onClick={() => onPageChange(currentPage + 1)}
+      <TouchableOpacity
+        onPress={() => onPageChange(currentPage + 1)}
         disabled={currentPage === totalPages}
-        className="h-10 w-10 flex items-center justify-center rounded-lg border border-border bg-background hover:bg-primary hover:text-primary-foreground transition-colors disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:bg-background disabled:hover:text-foreground"
+        className="h-10 w-10 items-center justify-center rounded-lg border border-gray-300 bg-white"
+        style={{ opacity: currentPage === totalPages ? 0.5 : 1 }}
       >
-        <ChevronRight className="h-4 w-4" />
-      </button>
-    </div>
+        <AntDesign name="right" size={16} color={currentPage === totalPages ? "#9CA3AF" : "#000"} />
+      </TouchableOpacity>
+    </View>
   );
 };

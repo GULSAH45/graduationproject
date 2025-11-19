@@ -1,4 +1,5 @@
-import { Star } from "lucide-react";
+import { View, Text } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
 
 interface RatingSummaryProps {
   averageRating: number;
@@ -7,21 +8,23 @@ interface RatingSummaryProps {
 
 export const RatingSummary = ({ averageRating, totalReviews }: RatingSummaryProps) => {
   return (
-    <div className="text-center mb-8">
-      <div className="text-6xl font-bold mb-4 text-foreground">
+    <View className="items-center mb-8">
+      <Text className="font-bold mb-4 text-gray-900" style={{ fontSize: 48 }}>
         {averageRating.toFixed(1)}
-      </div>
-      <div className="flex justify-center gap-1 mb-3">
+      </Text>
+      <View className="flex-row justify-center mb-3" style={{ gap: 4 }}>
         {[1, 2, 3, 4, 5].map((star) => (
-          <Star
+          <AntDesign
             key={star}
-            className="w-8 h-8 fill-star text-star"
+            name="star"
+            size={32}
+            color={star <= Math.round(averageRating) ? "#FFD700" : "#E5E7EB"}
           />
         ))}
-      </div>
-      <div className="text-lg text-muted-foreground">
+      </View>
+      <Text className="text-lg text-gray-600">
         {totalReviews.toLocaleString()} YORUM
-      </div>
-    </div>
+      </Text>
+    </View>
   );
 };
