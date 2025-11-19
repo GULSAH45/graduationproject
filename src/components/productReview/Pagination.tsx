@@ -34,7 +34,7 @@ export const Pagination = ({
   };
 
   return (
-    <View className="flex-row items-center justify-center gap-2 mt-8">
+    <View className="flex-row items-center justify-center mt-8" style={{ gap: 8 }}>
       <TouchableOpacity
         onPress={() => onPageChange(currentPage - 1)}
         disabled={currentPage === 1}

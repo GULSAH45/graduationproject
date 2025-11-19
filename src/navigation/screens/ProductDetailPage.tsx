@@ -694,14 +694,12 @@ const ProductDetailPage = () => {
             </View>
           )}
 
-          {reviewsData.totalReviews > 0 && (
-            <ReviewsSection
-              averageRating={reviewsData.averageRating}
-              totalReviews={reviewsData.totalReviews}
-              ratingBreakdown={reviewsData.ratingBreakdown}
-              reviews={reviewsData.formattedReviews}
-            />
-          )}
+          <ReviewsSection
+            averageRating={reviewsData.averageRating}
+            totalReviews={reviewsData.totalReviews}
+            ratingBreakdown={reviewsData.ratingBreakdown}
+            reviews={reviewsData.formattedReviews}
+          />
 
         </View>
       </ScrollView>

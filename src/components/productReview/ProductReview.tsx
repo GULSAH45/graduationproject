@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { View, Text, ScrollView } from "react-native";
+import AntDesign from "@expo/vector-icons/AntDesign";
 import { RatingSummary } from "./RatingSummary";
 import { RatingBreakdown } from "./RatingBreakdown";
 import { ReviewCard } from "./ReviewCard";
@@ -35,7 +36,7 @@ export const ReviewsSection = ({
   totalReviews,
   ratingBreakdown,
   reviews,
-  reviewsPerPage = 10,
+  reviewsPerPage = 5,
 }: ReviewsSectionProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -48,6 +49,25 @@ export const ReviewsSection = ({
     setCurrentPage(page);
   };
 
+  // Yorum yoksa mesaj göster
+  if (totalReviews === 0 || reviews.length === 0) {
+    return (
+      <View className="w-full px-4 py-12">
+        <View className="items-center justify-center py-16">
+          <View className="w-20 h-20 rounded-full bg-gray-100 items-center justify-center mb-4">
+            <AntDesign name="message1" size={40} color="#9CA3AF" />
+          </View>
+          <Text className="text-xl font-semibold text-gray-800 mb-2">
+            Yorum Bulunmamaktadır
+          </Text>
+          <Text className="text-sm text-gray-500 text-center px-8">
+            Bu ürün için henüz yorum yapılmamış. İlk yorumu siz yapabilirsiniz!
+          </Text>
+        </View>
+      </View>
+    );
+  }
+
   return (
     <View className="w-full px-4 py-8">
       <RatingSummary averageRating={averageRating} totalReviews={totalReviews} />
@@ -59,7 +79,7 @@ export const ReviewsSection = ({
 
       <View className="mt-8">
         <Text className="text-2xl font-bold mb-6 text-gray-900">YORUMLAR</Text>
-        <View className="gap-4">
+        <View style={{ gap: 16 }}>
           {currentReviews.map((review) => (
             <ReviewCard key={review.id} review={review} />
           ))}
