@@ -1,4 +1,4 @@
-import { View, Text, SafeAreaView, TouchableOpacity } from "react-native";
+import { View, Text, SafeAreaView, TouchableOpacity, ScrollView, Image } from "react-native";
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 import AccountSVG from "@svgs/accountSVG";
@@ -7,17 +7,25 @@ import AdresSVG from "@svgs/AdresSVG";
 import HakkımızdaSVG from "@svgs/HakkımızdaSVG";
 import BizeUlasinSVG from "@svgs/BizeUlasinSVG";
 import SssSVG from "@svgs/SssSVG";
+import LogoutSVG from "@svgs/LogoutSVG";
+
 import { useAuthStore } from "@/stores/useAuthStore";
 
 const MenuListScreen = () => {
   const navigation = useNavigation();
 
-  const { accessToken, currentUser } = useAuthStore();
+  const { accessToken, currentUser, logout } = useAuthStore();
+
+  const handleLogout = () => {
+    logout();
+  };
+  console.log("current user", currentUser)
 
   return (
     <SafeAreaView className="flex-1 py-4 bg-white">
-      <View className="flex-1 mx-3 py-4">
-        <Text className="text-3xl font-bold mx-2">Menü</Text>
+      <ScrollView className="flex-1 mx-3 py-4">
+        <Text className="text-3xl font-bold mx-2 mb-4">Menü</Text>
+
 
         {accessToken ? (
           <>
@@ -54,7 +62,7 @@ const MenuListScreen = () => {
           </>
         ) : (
           <>
-            <TouchableOpacity onPress={() => (navigation as any).navigate("Login")}>
+            <TouchableOpacity onPress={() => (navigation as any).navigate("/auth/login")}>
               <View className="flex-row items-center my-4">
                 <Text>
                   <AccountSVG />
@@ -98,13 +106,28 @@ const MenuListScreen = () => {
         </TouchableOpacity>
 
         {accessToken && currentUser && (
-          <View className="absolute bottom-10 left-0 right-0 items-center">
-            <Text className="text-lg font-semibold text-gray-700">
-              {currentUser.first_name} {currentUser.last_name}
+          <View className=" mx-2 p-4   rounded-lg">
+            <Image source={{ uri: "https://avatars.githubusercontent.com/u/97165289" }} className="w-12 h-12 rounded-full border-1 border-gray-300" />
+            <Text className="text-lg font-bold text-gray-800">
+              {currentUser.data.first_name} {currentUser.data.last_name}
             </Text>
+            <Text className="text-sm text-gray-500">{currentUser.data.email}</Text>
           </View>
         )}
-      </View>
+        {accessToken && (
+          <>
+            <TouchableOpacity onPress={handleLogout}>
+              <View className="flex-row items-center my-4">
+                <Text className="mx-2">
+                  <LogoutSVG />
+                </Text>
+                <Text className="text-sm font-normal mx-3 text-red-500">Çıkış Yap</Text>
+              </View>
+            </TouchableOpacity>
+          </>
+        )}
+
+      </ScrollView>
     </SafeAreaView>
   );
 };

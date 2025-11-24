@@ -4,13 +4,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { login as apiLogin, register as apiRegister, me as apiMe, API_KEY } from '@/services/collections/Auth';
 
 interface User {
-    id?: number;
-    email: string;
-    firstName?: string;
-    lastName?: string;
-    phone?: string;
-    first_name?: string;
-    last_name?: string;
+    data: {
+        id?: number;
+        email: string;
+        firstName?: string;
+        lastName?: string;
+        phone?: string;
+        first_name?: string;
+        last_name?: string;
+    }
 }
 
 interface AuthState {

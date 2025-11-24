@@ -9,8 +9,6 @@ const SplashScreen = () => {
 
     useEffect(() => {
         const checkAuth = async () => {
-            // Simulate a brief delay or perform other initialization if needed
-            // For now, just check the token immediately
             if (accessToken) {
                 navigation.replace('HomeTabs');
             } else {

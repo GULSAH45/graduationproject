@@ -86,7 +86,7 @@ const SignUpScreen = () => {
           />
 
           <TouchableOpacity
-          //
+            //
             className="bg-black w-[324px] h-[55px] items-center justify-center rounded-lg mt-4"
             onPress={handleSignUp}
             disabled={loading}
