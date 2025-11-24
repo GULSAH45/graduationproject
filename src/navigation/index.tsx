@@ -32,6 +32,8 @@ import CategoryPage from "@/navigation/screens/Categories/CategoryPage";
 import ProductDetailPage from "@screens/ProductDetailPage";
 import { ProductDetailRouteParams, CategoryPageRouteParams } from "@/types/Product";
 
+import SplashScreen from "@/navigation/screens/Auth/SplashScreen";
+
 export type HomeTabParamList = {
   MainpageMainScreen: undefined;
   SearchScreen: undefined;
@@ -40,6 +42,7 @@ export type HomeTabParamList = {
 };
 
 export type RootStackParamList = {
+  SplashScreen: undefined;
   HomeTabs: NavigatorScreenParams<HomeTabParamList>;
   CategoryPage: CategoryPageRouteParams;
   ProductDetailPage: ProductDetailRouteParams;
@@ -103,10 +106,16 @@ const HomeTabs = createBottomTabNavigator({
 });
 
 const RootStack = createNativeStackNavigator<RootStackParamList>({
-  initialRouteName: "LogScreen", // LogScreen as the initial screen
+  initialRouteName: "SplashScreen", // Start with SplashScreen
   screenOptions: { headerShown: false },
 
   screens: {
+    SplashScreen: {
+      screen: SplashScreen,
+      options: {
+        headerShown: false,
+      },
+    },
     HomeTabs: {
       screen: HomeTabs,
       options: {
