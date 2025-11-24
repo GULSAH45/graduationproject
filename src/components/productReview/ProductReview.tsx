@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { View, Text, ScrollView } from "react-native";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { RatingSummary } from "@/components/ProductReview/RatingSummary";
-import { RatingBreakdown } from "@/components/ProductReview/RatingBreakdown";
-import { ReviewCard } from "@/components/ProductReview/ReviewCard";
-import { Pagination } from "@/components/ProductReview/Pagination";
+import { RatingSummary } from "./RatingSummary";
+import { RatingBreakdown } from "./RatingBreakdown";
+import { ReviewCard } from "./ReviewCard";
+import { Pagination } from "./Pagination";
 
 interface Review {
   id: string;
@@ -17,7 +17,7 @@ interface Review {
   aroma?: string;
 }
 
-interface ReviewsSectionProps {
+interface ProductReviewProps {
   averageRating: number;
   totalReviews: number;
   ratingBreakdown: {
@@ -31,13 +31,13 @@ interface ReviewsSectionProps {
   reviewsPerPage?: number;
 }
 
-export const ReviewsSection = ({
+export const ProductReview = ({
   averageRating,
   totalReviews,
   ratingBreakdown,
   reviews,
   reviewsPerPage = 5,
-}: ReviewsSectionProps) => {
+}: ProductReviewProps) => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const totalPages = Math.ceil(reviews.length / reviewsPerPage);

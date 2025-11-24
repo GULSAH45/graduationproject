@@ -23,7 +23,7 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
-import { ReviewsSection } from "@/components/ProductReview/ProductReview";
+import { ProductReview } from "@/components/productReview/ProductReview";
 
 
 
@@ -694,7 +694,7 @@ const ProductDetailPage = () => {
             </View>
           )}
 
-          <ReviewsSection
+          <ProductReview
             averageRating={reviewsData.averageRating}
             totalReviews={reviewsData.totalReviews}
             ratingBreakdown={reviewsData.ratingBreakdown}
