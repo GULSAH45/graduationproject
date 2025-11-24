@@ -25,7 +25,7 @@ const MenuListScreen = () => {
           </View>
         </TouchableOpacity>
         <View className="border border-MenuBorderColor" />
-        <TouchableOpacity  onPress={() => navigation.navigate("OrderScreen")}>
+        <TouchableOpacity onPress={() => navigation.navigate("OrderScreen")}>
           <View className="flex-row items-center my-4">
             <Text>
               <SiparisSVG />

@@ -23,16 +23,14 @@ import Bestsellers from "@/components/Bestsellers";
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
 const MainpageMainScreen = () => {
-
-
   const navigation = useNavigation<NavigationProp<RootStackParamList & HomeTabParamList>>();
   const { basket } = useBasket();
   const basketLength = basket.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
   return (
 
-      <SafeAreaView className="flex-1 bg-MainBackground">
-            <ScrollView>
+    <SafeAreaView className="flex-1 bg-MainBackground">
+      <ScrollView>
         <View className="flex-row justify-between mx-3 ">
           {" "}
           <Image
@@ -67,7 +65,7 @@ const MainpageMainScreen = () => {
           }}
         ></View>
         <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "SearchScreen" })}>
-          <SearchBarComp value={""} onChangeText={() => {}} editable={false} />
+          <SearchBarComp value={""} onChangeText={() => { }} editable={false} />
         </TouchableOpacity>
         <Image
           source={require("../../../assets/SliderMain.png")}
@@ -76,10 +74,10 @@ const MainpageMainScreen = () => {
         />
 
 
-         <Categories/>
-     <Bestsellers/>
-  
-  
+        <Categories />
+        <Bestsellers />
+
+
         <View className="w-full m-0 px-0 flex items-center justify-center mt-4">
           <Image
             className="w-[450px] h-[560px]"
@@ -96,8 +94,8 @@ const MainpageMainScreen = () => {
             />
           </View>
         </View>
-            </ScrollView>
-      </SafeAreaView>
+      </ScrollView>
+    </SafeAreaView>
 
   )
 }

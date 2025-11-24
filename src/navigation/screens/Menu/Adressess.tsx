@@ -1,23 +1,19 @@
-
 import {
   View,
   Text,
   SafeAreaView,
   TouchableOpacity,
-  TextInput,
   ScrollView,
   Alert,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
 import PrevIcon from "@/svgs/PrevIcon";
-import FlagSvg from "@/svgs/FlagSvg";
-import DropDownFlag from "@/svgs/DropDownFlag";
-import AntDesign from '@expo/vector-icons/AntDesign';
 import { getAddresses, deleteAddress, updateAddress, createAddress, Address } from "@/services/collections/Adresses";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { listCountries, listRegions, listSubregions, Country, Region, Subregion } from "@/services/collections/World";
-import Dropdown from "@/components/Dropdown";
+import AddressForm from "./Adresses/AddressForm";
+import AddressList from "./Adresses/AddressList";
 
 const Adressess = () => {
   const navigation = useNavigation();
@@ -95,7 +91,7 @@ const Adressess = () => {
     }
   };
 
-  const fetchRegions = async (countryId: string) => {
+  const fetchRegions = async (countryId: number) => {
     setIsFetchingRegions(true);
     try {
       const response = await listRegions(countryId);
@@ -233,7 +229,7 @@ const Adressess = () => {
 
       // Trigger fetches to populate lists
       if (addressToEdit.country) {
-        await fetchRegions(addressToEdit.country.name);
+        await fetchRegions(addressToEdit.country.id);
       }
       if (addressToEdit.region) {
         await fetchSubregions(addressToEdit.region.id);
@@ -309,157 +305,48 @@ const Adressess = () => {
         )}
       </View>
       <ScrollView className="flex-1">
-        {
-          showAddressForm ? (
-            <View>
-              <View className="mx-6 py-3 my-4">
-                <Text className="self-start text-md my-2">Adres Başlığı</Text>
-                <TextInput
-                  className="bg-InputBackground border p-4 border-TextInputBorderColor w-full h-[50px] rounded"
-                  placeholder="ev, iş vb..."
-                  value={addressTitle}
-                  onChangeText={setAddressTitle}
-                />
-                <Text className="self-start text-md my-2">Ad</Text>
-                <TextInput
-                  className="bg-InputBackground border p-4 border-TextInputBorderColor w-full h-[50px] rounded"
-                  placeholder=""
-                  value={name}
-                  onChangeText={setName}
-                />
-                <Text className="self-start text-md my-2">Soyad</Text>
-                <TextInput
-                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4"
-                  placeholder=""
-                  value={surname}
-                  onChangeText={setSurname}
-                />
-
-                {/* Country Selector */}
-                <Text className="self-start text-md my-2">Ülke</Text>
-                <View className="z-30">
-                  <Dropdown
-                    data={countries}
-                    selectedItem={selectedCountry}
-                    onSelect={handleSelectCountry}
-                    placeholder="Ülke Seçiniz"
-                    labelExtractor={(item) => item.name}
-                    keyExtractor={(item) => item.id.toString()}
-                    onEndReached={loadMoreCountries}
-                    isLoading={isFetchingCountries}
-                  />
-                </View>
-
-                {/* Region Selector */}
-                <Text className="self-start text-md my-2">Şehir</Text>
-                <View className="z-20">
-                  <Dropdown
-                    data={regions}
-                    selectedItem={selectedRegion}
-                    onSelect={handleSelectRegion}
-                    placeholder="Şehir Seçiniz"
-                    labelExtractor={(item) => item.name}
-                    keyExtractor={(item) => item.id.toString()}
-                    disabled={!selectedCountry}
-                    isLoading={isFetchingRegions}
-                  />
-                </View>
-
-                {/* Subregion Selector */}
-                <Text className="self-start text-md my-2">İlçe</Text>
-                <View className="z-10">
-                  <Dropdown
-                    data={subregions}
-                    selectedItem={selectedSubregion}
-                    onSelect={handleSelectSubregion}
-                    placeholder="İlçe Seçiniz"
-                    labelExtractor={(item) => item.name}
-                    keyExtractor={(item) => item.id.toString()}
-                    disabled={!selectedRegion}
-                    isLoading={isFetchingSubregions}
-                  />
-                </View>
-
-                <Text className="self-start text-md my-2">Adres</Text>
-                <TextInput
-                  className="bg-InputBackground border p-4 border-TextInputBorderColor my-2 rounded w-full h-[50px]"
-                  placeholder=""
-                  value={address}
-                  onChangeText={setAddress}
-                />
-                <Text className="self-start text-md my-2">Apartman, daire</Text>
-                <TextInput
-                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4"
-                  placeholder=""
-                  value={apartmentFlat}
-                  onChangeText={setApartmentFlat}
-                />
-
-                <Text className="text-md my-2">Telefon</Text>
-                <View className="bg-InputBackground border border-TextInputBorderColor rounded-md flex-row items-center w-full h-[50px] px-2">
-                  <TouchableOpacity className="flex-row items-center mr-2">
-                    <FlagSvg />
-                    <DropDownFlag />
-                  </TouchableOpacity>
-                  <TextInput
-                    className="flex-1 p-2"
-                    placeholder="Telefon numaranızı giriniz"
-                    keyboardType="phone-pad"
-                    value={phone}
-                    onChangeText={setPhone}
-                  />
-                </View>
-              </View>
-              <View className="items-center my-5">
-                <TouchableOpacity className="w-11/12 h-[55px] bg-black rounded-lg py-2 justify-center" onPress={handleSave}>
-                  <Text className="text-white text-lg font-bold text-center">
-                    {editingAddress ? "Güncelle" : "Kaydet"}
-                  </Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          ) : (
-            <View className="mx-6 mt-4">
-              <Text className="text-lg font-bold mb-3">Kaydedilen Adresler</Text>
-              {loading ? (
-                <Text className="text-gray-500">Yükleniyor...</Text>
-              ) : addresses.length === 0 ? (
-                <View>
-                  <Text className="text-gray-500 mb-4">Henüz adres kaydedilmemiş.</Text>
-                  <TouchableOpacity onPress={() => setShowAddressForm(true)}>
-                    <Text className="text-blue-500 font-semibold">İlk Adresini Ekle</Text>
-                  </TouchableOpacity>
-                </View>
-              ) : (
-                addresses.map((addr) => (
-                  <View key={addr.id} className="bg-white rounded-lg shadow-sm p-4 mb-4 border border-gray-200">
-                    <View className="flex-row justify-between items-center mb-2">
-                      <Text className="font-bold text-lg">{addr.title}</Text>
-                      <View className="flex-row">
-                        <TouchableOpacity onPress={() => handleEdit(addr.id)} className="p-2">
-                          <AntDesign name="edit" size={20} color="#4CAF50" />
-                        </TouchableOpacity>
-                        <TouchableOpacity onPress={() => handleDelete(addr.id)} className="p-2 ml-2">
-                          <AntDesign name="delete" size={20} color="#F44336" />
-                        </TouchableOpacity>
-                      </View>
-                    </View>
-                    <Text className="text-base text-gray-700">{addr.first_name} {addr.last_name}</Text>
-                    <Text className="text-base text-gray-700">{addr.full_address}</Text>
-                    <Text className="text-base text-gray-700">
-                      {addr.subregion?.name ? `${addr.subregion.name}, ` : ""}
-                      {addr.region?.name}, {addr.country?.name}
-                    </Text>
-                    <Text className="text-base text-gray-700">Tel: {addr.phone_number}</Text>
-                  </View>
-                ))
-              )}
-            </View>
-          )
-        }
+        {showAddressForm ? (
+          <AddressForm
+            addressTitle={addressTitle}
+            setAddressTitle={setAddressTitle}
+            name={name}
+            setName={setName}
+            surname={surname}
+            setSurname={setSurname}
+            address={address}
+            setAddress={setAddress}
+            apartmentFlat={apartmentFlat}
+            setApartmentFlat={setApartmentFlat}
+            phone={phone}
+            setPhone={setPhone}
+            selectedCountry={selectedCountry}
+            handleSelectCountry={handleSelectCountry}
+            selectedRegion={selectedRegion}
+            handleSelectRegion={handleSelectRegion}
+            selectedSubregion={selectedSubregion}
+            handleSelectSubregion={handleSelectSubregion}
+            countries={countries}
+            regions={regions}
+            subregions={subregions}
+            loadMoreCountries={loadMoreCountries}
+            isFetchingCountries={isFetchingCountries}
+            isFetchingRegions={isFetchingRegions}
+            isFetchingSubregions={isFetchingSubregions}
+            handleSave={handleSave}
+            editingAddress={editingAddress}
+          />
+        ) : (
+          <AddressList
+            addresses={addresses}
+            loading={loading}
+            handleEdit={handleEdit}
+            handleDelete={handleDelete}
+            setShowAddressForm={setShowAddressForm}
+          />
+        )}
       </ScrollView>
     </SafeAreaView>
-  )
-}
+  );
+};
 
 export default Adressess;

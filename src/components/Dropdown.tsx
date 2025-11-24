@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, TextInput } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator } from 'react-native';
 import AntDesign from '@expo/vector-icons/AntDesign';
 
 interface DropdownProps<T> {
@@ -27,26 +27,16 @@ const Dropdown = <T,>({
 }: DropdownProps<T>) => {
     const [isOpen, setIsOpen] = useState(false);
 
-    const [searchText, setSearchText] = useState("");
-
     const toggleDropdown = () => {
         if (!disabled) {
             setIsOpen(!isOpen);
-            if (!isOpen) { // If opening, reset search text
-                setSearchText("");
-            }
         }
     };
 
     const handleSelect = (item: T) => {
         onSelect(item);
         setIsOpen(false);
-        setSearchText(""); // Reset search on select
     };
-
-    const filteredData = data.filter((item) =>
-        labelExtractor(item).toLowerCase().includes(searchText.toLowerCase())
-    );
 
     return (
         <View className="my-2 z-50">
@@ -63,25 +53,13 @@ const Dropdown = <T,>({
 
             {isOpen && (
                 <View className="bg-white border border-gray-200 rounded mt-1 max-h-60 w-full absolute top-[50px] z-50 shadow-lg">
-                    <View className="p-2 border-b border-gray-100">
-                        <TextInput
-                            className="bg-gray-50 rounded p-2 text-sm"
-                            placeholder="Ara..."
-                            value={searchText}
-                            onChangeText={setSearchText}
-                            autoFocus={true}
-                        />
-                    </View>
                     <FlatList
-                        data={filteredData}
+                        data={data}
                         keyExtractor={keyExtractor}
                         renderItem={({ item }) => (
                             <TouchableOpacity
                                 className="p-4 border-b border-gray-100 active:bg-gray-50"
-                                onPress={() => {
-                                    handleSelect(item);
-                                    setSearchText(""); // Reset search on select
-                                }}
+                                onPress={() => handleSelect(item)}
                             >
                                 <Text className="text-black">{labelExtractor(item)}</Text>
                             </TouchableOpacity>
@@ -91,7 +69,6 @@ const Dropdown = <T,>({
                         onEndReachedThreshold={0.5}
                         ListFooterComponent={isLoading ? <ActivityIndicator size="small" color="#0000ff" className="my-2" /> : null}
                         nestedScrollEnabled={true}
-                        keyboardShouldPersistTaps="handled"
                     />
                 </View>
             )}
