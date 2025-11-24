@@ -1,5 +1,6 @@
 import { ReactNode } from "react";
-import { Home, Search, Package, Menu } from "lucide-react";
+import { View, Text, TouchableOpacity, SafeAreaView, ScrollView } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 interface CheckoutLayoutProps {
   children: ReactNode;
@@ -9,48 +10,46 @@ interface CheckoutLayoutProps {
 
 const CheckoutLayout = ({ children, currentStep, totalSteps }: CheckoutLayoutProps) => {
   return (
-    <div className="min-h-screen bg-checkout flex flex-col">
+    <SafeAreaView className="flex-1 bg-white">
       {/* Header */}
-      <header className="bg-card border-b border-border px-4 py-3 sticky top-0 z-10">
-        <div className="flex items-center justify-between max-w-md mx-auto">
-          <h1 className="text-lg font-semibold">Özet</h1>
-          <div className="text-sm font-medium">
-            688 TL <span className="text-muted-foreground">(2 ürün)</span>
-          </div>
-        </div>
-      </header>
+      <View className="bg-white border-b border-gray-200 px-4 py-3">
+        <View className="flex-row items-center justify-between">
+          <Text className="text-lg font-semibold">Özet</Text>
+          <Text className="text-sm font-medium">
+            688 TL <Text className="text-gray-500">(2 ürün)</Text>
+          </Text>
+        </View>
+      </View>
 
       {/* Content */}
-      <main className="flex-1 overflow-y-auto pb-32">
-        <div className="max-w-md mx-auto">
+      <ScrollView className="flex-1" contentContainerStyle={{ paddingBottom: 100 }}>
+        <View className="p-4">
           {children}
-        </div>
-      </main>
+        </View>
+      </ScrollView>
 
       {/* Bottom Navigation */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-card border-t border-border">
-        <div className="max-w-md mx-auto px-4 py-3">
-          <div className="flex items-center justify-around">
-            <button className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
-              <Home size={20} />
-              <span className="text-xs">Anasayfa</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
-              <Search size={20} />
-              <span className="text-xs">Ürün Ara</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
-              <Package size={20} />
-              <span className="text-xs">Tüm Ürünler</span>
-            </button>
-            <button className="flex flex-col items-center gap-1 text-muted-foreground hover:text-foreground transition-colors">
-              <Menu size={20} />
-              <span className="text-xs">Menü</span>
-            </button>
-          </div>
-        </div>
-      </nav>
-    </div>
+      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200">
+        <View className="flex-row items-center justify-around py-3">
+          <TouchableOpacity className="items-center justify-center">
+            <Feather name="home" size={20} color="gray" />
+            <Text className="text-xs text-gray-500 mt-1">Anasayfa</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="items-center justify-center">
+            <Feather name="search" size={20} color="gray" />
+            <Text className="text-xs text-gray-500 mt-1">Ürün Ara</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="items-center justify-center">
+            <Feather name="package" size={20} color="gray" />
+            <Text className="text-xs text-gray-500 mt-1">Tüm Ürünler</Text>
+          </TouchableOpacity>
+          <TouchableOpacity className="items-center justify-center">
+            <Feather name="menu" size={20} color="gray" />
+            <Text className="text-xs text-gray-500 mt-1">Menü</Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    </SafeAreaView>
   );
 };
 

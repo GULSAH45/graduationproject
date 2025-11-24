@@ -86,8 +86,10 @@ const BasketScreen = () => {
           </View>
         ) : (
           <View className="items-center mt-5 justify-center">
-            <TouchableOpacity className="bg-black w-[324px] h-[55px]
-         items-center justify-center rounded-lg">
+            <TouchableOpacity 
+              onPress={() => navigation.navigate("CheckoutScreen")}
+              className="bg-black w-[324px] h-[55px] items-center justify-center rounded-lg"
+            >
               <Text className="text-2xl text-white text-center font-bold">Devam et</Text>
             </TouchableOpacity>
           </View>

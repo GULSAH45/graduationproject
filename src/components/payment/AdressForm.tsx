@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { MapPin } from "lucide-react";
+import { View, Text, TextInput, TouchableOpacity, ScrollView } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 interface AddressFormProps {
   onSubmit: (data: any) => void;
@@ -18,8 +19,7 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
 
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     const newErrors: Record<string, string> = {};
 
     if (!formData.name) newErrors.name = "Girilen bilgiler hatalı";
@@ -35,125 +35,116 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="bg-card rounded-xl border-2 border-primary p-4 space-y-4">
-        <div className="flex items-center gap-2 mb-2">
-          <MapPin size={20} className="text-foreground" />
-          <span className="font-medium">Yeni Adres</span>
-        </div>
+    <View className="space-y-4">
+      <View className="bg-white rounded-xl border-2 border-black p-4 space-y-4">
+        <View className="flex-row items-center gap-2 mb-2">
+          <Feather name="map-pin" size={20} color="black" />
+          <Text className="font-medium text-black">Yeni Adres</Text>
+        </View>
 
-        <div>
-          <label className="block text-sm font-medium mb-1.5">Arzu Betül</label>
-          <input
-            type="text"
+        <View>
+          <Text className="text-sm font-medium mb-1.5 text-black">Ad</Text>
+          <TextInput
             value={formData.name}
-            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-            className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-            placeholder="Arzu Betül"
+            onChangeText={(text) => setFormData({ ...formData, name: text })}
+            className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
+            placeholder="Ad"
           />
           {errors.name && (
-            <p className="text-destructive text-xs mt-1">{errors.name}</p>
+            <Text className="text-red-500 text-xs mt-1">{errors.name}</Text>
           )}
-        </div>
+        </View>
 
-        <div>
-          <label className="block text-sm font-medium mb-1.5">Kart</label>
-          <input
-            type="text"
+        <View>
+          <Text className="text-sm font-medium mb-1.5 text-black">Soyad</Text>
+          <TextInput
             value={formData.surname}
-            onChange={(e) => setFormData({ ...formData, surname: e.target.value })}
-            className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-            placeholder="Kart"
+            onChangeText={(text) => setFormData({ ...formData, surname: text })}
+            className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
+            placeholder="Soyad"
           />
           {errors.surname && (
-            <p className="text-destructive text-xs mt-1">{errors.surname}</p>
+            <Text className="text-red-500 text-xs mt-1">{errors.surname}</Text>
           )}
-        </div>
+        </View>
 
-        <div>
-          <label className="block text-sm font-medium mb-1.5">Adres</label>
-          <input
-            type="text"
+        <View>
+          <Text className="text-sm font-medium mb-1.5 text-black">Adres</Text>
+          <TextInput
             value={formData.address}
-            onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-            className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+            onChangeText={(text) => setFormData({ ...formData, address: text })}
+            className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
             placeholder="Adres"
           />
           {errors.address && (
-            <p className="text-destructive text-xs mt-1">{errors.address}</p>
+            <Text className="text-red-500 text-xs mt-1">{errors.address}</Text>
           )}
-        </div>
+        </View>
 
-        <div>
-          <label className="block text-sm font-medium mb-1.5">Apartman, daire, vb.</label>
-          <input
-            type="text"
+        <View>
+          <Text className="text-sm font-medium mb-1.5 text-black">Apartman, daire, vb.</Text>
+          <TextInput
             value={formData.apartment}
-            onChange={(e) => setFormData({ ...formData, apartment: e.target.value })}
-            className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+            onChangeText={(text) => setFormData({ ...formData, apartment: text })}
+            className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
             placeholder="Apartman, daire, vb."
           />
-        </div>
+        </View>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium mb-1.5">İl</label>
-            <select
+        <View className="flex-row gap-3">
+          <View className="flex-1">
+            <Text className="text-sm font-medium mb-1.5 text-black">İl</Text>
+            {/* Simplified as TextInput for now */}
+            <TextInput
               value={formData.city}
-              onChange={(e) => setFormData({ ...formData, city: e.target.value })}
-              className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-            >
-              <option value="">İl</option>
-              <option value="istanbul">İstanbul</option>
-              <option value="ankara">Ankara</option>
-              <option value="izmir">İzmir</option>
-            </select>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1.5">İlçe</label>
-            <select
-              value={formData.district}
-              onChange={(e) => setFormData({ ...formData, district: e.target.value })}
-              className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-            >
-              <option value="">İlçe</option>
-              <option value="sarıyer">Sarıyer</option>
-              <option value="beşiktaş">Beşiktaş</option>
-            </select>
-          </div>
-        </div>
-
-        <div>
-          <label className="block text-sm font-medium mb-1.5">Telefon</label>
-          <div className="flex gap-2">
-            <div className="flex items-center gap-2 px-3 py-2.5 bg-background border border-input rounded-lg w-20">
-              <span className="text-2xl">🇹🇷</span>
-            </div>
-            <input
-              type="tel"
-              value={formData.phone}
-              onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-              className="flex-1 px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
-              placeholder="+90"
+              onChangeText={(text) => setFormData({ ...formData, city: text })}
+              className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
+              placeholder="İl"
             />
-          </div>
-        </div>
+          </View>
+          <View className="flex-1">
+            <Text className="text-sm font-medium mb-1.5 text-black">İlçe</Text>
+            {/* Simplified as TextInput for now */}
+            <TextInput
+              value={formData.district}
+              onChangeText={(text) => setFormData({ ...formData, district: text })}
+              className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
+              placeholder="İlçe"
+            />
+          </View>
+        </View>
 
-        <button
-          type="submit"
-          className="w-full bg-muted text-muted-foreground py-3.5 rounded-lg font-medium hover:bg-muted/80 transition-colors"
+        <View>
+          <Text className="text-sm font-medium mb-1.5 text-black">Telefon</Text>
+          <View className="flex-row gap-2">
+            <View className="flex-row items-center gap-2 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg w-20 justify-center">
+              <Text className="text-2xl">🇹🇷</Text>
+            </View>
+            <TextInput
+              value={formData.phone}
+              onChangeText={(text) => setFormData({ ...formData, phone: text })}
+              className="flex-1 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
+              placeholder="+90"
+              keyboardType="phone-pad"
+            />
+          </View>
+        </View>
+
+        <TouchableOpacity
+          onPress={() => {}}
+          className="w-full bg-gray-100 py-3.5 rounded-lg items-center"
         >
-          Adres Başlığı
-        </button>
-      </div>
+          <Text className="text-gray-500 font-medium">Adres Başlığı</Text>
+        </TouchableOpacity>
+      </View>
 
-      <button
-        type="submit"
-        className="w-full bg-muted text-foreground py-4 rounded-lg font-semibold hover:bg-muted/80 transition-colors"
+      <TouchableOpacity
+        onPress={handleSubmit}
+        className="w-full bg-black py-4 rounded-lg items-center"
       >
-        Kargo ile Devam Et
-      </button>
-    </form>
+        <Text className="text-white font-semibold">Kargo ile Devam Et</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 

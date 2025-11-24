@@ -1,3 +1,5 @@
+import { View, Text, TouchableOpacity } from "react-native";
+
 interface StepIndicatorProps {
   stepNumber: number;
   title: string;
@@ -7,27 +9,27 @@ interface StepIndicatorProps {
 
 const StepIndicator = ({ stepNumber, title, isActive, isCompleted }: StepIndicatorProps) => {
   return (
-    <div className="flex items-center gap-3 mb-4">
-      <div
-        className={`w-8 h-8 rounded-full flex items-center justify-center font-medium transition-colors ${
-          isCompleted
-            ? "bg-foreground text-background"
-            : isActive
-            ? "bg-foreground text-background"
-            : "bg-muted text-muted-foreground"
+    <View className="flex-row items-center mb-4 gap-3">
+      <View
+        className={`w-8 h-8 rounded-full items-center justify-center ${
+          isCompleted || isActive
+            ? "bg-black"
+            : "bg-gray-200"
         }`}
       >
-        {isCompleted ? "✓" : stepNumber}
-      </div>
-      <h2 className={`text-lg font-semibold ${isActive ? "text-foreground" : "text-muted-foreground"}`}>
+        <Text className={`${isCompleted || isActive ? "text-white" : "text-gray-500"} font-medium`}>
+          {isCompleted ? "✓" : stepNumber}
+        </Text>
+      </View>
+      <Text className={`text-lg font-semibold ${isActive ? "text-black" : "text-gray-400"}`}>
         {title}
-      </h2>
+      </Text>
       {isCompleted && (
-        <button className="ml-auto text-sm text-primary">
-          Düzenle
-        </button>
+        <TouchableOpacity className="ml-auto">
+          <Text className="text-sm text-blue-600">Düzenle</Text>
+        </TouchableOpacity>
       )}
-    </div>
+    </View>
   );
 };
 

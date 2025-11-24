@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { CreditCard, HelpCircle } from "lucide-react";
+import { View, Text, TextInput, TouchableOpacity, ScrollView, Switch } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 interface PaymentFormProps {
   onSubmit: (data: any) => void;
@@ -20,148 +21,146 @@ const PaymentForm = ({ onSubmit }: PaymentFormProps) => {
     terms: false,
   });
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     onSubmit(formData);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="bg-card rounded-xl border-2 border-primary p-4 space-y-4">
-        <div className="flex items-center gap-2 mb-2">
-          <CreditCard size={20} className="text-foreground" />
-          <span className="font-medium">Kredi Kartı</span>
-        </div>
+    <View className="space-y-4">
+      <View className="bg-white rounded-xl border-2 border-black p-4 space-y-4">
+        <View className="flex-row items-center gap-2 mb-2">
+          <Feather name="credit-card" size={20} color="black" />
+          <Text className="font-medium text-black">Kredi Kartı</Text>
+        </View>
 
-        <div>
-          <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+        <View>
+          <Text className="text-sm font-medium mb-1.5 text-gray-500">
             Kart Numarası
-          </label>
-          <input
-            type="text"
+          </Text>
+          <TextInput
             value={formData.cardNumber}
-            onChange={(e) => setFormData({ ...formData, cardNumber: e.target.value })}
-            className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+            onChangeText={(text) => setFormData({ ...formData, cardNumber: text })}
+            className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
             placeholder="Kart Numarası"
             maxLength={19}
+            keyboardType="numeric"
           />
-        </div>
+        </View>
 
-        <div>
-          <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+        <View>
+          <Text className="text-sm font-medium mb-1.5 text-gray-500">
             Kart Üzerindeki İsim
-          </label>
-          <input
-            type="text"
+          </Text>
+          <TextInput
             value={formData.cardName}
-            onChange={(e) => setFormData({ ...formData, cardName: e.target.value })}
-            className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+            onChangeText={(text) => setFormData({ ...formData, cardName: text })}
+            className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
             placeholder="Kart Üzerindeki İsim"
           />
-        </div>
+        </View>
 
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label className="block text-sm font-medium mb-1.5 text-muted-foreground">
+        <View className="flex-row gap-3">
+          <View className="flex-1">
+            <Text className="text-sm font-medium mb-1.5 text-gray-500">
               Ay / Yıl
-            </label>
-            <div className="flex gap-2">
-              <input
-                type="text"
+            </Text>
+            <View className="flex-row gap-2">
+              <TextInput
                 value={formData.expiryMonth}
-                onChange={(e) => setFormData({ ...formData, expiryMonth: e.target.value })}
-                className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                onChangeText={(text) => setFormData({ ...formData, expiryMonth: text })}
+                className="flex-1 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
                 placeholder="AA"
                 maxLength={2}
+                keyboardType="numeric"
               />
-              <input
-                type="text"
+              <TextInput
                 value={formData.expiryYear}
-                onChange={(e) => setFormData({ ...formData, expiryYear: e.target.value })}
-                className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+                onChangeText={(text) => setFormData({ ...formData, expiryYear: text })}
+                className="flex-1 px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
                 placeholder="YY"
                 maxLength={2}
+                keyboardType="numeric"
               />
-            </div>
-          </div>
-          <div>
-            <label className="block text-sm font-medium mb-1.5 text-muted-foreground flex items-center gap-1">
-              CVC
-              <HelpCircle size={14} className="text-muted-foreground" />
-            </label>
-            <input
-              type="text"
+            </View>
+          </View>
+          <View className="flex-1">
+            <View className="flex-row items-center gap-1 mb-1.5">
+              <Text className="text-sm font-medium text-gray-500">CVC</Text>
+              <Feather name="help-circle" size={14} color="gray" />
+            </View>
+            <TextInput
               value={formData.cvc}
-              onChange={(e) => setFormData({ ...formData, cvc: e.target.value })}
-              className="w-full px-3 py-2.5 bg-background border border-input rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
+              onChangeText={(text) => setFormData({ ...formData, cvc: text })}
+              className="w-full px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg"
               placeholder="CVC"
               maxLength={3}
+              keyboardType="numeric"
             />
-          </div>
-        </div>
+          </View>
+        </View>
 
-        <div className="flex items-center gap-2 pt-2">
-          <div className="w-5 h-5 rounded bg-primary flex items-center justify-center">
-            <span className="text-primary-foreground text-xs">M</span>
-          </div>
-          <span className="text-sm font-medium">masterpass</span>
-          <span className="text-xs text-muted-foreground">
+        <View className="flex-row items-center gap-2 pt-2">
+          <View className="w-5 h-5 rounded bg-black items-center justify-center">
+            <Text className="text-white text-xs">M</Text>
+          </View>
+          <Text className="text-sm font-medium text-black">masterpass</Text>
+          <Text className="text-xs text-gray-500">
             altyapısında saklamak istiyorum.
-          </span>
-        </div>
-      </div>
+          </Text>
+        </View>
+      </View>
 
       {/* Summary Section */}
-      <div className="space-y-3">
-        <div className="flex items-center justify-between py-3">
-          <span className="text-sm">Kapıda Ödeme (Nakit)</span>
-          <span className="font-semibold">39 TL İşlem Bedeli</span>
-        </div>
-        <div className="flex items-center justify-between py-3 border-t border-border">
-          <span className="text-sm">Kapıda Ödeme (Kredi Kartı)</span>
-          <span className="font-semibold">39 TL İşlem Bedeli</span>
-        </div>
-      </div>
+      <View className="space-y-3">
+        <View className="flex-row items-center justify-between py-3">
+          <Text className="text-sm text-black">Kapıda Ödeme (Nakit)</Text>
+          <Text className="font-semibold text-black">39 TL İşlem Bedeli</Text>
+        </View>
+        <View className="flex-row items-center justify-between py-3 border-t border-gray-200">
+          <Text className="text-sm text-black">Kapıda Ödeme (Kredi Kartı)</Text>
+          <Text className="font-semibold text-black">39 TL İşlem Bedeli</Text>
+        </View>
+      </View>
 
       {/* Agreements */}
-      <div className="space-y-3">
-        <label className="flex items-start gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={saveAddress}
-            onChange={(e) => setSaveAddress(e.target.checked)}
-            className="w-5 h-5 mt-0.5 accent-foreground rounded"
-          />
-          <span className="text-sm">
+      <View className="space-y-3">
+        <TouchableOpacity 
+          className="flex-row items-start gap-3"
+          onPress={() => setSaveAddress(!saveAddress)}
+        >
+          <View className={`w-5 h-5 mt-0.5 rounded border ${saveAddress ? 'bg-black border-black' : 'border-gray-300'}`}>
+            {saveAddress && <Feather name="check" size={14} color="white" />}
+          </View>
+          <Text className="text-sm text-black flex-1">
             Fatura adresim teslimat adresimle aynı
-          </span>
-        </label>
+          </Text>
+        </TouchableOpacity>
 
-        <label className="flex items-start gap-3 cursor-pointer">
-          <input
-            type="checkbox"
-            checked={agreements.privacy}
-            onChange={(e) => setAgreements({ ...agreements, privacy: e.target.checked })}
-            className="w-5 h-5 mt-0.5 accent-foreground rounded"
-          />
-          <span className="text-sm">
-            <span className="font-medium">Gizlilik Sözleşmesini</span> ve{" "}
-            <span className="font-medium">Satış Sözleşmesini</span> okudum, onaylıyorum.
-          </span>
-        </label>
-      </div>
+        <TouchableOpacity 
+          className="flex-row items-start gap-3"
+          onPress={() => setAgreements({ ...agreements, privacy: !agreements.privacy })}
+        >
+          <View className={`w-5 h-5 mt-0.5 rounded border ${agreements.privacy ? 'bg-black border-black' : 'border-gray-300'}`}>
+            {agreements.privacy && <Feather name="check" size={14} color="white" />}
+          </View>
+          <Text className="text-sm text-black flex-1">
+            <Text className="font-medium">Gizlilik Sözleşmesini</Text> ve{" "}
+            <Text className="font-medium">Satış Sözleşmesini</Text> okudum, onaylıyorum.
+          </Text>
+        </TouchableOpacity>
+      </View>
 
-      <button
-        type="submit"
-        className="w-full bg-foreground text-background py-4 rounded-lg font-semibold hover:bg-foreground/90 transition-colors"
+      <TouchableOpacity
+        onPress={handleSubmit}
+        className="w-full bg-black py-4 rounded-lg items-center"
       >
-        Siparişi Tamamla
-      </button>
+        <Text className="text-white font-semibold">Siparişi Tamamla</Text>
+      </TouchableOpacity>
 
-      <p className="text-xs text-center text-muted-foreground">
+      <Text className="text-xs text-center text-gray-500">
         Ödemeler güvenli ve şifrelidir
-      </p>
-    </form>
+      </Text>
+    </View>
   );
 };
 

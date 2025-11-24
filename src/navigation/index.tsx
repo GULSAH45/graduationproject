@@ -19,6 +19,7 @@ import MainpageMainScreen from "@/navigation/screens/TabBar/Home";
 import SearchScreen from "@/navigation/screens/TabBar/Search";
 import WholeProduct from "@/navigation/screens/TabBar/WholeProduct";
 import MenuListScreen from "@/navigation/screens/TabBar/MenuList";
+import CheckoutScreen from "@/navigation/screens/Payment/CheckoutScreen";
 import LogScreen from "@/navigation/screens/Auth/LogScreen";
 import SignUpScreen from "@/navigation/screens/Auth/SignUpScreen";
 import ContactScreen from "@/navigation/screens/Menu/ContactScreen";
@@ -52,6 +53,7 @@ export type RootStackParamList = {
   AboutScreen: undefined;
   OrderScreen: undefined;
   BasketScreen: undefined;
+  CheckoutScreen: undefined;
 };
 
 const HomeTabs = createBottomTabNavigator({
@@ -194,6 +196,13 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
       screen: BasketScreen,
       options: {
         title: "Sepetim",
+        headerShown: false,
+      },
+    },
+    CheckoutScreen: {
+      screen: CheckoutScreen,
+      options: {
+        title: "Ödeme",
         headerShown: false,
       },
     },

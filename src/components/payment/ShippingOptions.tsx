@@ -1,5 +1,6 @@
 import { useState } from "react";
-import { Truck } from "lucide-react";
+import { View, Text, TouchableOpacity } from "react-native";
+import { Feather } from "@expo/vector-icons";
 
 interface ShippingOptionsProps {
   onSubmit: (option: string) => void;
@@ -8,54 +9,53 @@ interface ShippingOptionsProps {
 const ShippingOptions = ({ onSubmit }: ShippingOptionsProps) => {
   const [selectedOption, setSelectedOption] = useState("free");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = () => {
     onSubmit(selectedOption);
   };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-4">
-      <div className="bg-card rounded-xl p-4 space-y-3">
-        <div
-          className={`flex items-start justify-between p-4 rounded-lg border-2 cursor-pointer transition-colors ${
+    <View className="space-y-4">
+      <View className="bg-white rounded-xl p-4 space-y-3">
+        <TouchableOpacity
+          className={`flex-row items-start justify-between p-4 rounded-lg border-2 ${
             selectedOption === "free"
-              ? "border-primary bg-primary/5"
-              : "border-border bg-background"
+              ? "border-black bg-gray-50"
+              : "border-gray-200 bg-white"
           }`}
-          onClick={() => setSelectedOption("free")}
+          onPress={() => setSelectedOption("free")}
         >
-          <div className="flex items-start gap-3">
-            <div
-              className={`w-5 h-5 rounded-full border-2 mt-0.5 flex items-center justify-center ${
+          <View className="flex-row items-start gap-3 flex-1">
+            <View
+              className={`w-5 h-5 rounded-full border-2 mt-0.5 items-center justify-center ${
                 selectedOption === "free"
-                  ? "border-foreground"
-                  : "border-muted-foreground"
+                  ? "border-black"
+                  : "border-gray-400"
               }`}
             >
               {selectedOption === "free" && (
-                <div className="w-3 h-3 rounded-full bg-foreground" />
+                <View className="w-3 h-3 rounded-full bg-black" />
               )}
-            </div>
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <Truck size={18} />
-                <span className="font-medium">Ücretsiz Kargo</span>
-              </div>
-              <p className="text-sm text-muted-foreground mt-1">
+            </View>
+            <View className="flex-1">
+              <View className="flex-row items-center gap-2">
+                <Feather name="truck" size={18} color="black" />
+                <Text className="font-medium text-black">Ücretsiz Kargo</Text>
+              </View>
+              <Text className="text-sm text-gray-500 mt-1">
                 (16:00 öncesi siparişler aynı gün kargolam) / Ücretsiz
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
+              </Text>
+            </View>
+          </View>
+        </TouchableOpacity>
+      </View>
 
-      <button
-        type="submit"
-        className="w-full bg-foreground text-background py-4 rounded-lg font-semibold hover:bg-foreground/90 transition-colors"
+      <TouchableOpacity
+        onPress={handleSubmit}
+        className="w-full bg-black py-4 rounded-lg items-center"
       >
-        Kargo ile Devam Et
-      </button>
-    </form>
+        <Text className="text-white font-semibold">Ödeme ile Devam Et</Text>
+      </TouchableOpacity>
+    </View>
   );
 };
 
