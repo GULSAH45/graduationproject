@@ -1,3 +1,4 @@
+
 import {
   View,
   Text,
@@ -6,8 +7,6 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  Modal,
-  FlatList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -18,6 +17,7 @@ import AntDesign from '@expo/vector-icons/AntDesign';
 import { getAddresses, deleteAddress, updateAddress, createAddress, Address } from "@/services/collections/Adresses";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { listCountries, listRegions, listSubregions, Country, Region, Subregion } from "@/services/collections/World";
+import Dropdown from "@/components/Dropdown";
 
 const Adressess = () => {
   const navigation = useNavigation();
@@ -40,14 +40,16 @@ const Adressess = () => {
   const [countryOffset, setCountryOffset] = useState(0);
   const [hasMoreCountries, setHasMoreCountries] = useState(true);
   const [isFetchingCountries, setIsFetchingCountries] = useState(false);
+  const [isFetchingRegions, setIsFetchingRegions] = useState(false);
+  const [isFetchingSubregions, setIsFetchingSubregions] = useState(false);
 
   const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [selectedSubregion, setSelectedSubregion] = useState<Subregion | null>(null);
 
-  // Modal states
-  const [modalVisible, setModalVisible] = useState(false);
-  const [modalType, setModalType] = useState<'country' | 'region' | 'subregion'>('country');
+  // Modal states removed
+  // const [modalVisible, setModalVisible] = useState(false);
+  // const [modalType, setModalType] = useState<'country' | 'region' | 'subregion'>('country');
 
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
@@ -93,7 +95,8 @@ const Adressess = () => {
     }
   };
 
-  const fetchRegions = async (countryId: number) => {
+  const fetchRegions = async (countryId: string) => {
+    setIsFetchingRegions(true);
     try {
       const response = await listRegions(countryId);
       if (response.status === "success") {
@@ -101,10 +104,13 @@ const Adressess = () => {
       }
     } catch (error) {
       console.error("Error fetching regions:", error);
+    } finally {
+      setIsFetchingRegions(false);
     }
   };
 
   const fetchSubregions = async (regionId: number) => {
+    setIsFetchingSubregions(true);
     try {
       const response = await listSubregions(regionId);
       if (response.status === "success") {
@@ -112,6 +118,8 @@ const Adressess = () => {
       }
     } catch (error) {
       console.error("Error fetching subregions:", error);
+    } finally {
+      setIsFetchingSubregions(false);
     }
   };
 
@@ -139,7 +147,6 @@ const Adressess = () => {
     setRegions([]);
     setSubregions([]);
     fetchRegions(country.id);
-    setModalVisible(false);
   };
 
   const handleSelectRegion = (region: Region) => {
@@ -147,26 +154,13 @@ const Adressess = () => {
     setSelectedSubregion(null);
     setSubregions([]);
     fetchSubregions(region.id);
-    setModalVisible(false);
   };
 
   const handleSelectSubregion = (subregion: Subregion) => {
     setSelectedSubregion(subregion);
-    setModalVisible(false);
   };
 
-  const openModal = (type: 'country' | 'region' | 'subregion') => {
-    if (type === 'region' && !selectedCountry) {
-      Alert.alert("Uyarı", "Lütfen önce ülke seçiniz.");
-      return;
-    }
-    if (type === 'subregion' && !selectedRegion) {
-      Alert.alert("Uyarı", "Lütfen önce şehir seçiniz.");
-      return;
-    }
-    setModalType(type);
-    setModalVisible(true);
-  };
+  // openModal function removed
 
   const handleSave = async () => {
     if (!accessToken) return;
@@ -233,17 +227,13 @@ const Adressess = () => {
       setPhone(addressToEdit.phone_number);
 
       // Set location data
-      // We need to fetch regions and subregions to populate the lists if we want to change them
-      // But initially just setting the selected objects is enough for display
-      // However, to allow changing, we should probably fetch the lists based on the IDs
-
       setSelectedCountry(addressToEdit.country);
       setSelectedRegion(addressToEdit.region);
       setSelectedSubregion(addressToEdit.subregion);
 
       // Trigger fetches to populate lists
       if (addressToEdit.country) {
-        await fetchRegions(addressToEdit.country.id);
+        await fetchRegions(addressToEdit.country.name);
       }
       if (addressToEdit.region) {
         await fetchSubregions(addressToEdit.region.id);
@@ -282,18 +272,7 @@ const Adressess = () => {
     );
   };
 
-  const renderModalItem = ({ item }: { item: Country | Region | Subregion }) => (
-    <TouchableOpacity
-      className="p-4 border-b border-gray-200"
-      onPress={() => {
-        if (modalType === 'country') handleSelectCountry(item as Country);
-        else if (modalType === 'region') handleSelectRegion(item as Region);
-        else handleSelectSubregion(item as Subregion);
-      }}
-    >
-      <Text className="text-lg">{item.name}</Text>
-    </TouchableOpacity>
-  );
+  // renderModalItem function removed
 
   const resetForm = () => {
     setAddressTitle("");
@@ -358,36 +337,48 @@ const Adressess = () => {
 
                 {/* Country Selector */}
                 <Text className="self-start text-md my-2">Ülke</Text>
-                <TouchableOpacity
-                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4 justify-center"
-                  onPress={() => openModal('country')}
-                >
-                  <Text className={selectedCountry ? "text-black" : "text-gray-400"}>
-                    {selectedCountry ? selectedCountry.name : "Ülke Seçiniz"}
-                  </Text>
-                </TouchableOpacity>
+                <View className="z-30">
+                  <Dropdown
+                    data={countries}
+                    selectedItem={selectedCountry}
+                    onSelect={handleSelectCountry}
+                    placeholder="Ülke Seçiniz"
+                    labelExtractor={(item) => item.name}
+                    keyExtractor={(item) => item.id.toString()}
+                    onEndReached={loadMoreCountries}
+                    isLoading={isFetchingCountries}
+                  />
+                </View>
 
                 {/* Region Selector */}
                 <Text className="self-start text-md my-2">Şehir</Text>
-                <TouchableOpacity
-                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4 justify-center"
-                  onPress={() => openModal('region')}
-                >
-                  <Text className={selectedRegion ? "text-black" : "text-gray-400"}>
-                    {selectedRegion ? selectedRegion.name : "Şehir Seçiniz"}
-                  </Text>
-                </TouchableOpacity>
+                <View className="z-20">
+                  <Dropdown
+                    data={regions}
+                    selectedItem={selectedRegion}
+                    onSelect={handleSelectRegion}
+                    placeholder="Şehir Seçiniz"
+                    labelExtractor={(item) => item.name}
+                    keyExtractor={(item) => item.id.toString()}
+                    disabled={!selectedCountry}
+                    isLoading={isFetchingRegions}
+                  />
+                </View>
 
                 {/* Subregion Selector */}
                 <Text className="self-start text-md my-2">İlçe</Text>
-                <TouchableOpacity
-                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4 justify-center"
-                  onPress={() => openModal('subregion')}
-                >
-                  <Text className={selectedSubregion ? "text-black" : "text-gray-400"}>
-                    {selectedSubregion ? selectedSubregion.name : "İlçe Seçiniz"}
-                  </Text>
-                </TouchableOpacity>
+                <View className="z-10">
+                  <Dropdown
+                    data={subregions}
+                    selectedItem={selectedSubregion}
+                    onSelect={handleSelectSubregion}
+                    placeholder="İlçe Seçiniz"
+                    labelExtractor={(item) => item.name}
+                    keyExtractor={(item) => item.id.toString()}
+                    disabled={!selectedRegion}
+                    isLoading={isFetchingSubregions}
+                  />
+                </View>
 
                 <Text className="self-start text-md my-2">Adres</Text>
                 <TextInput
@@ -467,40 +458,6 @@ const Adressess = () => {
           )
         }
       </ScrollView>
-
-      {/* Selection Modal */}
-      <Modal
-        animationType="slide"
-        transparent={true}
-        visible={modalVisible}
-        onRequestClose={() => setModalVisible(false)}
-      >
-        <View className="flex-1 justify-end bg-black/50">
-          <View className="bg-white rounded-t-3xl h-2/3 p-4">
-            <View className="flex-row justify-between items-center mb-4">
-              <Text className="text-xl font-bold">
-                {modalType === 'country' ? 'Ülke Seç' : modalType === 'region' ? 'Şehir Seç' : 'İlçe Seç'}
-              </Text>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
-                <AntDesign name="close" size={24} color="black" />
-              </TouchableOpacity>
-            </View>
-            <FlatList
-              data={modalType === 'country' ? countries : modalType === 'region' ? regions : subregions}
-              keyExtractor={(item) => item.id.toString()}
-              renderItem={renderModalItem}
-              ListEmptyComponent={<Text className="text-center text-gray-500 mt-4">Veri bulunamadı.</Text>}
-              onEndReached={() => {
-                if (modalType === 'country') {
-                  loadMoreCountries();
-                }
-              }}
-              onEndReachedThreshold={0.5}
-              ListFooterComponent={isFetchingCountries && modalType === 'country' ? <Text className="text-center p-2">Yükleniyor...</Text> : null}
-            />
-          </View>
-        </View>
-      </Modal>
     </SafeAreaView>
   )
 }
