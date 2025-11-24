@@ -23,7 +23,7 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
-import { ProductReview } from "@/components/productReview/ProductReview";
+import { ProductReview } from "@/components/ProductReview/ProductReview";
 
 
 
@@ -35,7 +35,7 @@ export const IMAGE_URL = "https://fe1111.projects.academy.onlyjs.com";
 // Aroma isimlerini icon dosyalarıyla eşleştiren fonksiyon
 const getAromaIcon = (aroma: string): any => {
   const aromaLower = aroma.toLowerCase().trim();
-  
+
   // Aroma isimlerini icon dosyalarıyla eşleştir
   const aromaMap: { [key: string]: any } = {
     "limonata": require("@/assets/icons/limonata.webp"),
@@ -86,7 +86,7 @@ const ProductDetailPage = () => {
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
 
 
- 
+
   const scrollRef = useRef<ScrollView>(null);
   const [currentPage, setCurrentPage] = useState(0);
 
@@ -124,7 +124,7 @@ const ProductDetailPage = () => {
   // Seçilen aroma için varyantlar (boyutlar) - unique pieces
   const availableVariants = product?.variants
     ?.filter((v) => v.aroma === selectedAroma)
-    .filter((variant, index, self) => 
+    .filter((variant, index, self) =>
       index === self.findIndex((v) => v.size.pieces === variant.size.pieces)
     );
 
@@ -292,7 +292,7 @@ const ProductDetailPage = () => {
       </SafeAreaView>
     );
   }
-  
+
   if (error || !product) {
     return (
       <SafeAreaView className="flex-1 justify-center items-center bg-white">
@@ -377,11 +377,10 @@ const ProductDetailPage = () => {
               return (
                 <View key={idx} className="mr-2 mb-2 relative">
                   <TouchableOpacity
-                    className={`flex-row items-center px-3 py-2 rounded-full border ${
-                      isSelected
+                    className={`flex-row items-center px-3 py-2 rounded-full border ${isSelected
                         ? "bg-green-200 border-green-600"
                         : "bg-white border-gray-300"
-                    }`}
+                      }`}
                     onPress={() => {
                       setSelectedAroma(aroma);
                       setSelectedVariantId(null); // Aroma değişince gramaj sıfırlansın
@@ -418,11 +417,10 @@ const ProductDetailPage = () => {
                 {availableVariants?.map((variant) => (
                   <TouchableOpacity
                     key={variant.id}
-                    className={`flex-row items-center px-3 py-1 mr-2 mb-2 rounded-full border ${
-                      selectedVariantId === variant.id
+                    className={`flex-row items-center px-3 py-1 mr-2 mb-2 rounded-full border ${selectedVariantId === variant.id
                         ? "bg-blue-200 border-blue-600"
                         : "bg-gray-200 border-gray-400"
-                    }`}
+                      }`}
                     onPress={() => setSelectedVariantId(variant.id)}
                   >
                     <Text className="text-sm text-gray-700">
@@ -480,11 +478,10 @@ const ProductDetailPage = () => {
           <TouchableOpacity
             disabled={!selectedAroma || !selectedVariantId}
             onPress={handleAddBasket}
-            className={`mt-2 py-3 rounded-lg ${
-              selectedAroma && selectedVariantId
+            className={`mt-2 py-3 rounded-lg ${selectedAroma && selectedVariantId
                 ? "bg-green-600"
                 : "bg-gray-400"
-            }`}
+              }`}
           >
             <Text className="text-white text-center font-bold text-lg">
               Sepete Ekle
@@ -521,7 +518,7 @@ const ProductDetailPage = () => {
               </Text>
             </View>
           </View>
-     
+
           {/* Akordiyon Bölümleri */}
           <AccordionItem
             title="Açıklama"
@@ -603,7 +600,7 @@ const ProductDetailPage = () => {
                         width: width - 32,
                         justifyContent: "center",
                         columnGap: 50,
-              
+
                       }}
                     >
                       {group.map((item) => (
@@ -670,7 +667,7 @@ const ProductDetailPage = () => {
                                 {item.comment_count} yorum
                               </Text>
                             )}
-                        
+
                           </View>
                         </TouchableOpacity>
                       ))}

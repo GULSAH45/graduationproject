@@ -11,7 +11,6 @@ import { IMAGE_URL } from "../ProductDetailPage";
 const BasketScreen = () => {
   const navigation = useNavigation();
   const { basket, increaseQuantity, decreaseQuantity, removeFromBasket } = useBasket();
-  console.log("sepet ürünleri", basket);
   return (
     <SafeAreaView className="flex-1 py-4">
       <View className="flex-row items-center mt-4 mx-4 mb-2">
@@ -30,20 +29,20 @@ const BasketScreen = () => {
         ) : (
           basket.map((item) => {
             const variant = item.selectedVariant;
-            const photoSrc = variant?.photo_src 
-              ? IMAGE_URL + variant.photo_src 
+            const photoSrc = variant?.photo_src
+              ? IMAGE_URL + variant.photo_src
               : item.photo;
             const price = variant?.price?.discounted_price ?? variant?.price?.total_price ?? item.price_info?.total_price ?? 0;
             const totalPrice = price * (item.quantity || 1);
             const aroma = variant?.aroma || "";
             const pieces = variant?.size?.pieces || 0;
             const basketItemId = item.basketItemId || item.id; // Fallback için
-            
+
             return (
               <View key={basketItemId} className="w-full flex-row items-center py-2 border-b border-gray-200">
-                <Image 
-                  source={{ uri: photoSrc }} 
-                  className="w-16 h-16 rounded-md mr-3" 
+                <Image
+                  source={{ uri: photoSrc }}
+                  className="w-16 h-16 rounded-md mr-3"
                   resizeMode="contain"
                 />
                 <View className="flex-1 justify-center">
@@ -86,7 +85,7 @@ const BasketScreen = () => {
           </View>
         ) : (
           <View className="items-center mt-5 justify-center">
-            <TouchableOpacity 
+            <TouchableOpacity
               onPress={() => navigation.navigate("CheckoutScreen")}
               className="bg-black w-[324px] h-[55px] items-center justify-center rounded-lg"
             >

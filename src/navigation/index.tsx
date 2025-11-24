@@ -123,7 +123,7 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
 
     ProductDetailPage: {
       screen: ProductDetailPage,
-      options:{
+      options: {
         title: "ProductDetailPage",
         headerShown: false,
       }
@@ -213,6 +213,6 @@ export const Navigation = createStaticNavigation(RootStack);
 
 declare global {
   namespace ReactNavigation {
-    interface RootParamList extends RootStackParamList {}
+    interface RootParamList extends RootStackParamList { }
   }
 }

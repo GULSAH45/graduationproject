@@ -6,6 +6,8 @@ import {
   TextInput,
   ScrollView,
   Alert,
+  Modal,
+  FlatList,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { useNavigation } from "@react-navigation/native";
@@ -15,7 +17,8 @@ import DropDownFlag from "@/svgs/DropDownFlag";
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { getAddresses, deleteAddress, updateAddress, createAddress, Address } from "@/services/collections/Adresses";
 import { useAuthStore } from "@/stores/useAuthStore";
-// todo: update api düzenlence UNUTMA
+import { listCountries, listRegions, listSubregions, Country, Region, Subregion } from "@/services/collections/World";
+
 const Adressess = () => {
   const navigation = useNavigation();
   const { accessToken } = useAuthStore();
@@ -26,9 +29,26 @@ const Adressess = () => {
   const [surname, setSurname] = useState("");
   const [address, setAddress] = useState("");
   const [apartmentFlat, setApartmentFlat] = useState("");
-  const [city, setCity] = useState("");
   const [phone, setPhone] = useState("");
-  
+
+  // Location states
+  const [countries, setCountries] = useState<Country[]>([]);
+  const [regions, setRegions] = useState<Region[]>([]);
+  const [subregions, setSubregions] = useState<Subregion[]>([]);
+
+  // Pagination states
+  const [countryOffset, setCountryOffset] = useState(0);
+  const [hasMoreCountries, setHasMoreCountries] = useState(true);
+  const [isFetchingCountries, setIsFetchingCountries] = useState(false);
+
+  const [selectedCountry, setSelectedCountry] = useState<Country | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
+  const [selectedSubregion, setSelectedSubregion] = useState<Subregion | null>(null);
+
+  // Modal states
+  const [modalVisible, setModalVisible] = useState(false);
+  const [modalType, setModalType] = useState<'country' | 'region' | 'subregion'>('country');
+
   const [addresses, setAddresses] = useState<Address[]>([]);
   const [showAddressForm, setShowAddressForm] = useState(false);
   const [editingAddress, setEditingAddress] = useState<Address | null>(null);
@@ -36,7 +56,64 @@ const Adressess = () => {
 
   useEffect(() => {
     fetchAddresses();
+    fetchCountries();
   }, []);
+
+  // Fetch functions
+  const fetchCountries = async (offset = 0) => {
+    if (isFetchingCountries) return;
+    setIsFetchingCountries(true);
+    try {
+      const limit = 20; // Fetch 20 at a time
+      const response = await listCountries(limit, offset);
+      if (response.status === "success") {
+        if (offset === 0) {
+          setCountries(response.data.results);
+        } else {
+          setCountries(prev => [...prev, ...response.data.results]);
+        }
+
+        if (response.data.next) {
+          setHasMoreCountries(true);
+          setCountryOffset(offset + limit);
+        } else {
+          setHasMoreCountries(false);
+        }
+      }
+    } catch (error) {
+      console.error("Error fetching countries:", error);
+    } finally {
+      setIsFetchingCountries(false);
+    }
+  };
+
+  const loadMoreCountries = () => {
+    if (hasMoreCountries && !isFetchingCountries) {
+      fetchCountries(countryOffset);
+    }
+  };
+
+  const fetchRegions = async (countryId: number) => {
+    try {
+      const response = await listRegions(countryId);
+      if (response.status === "success") {
+        setRegions(response.data.results);
+      }
+    } catch (error) {
+      console.error("Error fetching regions:", error);
+    }
+  };
+
+  const fetchSubregions = async (regionId: number) => {
+    try {
+      const response = await listSubregions(regionId);
+      if (response.status === "success") {
+        setSubregions(response.data.results);
+      }
+    } catch (error) {
+      console.error("Error fetching subregions:", error);
+    }
+  };
 
   const fetchAddresses = async () => {
     if (!accessToken) return;
@@ -54,26 +131,68 @@ const Adressess = () => {
     }
   };
 
+  // Selection handlers
+  const handleSelectCountry = (country: Country) => {
+    setSelectedCountry(country);
+    setSelectedRegion(null);
+    setSelectedSubregion(null);
+    setRegions([]);
+    setSubregions([]);
+    fetchRegions(country.id);
+    setModalVisible(false);
+  };
+
+  const handleSelectRegion = (region: Region) => {
+    setSelectedRegion(region);
+    setSelectedSubregion(null);
+    setSubregions([]);
+    fetchSubregions(region.id);
+    setModalVisible(false);
+  };
+
+  const handleSelectSubregion = (subregion: Subregion) => {
+    setSelectedSubregion(subregion);
+    setModalVisible(false);
+  };
+
+  const openModal = (type: 'country' | 'region' | 'subregion') => {
+    if (type === 'region' && !selectedCountry) {
+      Alert.alert("Uyarı", "Lütfen önce ülke seçiniz.");
+      return;
+    }
+    if (type === 'subregion' && !selectedRegion) {
+      Alert.alert("Uyarı", "Lütfen önce şehir seçiniz.");
+      return;
+    }
+    setModalType(type);
+    setModalVisible(true);
+  };
+
   const handleSave = async () => {
     if (!accessToken) return;
+
+    if (!selectedCountry || !selectedRegion || !selectedSubregion) {
+      Alert.alert("Hata", "Lütfen ülke, şehir ve ilçe seçiniz.");
+      return;
+    }
+
+    const commonData = {
+      title: addressTitle,
+      first_name: name,
+      last_name: surname,
+      full_address: address,
+      phone_number: phone.startsWith("+90") ? phone : `+90${phone}`,
+      country_id: selectedCountry.id,
+      region_id: selectedRegion.id,
+      subregion_id: selectedSubregion.id,
+    };
 
     if (editingAddress) {
       // Update existing address
       try {
-        const updateData = {
-          title: addressTitle,
-          first_name: name,
-          last_name: surname,
-          full_address: address, // Assuming full_address includes apartment/flat for now or API handles it
-          phone_number: phone,
-          // Note: Region/City handling might need ID, sending name for now as placeholder if API accepts it or just to show flow
-          // If API requires IDs, we need a way to select them.
-        };
-        
-       const response = await updateAddress(accessToken, editingAddress.id, updateData);
+        await updateAddress(accessToken, editingAddress.id, commonData);
         Alert.alert("Başarılı", "Adres güncellendi.");
         fetchAddresses(); // Refresh list
-        console.log("Response:", response);
       } catch (error) {
         console.error("Error updating address:", error);
         Alert.alert("Hata", "Adres güncellenirken bir hata oluştu.");
@@ -81,52 +200,28 @@ const Adressess = () => {
     } else {
       // Add new address
       try {
-        // Prepend +90 to phone number as requested
-        const formattedPhone = phone.startsWith("+90") ? phone : `+90${phone}`;
-
-        const createData = {
-          title: addressTitle,
-          first_name: name,
-          last_name: surname,
-          full_address: address,
-          phone_number: formattedPhone,
-          // Hardcoded IDs as per user request example since UI doesn't have selection yet
-          country_id: 226,
-          region_id: 3495,
-          subregion_id: 39395,
-        };
-        
-        console.log("Sending createData:", JSON.stringify(createData, null, 2));
-
-        await createAddress(accessToken, createData);
+        await createAddress(accessToken, commonData);
         Alert.alert("Başarılı", "Yeni adres eklendi.");
         fetchAddresses(); // Refresh list
       } catch (error: any) {
         console.error("Error creating address:", error);
         if (error.response) {
-            console.error("Error response data:", error.response.data);
-            Alert.alert("Hata", `Adres eklenemedi: ${JSON.stringify(error.response.data)}`);
+          console.error("Error response data:", error.response.data);
+          Alert.alert("Hata", `Adres eklenemedi: ${JSON.stringify(error.response.data)}`);
         } else {
-            Alert.alert("Hata", "Adres eklenirken bir hata oluştu.");
+          Alert.alert("Hata", "Adres eklenirken bir hata oluştu.");
         }
       }
     }
-    
-    // Clear form
-    setAddressTitle("");
-    setName("");
-    setSurname("");
-    setAddress("");
-    setApartmentFlat("");
-    setCity("");
-    setPhone("");
 
-    // After saving, hide the form and clear editing state
+    // Clear form
+    resetForm();
+
+    // After saving, hide the form
     setShowAddressForm(false);
-    setEditingAddress(null);
   };
 
-  const handleEdit = (id: string) => {
+  const handleEdit = async (id: string) => {
     const addressToEdit = addresses.find((addr) => addr.id === id);
     if (addressToEdit) {
       setEditingAddress(addressToEdit);
@@ -134,11 +229,26 @@ const Adressess = () => {
       setName(addressToEdit.first_name);
       setSurname(addressToEdit.last_name);
       setAddress(addressToEdit.full_address);
-      // Note: API response doesn't seem to have separate apartment/flat field in the example, 
-      // mapping full_address or leaving blank for now if not parsed.
-      setApartmentFlat(""); 
-      setCity(addressToEdit.region?.name || "");
+      setApartmentFlat(""); // Not in API response
       setPhone(addressToEdit.phone_number);
+
+      // Set location data
+      // We need to fetch regions and subregions to populate the lists if we want to change them
+      // But initially just setting the selected objects is enough for display
+      // However, to allow changing, we should probably fetch the lists based on the IDs
+
+      setSelectedCountry(addressToEdit.country);
+      setSelectedRegion(addressToEdit.region);
+      setSelectedSubregion(addressToEdit.subregion);
+
+      // Trigger fetches to populate lists
+      if (addressToEdit.country) {
+        await fetchRegions(addressToEdit.country.id);
+      }
+      if (addressToEdit.region) {
+        await fetchSubregions(addressToEdit.region.id);
+      }
+
       setShowAddressForm(true);
     }
   };
@@ -172,6 +282,32 @@ const Adressess = () => {
     );
   };
 
+  const renderModalItem = ({ item }: { item: Country | Region | Subregion }) => (
+    <TouchableOpacity
+      className="p-4 border-b border-gray-200"
+      onPress={() => {
+        if (modalType === 'country') handleSelectCountry(item as Country);
+        else if (modalType === 'region') handleSelectRegion(item as Region);
+        else handleSelectSubregion(item as Subregion);
+      }}
+    >
+      <Text className="text-lg">{item.name}</Text>
+    </TouchableOpacity>
+  );
+
+  const resetForm = () => {
+    setAddressTitle("");
+    setName("");
+    setSurname("");
+    setAddress("");
+    setApartmentFlat("");
+    setPhone("");
+    setSelectedCountry(null);
+    setSelectedRegion(null);
+    setSelectedSubregion(null);
+    setEditingAddress(null);
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-white">
       <View className="flex-row items-center justify-between mx-2 mt-4 my-4">
@@ -180,9 +316,15 @@ const Adressess = () => {
         >
           <PrevIcon />
         </TouchableOpacity>
-        <Text onPress={() => setShowAddressForm(false)} className="text-black text-md font-semibold ml-2">Adreslerim</Text>
+        <Text onPress={() => {
+          setShowAddressForm(false);
+          resetForm();
+        }} className="text-black text-md font-semibold ml-2">Adreslerim</Text>
         {addresses.length > 0 && !showAddressForm && (
-          <TouchableOpacity onPress={() => setShowAddressForm(true)}>
+          <TouchableOpacity onPress={() => {
+            resetForm();
+            setShowAddressForm(true);
+          }}>
             <Text className="text-blue-500 font-semibold">Yeni Adres Ekle</Text>
           </TouchableOpacity>
         )}
@@ -213,6 +355,40 @@ const Adressess = () => {
                   value={surname}
                   onChangeText={setSurname}
                 />
+
+                {/* Country Selector */}
+                <Text className="self-start text-md my-2">Ülke</Text>
+                <TouchableOpacity
+                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4 justify-center"
+                  onPress={() => openModal('country')}
+                >
+                  <Text className={selectedCountry ? "text-black" : "text-gray-400"}>
+                    {selectedCountry ? selectedCountry.name : "Ülke Seçiniz"}
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Region Selector */}
+                <Text className="self-start text-md my-2">Şehir</Text>
+                <TouchableOpacity
+                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4 justify-center"
+                  onPress={() => openModal('region')}
+                >
+                  <Text className={selectedRegion ? "text-black" : "text-gray-400"}>
+                    {selectedRegion ? selectedRegion.name : "Şehir Seçiniz"}
+                  </Text>
+                </TouchableOpacity>
+
+                {/* Subregion Selector */}
+                <Text className="self-start text-md my-2">İlçe</Text>
+                <TouchableOpacity
+                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4 justify-center"
+                  onPress={() => openModal('subregion')}
+                >
+                  <Text className={selectedSubregion ? "text-black" : "text-gray-400"}>
+                    {selectedSubregion ? selectedSubregion.name : "İlçe Seçiniz"}
+                  </Text>
+                </TouchableOpacity>
+
                 <Text className="self-start text-md my-2">Adres</Text>
                 <TextInput
                   className="bg-InputBackground border p-4 border-TextInputBorderColor my-2 rounded w-full h-[50px]"
@@ -226,13 +402,6 @@ const Adressess = () => {
                   placeholder=""
                   value={apartmentFlat}
                   onChangeText={setApartmentFlat}
-                />
-                <Text className="self-start text-md my-2">Şehir</Text>
-                <TextInput
-                  className="bg-InputBackground border border-TextInputBorderColor my-2 w-full h-[50px] rounded p-4"
-                  placeholder=""
-                  value={city}
-                  onChangeText={setCity}
                 />
 
                 <Text className="text-md my-2">Telefon</Text>
@@ -265,10 +434,10 @@ const Adressess = () => {
                 <Text className="text-gray-500">Yükleniyor...</Text>
               ) : addresses.length === 0 ? (
                 <View>
-                    <Text className="text-gray-500 mb-4">Henüz adres kaydedilmemiş.</Text>
-                    <TouchableOpacity onPress={() => setShowAddressForm(true)}>
-                        <Text className="text-blue-500 font-semibold">İlk Adresini Ekle</Text>
-                    </TouchableOpacity>
+                  <Text className="text-gray-500 mb-4">Henüz adres kaydedilmemiş.</Text>
+                  <TouchableOpacity onPress={() => setShowAddressForm(true)}>
+                    <Text className="text-blue-500 font-semibold">İlk Adresini Ekle</Text>
+                  </TouchableOpacity>
                 </View>
               ) : (
                 addresses.map((addr) => (
@@ -287,8 +456,8 @@ const Adressess = () => {
                     <Text className="text-base text-gray-700">{addr.first_name} {addr.last_name}</Text>
                     <Text className="text-base text-gray-700">{addr.full_address}</Text>
                     <Text className="text-base text-gray-700">
-                        {addr.subregion?.name ? `${addr.subregion.name}, ` : ""}
-                        {addr.region?.name}
+                      {addr.subregion?.name ? `${addr.subregion.name}, ` : ""}
+                      {addr.region?.name}, {addr.country?.name}
                     </Text>
                     <Text className="text-base text-gray-700">Tel: {addr.phone_number}</Text>
                   </View>
@@ -298,6 +467,40 @@ const Adressess = () => {
           )
         }
       </ScrollView>
+
+      {/* Selection Modal */}
+      <Modal
+        animationType="slide"
+        transparent={true}
+        visible={modalVisible}
+        onRequestClose={() => setModalVisible(false)}
+      >
+        <View className="flex-1 justify-end bg-black/50">
+          <View className="bg-white rounded-t-3xl h-2/3 p-4">
+            <View className="flex-row justify-between items-center mb-4">
+              <Text className="text-xl font-bold">
+                {modalType === 'country' ? 'Ülke Seç' : modalType === 'region' ? 'Şehir Seç' : 'İlçe Seç'}
+              </Text>
+              <TouchableOpacity onPress={() => setModalVisible(false)}>
+                <AntDesign name="close" size={24} color="black" />
+              </TouchableOpacity>
+            </View>
+            <FlatList
+              data={modalType === 'country' ? countries : modalType === 'region' ? regions : subregions}
+              keyExtractor={(item) => item.id.toString()}
+              renderItem={renderModalItem}
+              ListEmptyComponent={<Text className="text-center text-gray-500 mt-4">Veri bulunamadı.</Text>}
+              onEndReached={() => {
+                if (modalType === 'country') {
+                  loadMoreCountries();
+                }
+              }}
+              onEndReachedThreshold={0.5}
+              ListFooterComponent={isFetchingCountries && modalType === 'country' ? <Text className="text-center p-2">Yükleniyor...</Text> : null}
+            />
+          </View>
+        </View>
+      </Modal>
     </SafeAreaView>
   )
 }

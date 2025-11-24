@@ -53,7 +53,6 @@ export const useAuthStore = create<AuthState>()(
                     };
                     const response = await apiLogin(apiData);
                     const token = response.access_token;
-                    console.log(response)
                     if (token) {
                         set({ accessToken: token });
 
@@ -66,7 +65,6 @@ export const useAuthStore = create<AuthState>()(
                                 lastName: userResponse.last_name,
                             };
                             set({ currentUser: user });
-                            console.log("User logged in successfully:", user);
                             return true;
                         } catch (meError) {
                             console.error('Error fetching user details:', meError);
