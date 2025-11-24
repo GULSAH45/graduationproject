@@ -19,7 +19,6 @@ const MenuListScreen = () => {
   const handleLogout = () => {
     logout();
   };
-  console.log("current user", currentUser)
 
   return (
     <SafeAreaView className="flex-1 py-4 bg-white">
