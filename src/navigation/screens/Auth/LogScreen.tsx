@@ -14,8 +14,8 @@ import { useAuthStore } from "@/stores/useAuthStore";
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
 const LogScreen = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("gulsah@seyma.com");
+  const [password, setPassword] = useState("123asd456+");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
   const navigation = useNavigation();
