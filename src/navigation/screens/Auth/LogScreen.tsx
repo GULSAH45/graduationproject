@@ -28,7 +28,7 @@ const LogScreen = () => {
 
     try {
       // Local login
-      const success = login(email, password);
+      const success = await login(email, password);
 
       if (success) {
         navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" });

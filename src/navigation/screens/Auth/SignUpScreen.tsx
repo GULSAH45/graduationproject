@@ -39,7 +39,7 @@ const SignUpScreen = () => {
 
     try {
       // Local registration
-      const success = register({
+      const success = await register({
         email,
         password,
         firstName,
