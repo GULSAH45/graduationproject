@@ -8,6 +8,8 @@ import React, { useState } from "react";
 import LoginInput from "@/components/LoginInput";
 import { useNavigation } from "@react-navigation/native";
 
+import { useAuthStore } from "@/stores/useAuthStore";
+
 //ana dres dosyadan gelen base url
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
@@ -18,34 +20,23 @@ const LogScreen = () => {
   const [message, setMessage] = useState("");
   const navigation = useNavigation();
 
+  const login = useAuthStore((state) => state.login);
+
   const handleLogin = async () => {
     setLoading(true);
     setMessage("");
 
     try {
-      // ⬇️ Giriş isteği  yerleştirildi
-      const response = await fetch(`${base_url}/auth/login`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          //kullnıcı adı email
-          username: email, 
-          password,
-          api_key: "370718", // TODO!!: bunuda .env dosyasına taşıyacagız hocam özel api key bu 
-        }),
-      });
-      //data yı getir bakalım
-      const data = await response.json();
+      // Local login
+      const success = login(email, password);
 
-      if (response.ok) {
+      if (success) {
         navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" });
       } else {
-        setMessage(data.message || "Giriş başarısız.");
+        setMessage("E-posta veya şifre hatalı.");
       }
     } catch (error: any) {
-      setMessage(error.message || "Bir hata oluştu.");
+      setMessage("Bir hata oluştu.");
     } finally {
       setLoading(false);
     }

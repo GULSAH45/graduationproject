@@ -11,6 +11,8 @@ import { useNavigation } from "@react-navigation/native";
 import SignUpInput from "@/components/SignUpInput";
 import CheckIcons from "@/components/checkIcons";
 
+import { useAuthStore } from "@/stores/useAuthStore";
+
 const base_url = "https://fe1111.projects.academy.onlyjs.com/api/v1";
 
 const SignUpScreen = () => {
@@ -23,33 +25,35 @@ const SignUpScreen = () => {
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
 
+  const register = useAuthStore((state) => state.register);
+
   const handleSignUp = async () => {
     setLoading(true);
     setMessage("");
 
+    if (password !== password2) {
+      setMessage("Şifreler uyuşmuyor.");
+      setLoading(false);
+      return;
+    }
+
     try {
-      const response = await fetch(`${base_url}/auth/register`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          email,
-          password,
-          password2,
-          api_key: "370718",
-          first_name: firstName,
-          last_name: lastName,
-        }),
+      // Local registration
+      const success = register({
+        email,
+        password,
+        firstName,
+        lastName,
       });
 
-      const data = await response.json();
-
-      if (response.ok) {
-        navigation.navigate("HomeTabs", { screen: "Home" });
+      if (success) {
+        // Navigate to LogScreen after successful registration so user can log in
+        navigation.navigate("LogScreen");
       } else {
-        setMessage(data.message || "Bir hata oluştu.");
+        setMessage("Bu e-posta adresi ile zaten kayıtlı bir kullanıcı var.");
       }
     } catch (error) {
-      setMessage("Sunucuya bağlanılamadı.");
+      setMessage("Bir hata oluştu.");
     } finally {
       setLoading(false);
     }
