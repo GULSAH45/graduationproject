@@ -61,7 +61,7 @@ const MenuListScreen = () => {
           </>
         ) : (
           <>
-            <TouchableOpacity onPress={() => (navigation as any).navigate("/auth/login")}>
+            <TouchableOpacity onPress={() => navigation.navigate("LogScreen")}>
               <View className="flex-row items-center my-4">
                 <Text>
                   <AccountSVG />

@@ -20,6 +20,7 @@ import SearchScreen from "@/navigation/screens/TabBar/Search";
 import WholeProduct from "@/navigation/screens/TabBar/WholeProduct";
 import MenuListScreen from "@/navigation/screens/TabBar/MenuList";
 import CheckoutScreen from "@/navigation/screens/Payment/CheckoutScreen";
+import OrderSuccessScreen from "@/navigation/screens/Payment/OrderSuccessScreen";
 import LogScreen from "@/navigation/screens/Auth/LogScreen";
 import SignUpScreen from "@/navigation/screens/Auth/SignUpScreen";
 import ContactScreen from "@/navigation/screens/Menu/ContactScreen";
@@ -57,6 +58,14 @@ export type RootStackParamList = {
   OrderScreen: undefined;
   BasketScreen: undefined;
   CheckoutScreen: undefined;
+  OrderSuccessScreen: {
+    orderData?: {
+      orderNumber?: string;
+      items?: any[];
+      address?: any;
+      shipping?: string;
+    };
+  };
 };
 
 const HomeTabs = createBottomTabNavigator({
@@ -212,6 +221,13 @@ const RootStack = createNativeStackNavigator<RootStackParamList>({
       screen: CheckoutScreen,
       options: {
         title: "Ödeme",
+        headerShown: false,
+      },
+    },
+    OrderSuccessScreen: {
+      screen: OrderSuccessScreen,
+      options: {
+        title: "Sipariş Onayı",
         headerShown: false,
       },
     },

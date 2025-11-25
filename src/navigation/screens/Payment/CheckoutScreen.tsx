@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { View, Alert } from "react-native";
+import { View } from "react-native";
 import CheckoutLayout from "@/components/payment/CheckoutLayout";
 import StepIndicator from "@/components/payment/StepIndicator";
 import AddressForm from "@/components/payment/AdressForm";
@@ -35,9 +35,16 @@ const CheckoutScreen = () => {
 
   const handlePaymentSubmit = (data: any) => {
     setCheckoutData({ ...checkoutData, payment: data });
-    Alert.alert("Başarılı", "Siparişiniz alındı!", [
-      { text: "Tamam", onPress: () => navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" }) }
-    ]);
+    
+    // Navigate to OrderSuccessScreen with order data
+    navigation.navigate("OrderSuccessScreen", {
+      orderData: {
+        orderNumber: `#${Math.floor(Math.random() * 100000)}`, // Generate random order number
+        items: undefined, // Will use basket items from context
+        address: checkoutData.address,
+        shipping: checkoutData.shipping || undefined,
+      }
+    });
   };
 
   return (
@@ -56,8 +63,7 @@ const CheckoutScreen = () => {
           )}
           {currentStep > 1 && checkoutData.address && (
             <OrderSummary 
-              address="Completed" // Simplified for now, passing data would be better
-              email={checkoutData.address.email || "user@example.com"} // Mock or from store
+              address={checkoutData.address}
             />
           )}
         </View>

@@ -1,12 +1,20 @@
 import { View, Text, TouchableOpacity } from "react-native";
 
+interface AddressData {
+  first_name?: string;
+  last_name?: string;
+  phone_number?: string;
+  full_address?: string;
+  city?: string;
+  district?: string;
+}
+
 interface OrderSummaryProps {
-  address?: string;
-  email?: string;
+  address?: AddressData;
   shipping?: string;
 }
 
-const OrderSummary = ({ address, email, shipping }: OrderSummaryProps) => {
+const OrderSummary = ({ address, shipping }: OrderSummaryProps) => {
   return (
     <View className="space-y-4">
       {address && (
@@ -23,12 +31,17 @@ const OrderSummary = ({ address, email, shipping }: OrderSummaryProps) => {
             </TouchableOpacity>
           </View>
           <View className="ml-8 space-y-1">
-            <Text className="text-sm font-medium text-black">{email}</Text>
-            <Text className="text-sm text-gray-500">Arzu Betül Kart</Text>
-            <Text className="text-sm text-gray-500">+905395115340</Text>
-            <Text className="text-sm text-gray-500">
-              Merkez mahallesi, Çay sokak no15, Sarıyer, İstanbul, Türkiye
-            </Text>
+            {address.first_name && address.last_name && (
+              <Text className="text-sm font-medium text-black">
+                {address.first_name} {address.last_name}
+              </Text>
+            )}
+            {address.phone_number && (
+              <Text className="text-sm text-gray-500">{address.phone_number}</Text>
+            )}
+            {address.full_address && (
+              <Text className="text-sm text-gray-500">{address.full_address}</Text>
+            )}
           </View>
         </View>
       )}

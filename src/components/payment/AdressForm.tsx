@@ -31,7 +31,17 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
       return;
     }
 
-    onSubmit(formData);
+    // Map form data to expected structure
+    const addressData = {
+      first_name: formData.name,
+      last_name: formData.surname,
+      full_address: `${formData.address}${formData.apartment ? ', ' + formData.apartment : ''}${formData.city ? ', ' + formData.city : ''}${formData.district ? ', ' + formData.district : ''}`,
+      phone_number: formData.phone,
+      city: formData.city,
+      district: formData.district,
+    };
+
+    onSubmit(addressData);
   };
 
   return (
