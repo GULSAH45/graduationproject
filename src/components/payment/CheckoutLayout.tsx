@@ -28,27 +28,7 @@ const CheckoutLayout = ({ children, currentStep, totalSteps }: CheckoutLayoutPro
         </View>
       </ScrollView>
 
-      {/* Bottom Navigation */}
-      <View className="absolute bottom-0 left-0 right-0 bg-white border-t border-gray-200">
-        <View className="flex-row items-center justify-around py-3">
-          <TouchableOpacity className="items-center justify-center">
-            <Feather name="home" size={20} color="gray" />
-            <Text className="text-xs text-gray-500 mt-1">Anasayfa</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="items-center justify-center">
-            <Feather name="search" size={20} color="gray" />
-            <Text className="text-xs text-gray-500 mt-1">Ürün Ara</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="items-center justify-center">
-            <Feather name="package" size={20} color="gray" />
-            <Text className="text-xs text-gray-500 mt-1">Tüm Ürünler</Text>
-          </TouchableOpacity>
-          <TouchableOpacity className="items-center justify-center">
-            <Feather name="menu" size={20} color="gray" />
-            <Text className="text-xs text-gray-500 mt-1">Menü</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+    
     </SafeAreaView>
   );
 };

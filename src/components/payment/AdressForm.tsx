@@ -46,7 +46,7 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
 
   return (
     <View className="space-y-4">
-      <View className="bg-white rounded-xl border-2 border-black p-4 space-y-4">
+      <View className="bg-white rounded-xl border border-gray-200 p-4 space-y-4">
         <View className="flex-row items-center gap-2 mb-2">
           <Feather name="map-pin" size={20} color="black" />
           <Text className="font-medium text-black">Yeni Adres</Text>
@@ -140,17 +140,12 @@ const AddressForm = ({ onSubmit }: AddressFormProps) => {
           </View>
         </View>
 
-        <TouchableOpacity
-          onPress={() => {}}
-          className="w-full bg-gray-100 py-3.5 rounded-lg items-center"
-        >
-          <Text className="text-gray-500 font-medium">Adres Başlığı</Text>
-        </TouchableOpacity>
+    
       </View>
 
       <TouchableOpacity
         onPress={handleSubmit}
-        className="w-full bg-black py-4 rounded-lg items-center"
+        className="w-full bg-black py-4 my-2 rounded-lg items-center"
       >
         <Text className="text-white font-semibold">Kargo ile Devam Et</Text>
       </TouchableOpacity>

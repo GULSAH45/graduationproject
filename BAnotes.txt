@@ -1,7 +1,7 @@
 order api postman durumu netleşince geçmiş siparişlerim sayfaları yapılmalı.
 payment ekranları şuan mock gibi onu gerçek api ile yap
-payment daki yanlış navbarı yok et
-sipariş özeti neden gösterilmiyor.
+
+
 ------------------------------------------------------------------------
 şuan adres eklenemiyor.given token not valid  ?? accees token mevzusu mevzusu
 adreslerim geri dön tuşundan çok uzak. yaklaştır.
@@ -33,6 +33,6 @@ hesap bilgilerine eklenen isim soy isim çıkış yap kısmındaki isim soy isim
  o üyelğe ait tel nosu olmuş olacak
 boşsa bilgiler güncellendi alarmı gelmesin. onay metni tıklanmadan blgiler güncellnmesin99
 
-
+sipariş alındı penceresine animasyon eklemek öne doğru gelsin
 
 text  hatalarını tespit et yok et
