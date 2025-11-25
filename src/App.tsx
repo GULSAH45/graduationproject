@@ -4,12 +4,13 @@ import * as SplashScreen from 'expo-splash-screen';
 import * as React from 'react';
 import { Navigation } from './navigation';
 import { BasketProvider } from "./contexts/BasketContext";
+import { AuthProvider } from "./contexts/auth-context";
 import "./global.css"
 import Toast, { BaseToast, ErrorToast } from "react-native-toast-message";
 import { Ionicons } from '@expo/vector-icons';
 
 const toastConfig = {
-  successCustom: (props) => (
+  successCustom: (props: any) => (
     <BaseToast
       {...props}
       style={{
@@ -27,7 +28,7 @@ const toastConfig = {
       )}
     />
   ),
-  errorCustom: (props) => (
+  errorCustom: (props: any) => (
     <ErrorToast
       {...props}
       style={{
@@ -52,20 +53,22 @@ Asset.loadAsync([
 SplashScreen.preventAutoHideAsync();
 export function App() {
   return (
-    <BasketProvider>
-      <Navigation
-        linking={{
-          enabled: 'auto',
-          prefixes: [
-            // Change the scheme to match your app's scheme defined in app.json
-            'helloworld://',
-          ],
-        }}
-        onReady={() => {
-          SplashScreen.hideAsync();
-        }}
-      />
-      <Toast config={toastConfig} />
-    </BasketProvider>
+    <AuthProvider>
+      <BasketProvider>
+        <Navigation
+          linking={{
+            enabled: 'auto',
+            prefixes: [
+              // Change the scheme to match your app's scheme defined in app.json
+              'helloworld://',
+            ],
+          }}
+          onReady={() => {
+            SplashScreen.hideAsync();
+          }}
+        />
+        <Toast config={toastConfig} />
+      </BasketProvider>
+    </AuthProvider>
   );
 }
