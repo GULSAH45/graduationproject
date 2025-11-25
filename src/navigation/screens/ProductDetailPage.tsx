@@ -91,7 +91,7 @@ const ProductDetailPage = () => {
   const [currentPage, setCurrentPage] = useState(0);
 
 
-  const { addToBasket, basket } = useBasket();
+  const { handleAddToBasket, basket } = useBasket();
   const navigator = useNavigation<NavigationProp<RootStackParamList>>();
   const basketLength = basket.reduce((sum, item) => sum + (item.quantity || 0), 0);
 
@@ -135,7 +135,7 @@ const ProductDetailPage = () => {
     const selectedVariant = product.variants?.find(v => v.id === selectedVariantId);
 
     if (selectedVariant) {
-      addToBasket({
+      handleAddToBasket({
         ...product,
         selectedVariant,
       } as Product);
