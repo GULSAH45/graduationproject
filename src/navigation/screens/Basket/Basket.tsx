@@ -11,6 +11,7 @@ import { IMAGE_URL } from "../ProductDetailPage";
 const BasketScreen = () => {
   const navigation = useNavigation();
   const { basket, increaseQuantity, decreaseQuantity, removeFromBasket } = useBasket();
+  console.log("sepet ürünleri", basket);
   return (
     <SafeAreaView className="flex-1 py-4">
       <View className="flex-row items-center mt-4 mx-4 mb-2">
@@ -29,71 +30,94 @@ const BasketScreen = () => {
         ) : (
           basket.map((item) => {
             const variant = item.selectedVariant;
-            const photoSrc = variant?.photo_src
-              ? IMAGE_URL + variant.photo_src
+            const photoSrc = variant?.photo_src 
+              ? IMAGE_URL + variant.photo_src 
               : item.photo;
             const price = variant?.price?.discounted_price ?? variant?.price?.total_price ?? item.price_info?.total_price ?? 0;
             const totalPrice = price * (item.quantity || 1);
             const aroma = variant?.aroma || "";
-            const pieces = variant?.size?.pieces || 0;
-            const basketItemId = item.basketItemId || item.id; // Fallback için
-
+            const basketItemId = item.basketItemId || item.id;
+            
             return (
-              <View key={basketItemId} className="w-full flex-row items-center py-2 border-b border-gray-200">
-                <Image
-                  source={{ uri: photoSrc }}
-                  className="w-16 h-16 rounded-md mr-3"
+              <View key={basketItemId} className="w-full flex-row items-center py-4 border-b border-gray-200">
+                {/* Left: Image */}
+                <Image 
+                  source={{ uri: photoSrc }} 
+                  className="w-20 h-20 rounded-md mr-3" 
                   resizeMode="contain"
                 />
+                
+                {/* Middle: Info */}
                 <View className="flex-1 justify-center">
-                  <Text className="text-base font-medium">{item.name}</Text>
-                  {aroma && (
-                    <Text className="text-sm text-gray-600 mt-1">Aroma: {aroma}</Text>
-                  )}
-                  {pieces > 0 && (
-                    <Text className="text-xs text-gray-500 mt-1">{pieces} Adet</Text>
-                  )}
-                  <Text className="text-red-500 font-bold mt-1">{totalPrice.toFixed(2)} TL</Text>
+                  <Text className="text-base font-medium" numberOfLines={2}>{item.name}</Text>
+                  {aroma ? (
+                    <Text className="text-sm text-gray-500 mt-1">{aroma}</Text>
+                  ) : null}
+                  {variant?.size?.pieces ? (
+                     <Text className="text-sm text-gray-500">{variant.size.pieces} Adet</Text>
+                  ) : null}
                 </View>
-                <View className="flex-row items-center space-x-2">
-                  <TouchableOpacity
-                    onPress={() => item.quantity === 1 ? removeFromBasket(basketItemId) : decreaseQuantity(basketItemId)}
-                    className="p-2 rounded-lg  border-gray-300"
-                  >
-                    {item.quantity === 1 ? <TrashIcon /> : <MinusIcon />}
-                  </TouchableOpacity>
-                  <Text className="text-lg font-bold">{item.quantity}</Text>
-                  <TouchableOpacity
-                    onPress={() => increaseQuantity(basketItemId)}
-                    className="p-2 rounded-lg  border-gray-300"
-                  >
-                    <PlusIcon />
-                  </TouchableOpacity>
+
+                {/* Right: Price & Quantity */}
+                <View className="items-end justify-between h-20">
+                  <Text className="text-base font-bold text-black mb-2">{totalPrice.toFixed(2)} TL</Text>
+                  
+                  <View className="flex-row items-center bg-white shadow-sm rounded-lg px-2 py-1" style={{ shadowColor: "#000", shadowOffset: { width: 0, height: 1 }, shadowOpacity: 0.1, shadowRadius: 2, elevation: 2 }}>
+                    <TouchableOpacity
+                      onPress={() => item.quantity === 1 ? removeFromBasket(basketItemId) : decreaseQuantity(basketItemId)}
+                      className="p-1"
+                    >
+                      {item.quantity === 1 ? <TrashIcon width={16} height={16} /> : <MinusIcon width={16} height={16} />}
+                    </TouchableOpacity>
+                    
+                    <Text className="mx-3 text-base font-medium">{item.quantity}</Text>
+                    
+                    <TouchableOpacity
+                      onPress={() => increaseQuantity(basketItemId)}
+                      className="p-1"
+                    >
+                      <PlusIcon width={16} height={16} />
+                    </TouchableOpacity>
+                  </View>
                 </View>
               </View>
             );
           })
         )}
       </View>
-      {
-        basket.length == 0 ? (
-          <View className="items-center mt-5 justify-center">
-            <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" })} className="bg-black w-[324px] h-[55px]
-       items-center justify-center rounded-lg">
+      
+      {/* Footer Section */}
+      <View className="mt-auto mb-4">
+        {basket.length > 0 && (
+          <View className="flex-row justify-between items-center mx-4 mb-4 pt-4 border-t border-gray-100">
+            <Text className="text-lg font-bold text-gray-800">Sepet Toplamı</Text>
+            <Text className="text-xl font-bold text-black">
+              {basket.reduce((total, item) => {
+                 const variant = item.selectedVariant;
+                 const price = variant?.price?.discounted_price ?? variant?.price?.total_price ?? item.price_info?.total_price ?? 0;
+                 return total + (price * (item.quantity || 1));
+              }, 0).toFixed(2)} TL
+            </Text>
+          </View>
+        )}
+
+        {basket.length === 0 ? (
+          <View className="items-center justify-center">
+            <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" })} className="bg-black w-[324px] h-[55px] items-center justify-center rounded-lg">
               <Text className="text-2xl text-white text-center font-bold">Alışverişe Başla</Text>
             </TouchableOpacity>
           </View>
         ) : (
-          <View className="items-center mt-5 justify-center">
-            <TouchableOpacity
+          <View className="items-center justify-center">
+            <TouchableOpacity 
               onPress={() => navigation.navigate("CheckoutScreen")}
               className="bg-black w-[324px] h-[55px] items-center justify-center rounded-lg"
             >
               <Text className="text-2xl text-white text-center font-bold">Devam et</Text>
             </TouchableOpacity>
           </View>
-        )
-      }
+        )}
+      </View>
     </SafeAreaView>
   )
 }
