@@ -23,7 +23,7 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
-import { ProductReview } from "@/components/productReview/ProductReview";
+import { ProductReview } from "@/components/ProductReview/ProductReview";
 
 
 
@@ -378,8 +378,8 @@ const ProductDetailPage = () => {
                 <View key={idx} className="mr-2 mb-2 relative">
                   <TouchableOpacity
                     className={`flex-row items-center px-3 py-2 rounded-full border ${isSelected
-                        ? "bg-green-200 border-green-600"
-                        : "bg-white border-gray-300"
+                      ? "bg-green-200 border-green-600"
+                      : "bg-white border-gray-300"
                       }`}
                     onPress={() => {
                       setSelectedAroma(aroma);
@@ -418,8 +418,8 @@ const ProductDetailPage = () => {
                   <TouchableOpacity
                     key={variant.id}
                     className={`flex-row items-center px-3 py-1 mr-2 mb-2 rounded-full border ${selectedVariantId === variant.id
-                        ? "bg-blue-200 border-blue-600"
-                        : "bg-gray-200 border-gray-400"
+                      ? "bg-blue-200 border-blue-600"
+                      : "bg-gray-200 border-gray-400"
                       }`}
                     onPress={() => setSelectedVariantId(variant.id)}
                   >
@@ -479,8 +479,8 @@ const ProductDetailPage = () => {
             disabled={!selectedAroma || !selectedVariantId}
             onPress={handleAddBasket}
             className={`mt-2 py-3 rounded-lg ${selectedAroma && selectedVariantId
-                ? "bg-green-600"
-                : "bg-gray-400"
+              ? "bg-green-600"
+              : "bg-gray-400"
               }`}
           >
             <Text className="text-white text-center font-bold text-lg">

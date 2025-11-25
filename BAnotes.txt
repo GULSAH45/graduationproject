@@ -23,9 +23,12 @@ gramaj seçimi 1 adet 2 adet olmaktan çıkmalı
 postman daki gramaja bak radio butonunu yok et
 sepete ekle butonu küçültüp fiyatın karşısına konumla
 
+
 çok satanlar ortalalnsn. araları çok bitişik.
 
 sepetim ekranındaki imj 87 px
+sepetde ürün bilgisinde gramaj ve aroma gözükcek.
+
 
 hesap bilgileri sayfasında telefon eklenebilir olmalı.
 geri dönme okuyla aynı seviyede olmalı

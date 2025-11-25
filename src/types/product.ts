@@ -29,7 +29,7 @@ export interface Product {
     price_per_servings: number;
     discount_percentage: number | null;
   };
-  photo: string;
+  image: string;
   comment_count: number;
   average_star: number;
   explanation: {
@@ -61,7 +61,7 @@ export interface Variant {
     price_per_servings: number;
     discount_percentage: number | null;
   };
-  photo_src: string;
+  image: string;
   is_available: boolean;
 }
 
