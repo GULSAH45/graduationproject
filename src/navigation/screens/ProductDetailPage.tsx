@@ -23,7 +23,7 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
-import { ProductReview } from "@/components/ProductReview/ProductReview";
+import { ProductReview } from "@/components/productReview/ProductReview";
 
 
 
