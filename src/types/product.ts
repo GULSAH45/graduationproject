@@ -61,7 +61,7 @@ export interface Variant {
     price_per_servings: number;
     discount_percentage: number | null;
   };
-  image: string;
+  photo_src: string;
   is_available: boolean;
 }
 

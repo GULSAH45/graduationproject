@@ -15,7 +15,7 @@ import { useNavigation, useRoute, RouteProp, NavigationProp } from "@react-navig
 import PrevIcon from "../../svgs/PrevIcon";
 import { useBasket } from "../../contexts/BasketContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { ProductDetailRouteParams, Product, Variant } from "@/types/Product";
+import { ProductDetailRouteParams, Product, Variant } from "@/types/product";
 import Toast from "react-native-toast-message";
 import TruckSVG from "@/svgs/TruckSVG";
 import TikSVG from "@/svgs/TikSVG";
@@ -23,7 +23,7 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
-import { ProductReview } from "@/components/ProductReview/ProductReview";
+import { ProductReview } from "@/components/productReview/ProductReview";
 
 
 
@@ -327,7 +327,7 @@ const ProductDetailPage = () => {
           </TouchableOpacity>
         </View>
         <Image
-          source={{ uri: IMAGE_URL + (product.variants[0]?.photo_src || "") }}
+          source={{ uri: IMAGE_URL + (product.variants[0]?.photo_src|| "") }}
           style={{ width: width, height: width * 0.7, resizeMode: "contain" }}
         />
         <View className="p-4">
