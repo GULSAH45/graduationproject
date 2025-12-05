@@ -9,13 +9,9 @@ adres ekleme düzeltilcek EMRE.
 
 log ve sign up da tik li kutucular seçilmeden  log  sign olmamalı
 
-home ve whole product daki kategori isimlerinin  ortalayışını düzelt
-whole product taki search searche gitsin şuan gitmiyor. 
 
-search sayfasına çıkan ürünlerin yorumu kaldırılsın img 100 px 
-search de bir kategori aratılınca o kategori sayfasına gider??
 
-hakkımızda sayfasının sonuna da yorum geliyor muş.
+hakkımızda sayfasının sonuna da yorum geliyor muş. hangi yorumlar??postmanda neresi
 hakkımızda geri dönme butonuna uzak kalmış düzelt
 
 ürün detayı sayfası altına son görütülenenler gelmeli.
@@ -23,11 +19,6 @@ gramaj seçimi 1 adet 2 adet olmaktan çıkmalı
 postman daki gramaja bak radio butonunu yok et
 sepete ekle butonu küçültüp fiyatın karşısına konumla
 
-
-çok satanlar ortalalnsn. araları çok bitişik.
-
-sepetim ekranındaki imj 87 px
-sepetde ürün bilgisinde gramaj ve aroma gözükcek.
 
 
 hesap bilgileri sayfasında telefon eklenebilir olmalı.

@@ -116,4 +116,4 @@ const AboutScreen = () => {
   );
 };
 
-export default AboutScreen;
+export default AboutScreen

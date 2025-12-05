@@ -30,10 +30,11 @@ const BasketScreen = () => {
         ) : (
           basket.map((item) => {
             const variant = item.selectedVariant;
-            const photoSrc = variant?.image
-              ? IMAGE_URL + variant.image
-              : IMAGE_URL + item.image;
-            const price = variant?.price?.discounted_price ?? variant?.price?.total_price ?? item.price_info?.total_price ?? 0;
+            const photoSrc = variant?.photo_src 
+              ? IMAGE_URL + variant.photo_src
+              : IMAGE_URL + item.photo_src;
+            const price = variant?.price?.discounted_price ?? variant?.price?.total_price ?? 
+            item.price_info?.total_price ?? 0;
             const totalPrice = price * (item.quantity || 1);
             const aroma = variant?.aroma || "";
             const basketItemId = item.basketItemId || item.id;
@@ -43,7 +44,7 @@ const BasketScreen = () => {
                 {/* Left: Image */}
                 <Image
                   source={{ uri: photoSrc }}
-                  className="w-20 h-20 rounded-md mr-3"
+                  className="w-[87px] h-[87px] rounded-sm mr-3"
                   resizeMode="contain"
                 />
 

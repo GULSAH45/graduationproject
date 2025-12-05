@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { View, Text, TouchableOpacity, Image, ScrollView } from "react-native";
 import { useNavigation, NavigationProp } from "@react-navigation/native";
+import { AntDesign } from "@expo/vector-icons";
 import { BestSellerProductTypes } from "@/types/Product";
 import { IMAGE_URL } from "@/navigation/screens/ProductDetailPage";
 
@@ -24,15 +25,13 @@ function Bestsellers() {
   }, []);
 
   return (
-    <View className="mt-4">
-      <Text className="text-2xl text-center font-extrabold text-TextColor ml-3 mb-2">
-        Çok Satanlar
-      </Text>
-      <View className="flex-row flex-wrap justify-center">
+    <View className="my-4">
+      
+      <View className="flex-row mx-auto flex-wrap" style={{ justifyContent: 'center' }}>
         {bestSellers.map((item, idx) => (
           <TouchableOpacity
             key={item.slug || idx}
-            className="rounded-md mb-3 p-2 mx-2 items-center shadow h-64"
+            className="rounded-md mb-3 mx-5 items-center shadow"
             style={{ width: 150 }}
             onPress={() => navigation.navigate("ProductDetailPage", { productSlug: item.slug })}
           >
@@ -54,7 +53,28 @@ function Bestsellers() {
             <Text className="text-xs text-gray-500 text-center mt-1" numberOfLines={2}>
               {item.short_explanation}
             </Text>
-            <Text className="font-bold text-green-700 mt-1 text-xs">
+            
+            {/* Star Rating and Review Count */}
+            {typeof item.average_star === 'number' && (
+              <View className="items-center mt-1">
+                <View className="flex-row">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <AntDesign
+                      key={i}
+                      name={i < Math.round(item.average_star) ? "star" : "staro"}
+                      size={14}
+                      color="#FFD700"
+                      style={{ marginHorizontal: 1 }}
+                    />
+                  ))}
+                </View>
+                <Text className="text-xs text-gray-500 ml-1">
+                  ({item.comment_count} yorum)
+                </Text>
+              </View>
+            )}
+            
+            <Text className="font-bold text-green-700 mt-1 text-md">
               {item.price_info.discounted_price
                 ? `${item.price_info.discounted_price}₺`
                 : `${item.price_info.total_price}₺`}

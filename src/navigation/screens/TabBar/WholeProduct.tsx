@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+
   Text,
   View,
   SafeAreaView,
@@ -55,10 +56,13 @@ const WholeProduct = () => {
           }}
         ></View>
         // Search Bar
+
+        <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "SearchScreen" })}>
         <SearchBarComp value={""} editable={false} onChangeText={function (text: string): void {
           throw new Error("Function not implemented.");
         } } />
-  
+        </TouchableOpacity>
+
 <Categories />
 <Bestsellers />
        </ScrollView>
@@ -67,5 +71,5 @@ const WholeProduct = () => {
   )
 }
 
-export default WholeProduct; 
+export default WholeProduct
 

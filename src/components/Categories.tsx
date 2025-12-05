@@ -74,9 +74,20 @@ function Categories() {
                   }}
                   resizeMode="cover"
                 />
-                <View className="absolute bottom-3 right-5 w-[100%] items-end">
-                  <Text className="text-base font-extrabold text-right text-black" style={{ textShadowColor: 'rgba(0,0,0,0.8)', textShadowOffset: {width: 1, height: 1}, textShadowRadius: 2 }}>
-                    {cat.name}
+                <View className="absolute bottom-3 right-3 left-3 items-end">
+                  <Text 
+                    className="text-lg font-extrabold text-black" 
+                    style={{ 
+                      textShadowColor: 'rgba(0,0,0,0.8)', 
+                      textShadowOffset: {width: 1, height: 1}, 
+                      textShadowRadius: 2,
+                      textAlign: 'right'
+                    }}
+                    numberOfLines={2}
+                    adjustsFontSizeToFit
+                    minimumFontScale={0.7}
+                  >
+                    {cat.name.replace(/ /g, '\n')}
                   </Text>
                   <View className="mt-2 bg-black rounded-3xl px-3 py-1">
                     <Text className="text-white font-extrabold text-xs text-right">

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -6,12 +6,12 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
-  Pressable,
+
   TouchableOpacity,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SearchBarComp from "@components/SearchBarComp";
-import { Product } from "@/types/Product";  
+import { Product, CategoryParams } from "@/types/Product";  
 import { IMAGE_URL } from "../ProductDetailPage";
 import NextIcon from "@svgs/NextIcon";
 
@@ -24,8 +24,23 @@ const SearchScreen = () => {
   const [results, setResults] = useState<Product[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
+  const [categories, setCategories] = useState<CategoryParams[]>([]);
 
   const navigation = useNavigation();
+
+  // Kategorileri çek
+  useEffect(() => {
+    fetch(`${base_url}/categories`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data && Array.isArray(data.data.data)) {
+          setCategories(data.data.data);
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching categories:", error);
+      });
+  }, []);
   // aramayı yaoma işi
   const handleSearch = async (text: string) => {
     setQuery(text);
@@ -36,11 +51,29 @@ const SearchScreen = () => {
 
     try {
       //byük küçük sorunu olmadan text girildiğinde  eğer sonuç dönüyorsa
-      const searchText = text.toLowerCase();
+      const searchText = text.toLowerCase().trim();
       if (!text) {
         setResults([]);
+        setLoading(false);
         return;
       }
+
+      // Kategori slug kontrolü - eğer arama kategori slug'ı ile eşleşiyorsa direkt yönlendir
+      const matchedCategory = categories.find(
+        (cat) => cat.slug.toLowerCase() === searchText || cat.name.toLowerCase() === searchText
+      );
+
+      if (matchedCategory) {
+        // Kategori bulundu, direkt kategori sayfasına yönlendir
+        setLoading(false);
+        navigation.navigate('CategoryPage', {
+          categoryId: matchedCategory.id,
+          categoryName: matchedCategory.name,
+          categorySlug: matchedCategory.slug,
+        });
+        return;
+      }
+
       // api den çekilen kısım bu
       let url = `${base_url}/products${searchText ? `?search=${encodeURIComponent(searchText)}` : ""
         }`;
@@ -101,9 +134,9 @@ const SearchScreen = () => {
               <Image
                 source={{ uri: IMAGE_URL + item.photo_src }}
                 style={{
-                  width: 60,
-                  height: 60,
-                  borderRadius: 8,
+                  width: 108,
+                  height: 108,
+                  borderRadius: 5,
                   marginRight: 12,
                 }}
               />
@@ -115,20 +148,18 @@ const SearchScreen = () => {
                 <Text className="text-sm text-black mt-1 font-semibold">
                   {item.price_info.total_price} TL
                 </Text>
-                <Text className="text-xs text-yellow-600">
-                  {Array(Math.floor(item.average_star)).fill("⭐").join("")} & {item.comment_count} yorum
-                </Text>
+               
               </View>
             </View>
-            {/* The NextIcon is removed as the whole item is now clickable */}
-            {/* <TouchableOpacity
+          
+            { <TouchableOpacity
               onPress={() =>
                 navigation.navigate("ProductDetailPage", { productId: item.slug })
               }
               className="p-2"
             >
               <NextIcon className="font-semibold w-6 h-6" fill="red"/>
-            </TouchableOpacity> */}
+            </TouchableOpacity> }
           </TouchableOpacity>
         )}
         ListEmptyComponent={
