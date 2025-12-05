@@ -115,7 +115,7 @@ const HomeTabs = createBottomTabNavigator({
 });
 
 const RootStack = createNativeStackNavigator<RootStackParamList>({
-  initialRouteName: "SplashScreen", // Start with SplashScreen
+  initialRouteName: "LogScreen", // Start with SplashScreen
   screenOptions: { headerShown: false },
 
   screens: {

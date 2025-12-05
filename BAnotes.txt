@@ -2,31 +2,17 @@ order api postman durumu netleşince geçmiş siparişlerim sayfaları yapılmal
 payment ekranları şuan mock gibi onu gerçek api ile yap
 
 
-------------------------------------------------------------------------
+hakkımızda sayfasının sonuna da yorum geliyor muş.
+ hangi yorumlar??postmanda neresi
+
 şuan adres eklenemiyor.given token not valid  ?? accees token mevzusu mevzusu
-adreslerim geri dön tuşundan çok uzak. yaklaştır.
+
 adres ekleme düzeltilcek EMRE.
 
-log ve sign up da tik li kutucular seçilmeden  log  sign olmamalı
-
-
-
-hakkımızda sayfasının sonuna da yorum geliyor muş. hangi yorumlar??postmanda neresi
-hakkımızda geri dönme butonuna uzak kalmış düzelt
-
-ürün detayı sayfası altına son görütülenenler gelmeli.
-gramaj seçimi 1 adet 2 adet olmaktan çıkmalı
-postman daki gramaja bak radio butonunu yok et
-sepete ekle butonu küçültüp fiyatın karşısına konumla
-
-
-
-hesap bilgileri sayfasında telefon eklenebilir olmalı.
-geri dönme okuyla aynı seviyede olmalı
-hesap bilgilerine eklenen isim soy isim çıkış yap kısmındaki isim soy isimi değiştirmeli
- o üyelğe ait tel nosu olmuş olacak
-boşsa bilgiler güncellendi alarmı gelmesin. onay metni tıklanmadan blgiler güncellnmesin99
-
 sipariş alındı penceresine animasyon eklemek öne doğru gelsin
+------------------------------------------------------------------------
+
+
+
 
 text  hatalarını tespit et yok et

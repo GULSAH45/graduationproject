@@ -33,7 +33,7 @@ const FreqAskScreen = () => {
 
   return (
     <SafeAreaView className="flex-1">
-      <View className="flex-row items-center mx-2 mt-4 my-4">
+      <View className="flex-row items-center mx-2 my-4">
         <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "MenuListScreen" })}>
           <PrevIcon />
         </TouchableOpacity>

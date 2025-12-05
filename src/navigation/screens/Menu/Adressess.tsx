@@ -285,16 +285,18 @@ const Adressess = () => {
 
   return (
     <SafeAreaView className="flex-1 bg-white">
-      <View className="flex-row items-center justify-between mx-2 mt-4 my-4">
-        <TouchableOpacity
-          onPress={() => navigation.navigate("HomeTabs", { screen: "MenuListScreen" })}
-        >
-          <PrevIcon />
-        </TouchableOpacity>
-        <Text onPress={() => {
-          setShowAddressForm(false);
-          resetForm();
-        }} className="text-black text-md font-semibold ml-2">Adreslerim</Text>
+      <View className="flex-row items-center justify-between mx-2 my-4">
+        <View className="flex-row items-center">
+          <TouchableOpacity
+            onPress={() => navigation.navigate("HomeTabs", { screen: "MenuListScreen" })}
+          >
+            <PrevIcon />
+          </TouchableOpacity>
+          <Text onPress={() => {
+            setShowAddressForm(false);
+            resetForm();
+          }} className="text-black text-md font-semibold ml-2">Adreslerim</Text>
+        </View>
         {addresses.length > 0 && !showAddressForm && (
           <TouchableOpacity onPress={() => {
             resetForm();

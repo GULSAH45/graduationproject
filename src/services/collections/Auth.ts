@@ -66,10 +66,19 @@ export const register = async (data: RegisterRequest): Promise<RegisterResponse>
 };
 
 export const me = async (token: string): Promise<MeResponse> => {
-    const response = await authApi.get<MeResponse>("/users/my-account", {
+    const response = await authApi.get("/users/my-account", {
         headers: {
             Authorization: "Bearer " + token,
         },
     });
+    console.log('Raw API response from /users/my-account:', response.data);
+
+    // Check if response is wrapped in { data: ... }
+    if (response.data && typeof response.data === 'object' && 'data' in response.data) {
+        console.log('Response is wrapped, returning response.data.data');
+        return response.data.data;
+    }
+
+    console.log('Response is not wrapped, returning response.data');
     return response.data;
 };

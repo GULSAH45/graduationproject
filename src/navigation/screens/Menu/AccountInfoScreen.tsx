@@ -4,8 +4,9 @@ import {
   TouchableOpacity,
   SafeAreaView,
   TextInput,
+  Alert,
 } from "react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import PrevIcon from "@svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
 
@@ -18,25 +19,74 @@ const AccountInfoScreen = () => {
   const navigation = useNavigation();
   const { currentUser, updateUser } = useAuthStore();
   
-  const [firstName, setFirstName] = React.useState(currentUser?.firstName || "");
-  const [lastName, setLastName] = React.useState(currentUser?.lastName || "");
-  const [phone, setPhone] = React.useState(currentUser?.phone || "");
-  const [email, setEmail] = React.useState(currentUser?.email || "");
+  const [firstName, setFirstName] = React.useState("");
+  const [lastName, setLastName] = React.useState("");
+  const [phone, setPhone] = React.useState("");
+  const [email, setEmail] = React.useState("");
+  const [isConsentChecked, setIsConsentChecked] = React.useState(false);
+
+  // Load user data when component mounts or currentUser changes
+  useEffect(() => {
+    console.log('AccountInfoScreen - currentUser:', currentUser);
+    if (currentUser?.data) {
+      console.log('AccountInfoScreen - currentUser.data:', currentUser.data);
+      setFirstName(currentUser.data.first_name || currentUser.data.firstName || "");
+      setLastName(currentUser.data.last_name || currentUser.data.lastName || "");
+      setPhone(currentUser.data.phone || "");
+      setEmail(currentUser.data.email || "");
+      console.log('AccountInfoScreen - Form fields updated:', {
+        firstName: currentUser.data.first_name || currentUser.data.firstName,
+        lastName: currentUser.data.last_name || currentUser.data.lastName,
+        phone: currentUser.data.phone,
+        email: currentUser.data.email
+      });
+    } else {
+      console.log('AccountInfoScreen - No user data available');
+    }
+  }, [currentUser]);
 
   const handleSave = () => {
+    // Validation: Check if consent is checked
+    if (!isConsentChecked) {
+      Alert.alert(
+        "Onay Gerekli", 
+        "Bilgilerinizi güncellemek için 'Ticari Elektronik İleti Onayı' metnini okumalı ve onaylamalısınız."
+      );
+      return;
+    }
+
+    // Validation: Check if any field has changed
+    const hasChanges = 
+      firstName !== (currentUser?.data?.first_name || currentUser?.data?.firstName || "") ||
+      lastName !== (currentUser?.data?.last_name || currentUser?.data?.lastName || "") ||
+      phone !== (currentUser?.data?.phone || "") ||
+      email !== (currentUser?.data?.email || "");
+
+    if (!hasChanges) {
+      Alert.alert("Bilgi", "Değişiklik yapmadınız.");
+      return;
+    }
+
+    // Update user data
     updateUser({
-      firstName,
-      lastName,
-      phone,
-      email
+      data: {
+        ...currentUser?.data,
+        first_name: firstName,
+        last_name: lastName,
+        firstName: firstName,
+        lastName: lastName,
+        phone: phone,
+        email: email,
+      }
     });
-    alert("Bilgiler güncellendi!");
+    
+    Alert.alert("Başarılı", "Bilgiler güncellendi!");
   };
 
   return (
     <SafeAreaView className="flex-1">
       <View>
-        <View className="flex-row mx-2 mt-4 my-4">
+        <View className="flex-row items-center mx-2 my-4">
           <TouchableOpacity
            onPress={() => navigation.navigate("HomeTabs", { screen: "MenuListScreen" })}
           >
@@ -87,7 +137,7 @@ const AccountInfoScreen = () => {
               <DropDownFlag />
             </TouchableOpacity>
             <TextInput
-              className="flex-1 p-2" // Added p-2 for consistent padding
+              className="flex-1 p-2"
               placeholder="Telefon numaranızı giriniz"
               keyboardType="phone-pad"
               value={phone}
@@ -98,7 +148,7 @@ const AccountInfoScreen = () => {
           <Text className="text-md my-5">Email</Text>
           <View className="bg-InputBackground border border-TextInputBorderColor rounded-md h-[50px] px-2 justify-center">
             <TextInput
-              className="p-4 flex-1" // Added p-4 and flex-1 for consistent padding and full width
+              className="p-4 flex-1"
               placeholder="Email adresinizi giriniz"
               keyboardType="email-address"
               value={email}
@@ -107,23 +157,34 @@ const AccountInfoScreen = () => {
           </View>
         </View>
 
-        <View className="flex-row my-6 items-center mx-6">
-          <TouchableOpacity>
-            <CheckSvg />
+        <View className="flex-row my-6 items-start mx-6">
+          <TouchableOpacity onPress={() => setIsConsentChecked(!isConsentChecked)} className="mt-1">
+            <View className={`w-5 h-5 border-2 rounded ${isConsentChecked ? 'bg-green-600 border-green-600' : 'border-gray-400'} items-center justify-center`}>
+              {isConsentChecked && <CheckSvg />}
+            </View>
           </TouchableOpacity>
-          <Text className="text-sm ml-3 flex-1">
-            Kampanyalardan haberdar olmak için
-            <TouchableOpacity onPress={() => alert("Onay metni tıklandı!")}>
-              <Text className="text-sm  p-0 text-TextLoginButtonColor ">Ticari Elektronik İleti Onayı</Text>
-            </TouchableOpacity>
-            metnini okudum, onaylıyorum. Tarafınızdan gönderilecek ticari elektronik iletileri almak istiyorum.
-          </Text>
+          <View className="ml-3 flex-1">
+            <Text className="text-sm text-gray-700">
+              Kampanyalardan haberdar olmak için{" "}
+              <Text 
+                className="text-sm text-TextLoginButtonColor underline"
+                onPress={() => Alert.alert("Ticari Elektronik İleti Onayı", "Kampanyalar ve promosyonlar hakkında bilgi almak için onay veriyorsunuz.")}
+              >
+                Ticari Elektronik İleti Onayı
+              </Text>
+              {" "}metnini okudum, onaylıyorum.
+            </Text>
+            <Text className="text-xs text-gray-500 mt-1">
+              Tarafınızdan gönderilecek ticari elektronik iletileri almak istiyorum.
+            </Text>
+          </View>
         </View>
 
         <View className="items-center my-5">
           <TouchableOpacity
-            className="w-11/12 h-[55px] bg-black rounded-lg py-2 justify-center"
+            className={`w-11/12 h-[55px] rounded-lg py-2 justify-center ${isConsentChecked ? 'bg-black' : 'bg-gray-400'}`}
             onPress={handleSave}
+            disabled={!isConsentChecked}
           >
             <Text className="text-white text-lg font-bold text-center">
               Kaydet

@@ -414,45 +414,35 @@ const ProductDetailPage = () => {
             <>
               <Text className="font-semibold mb-2">Gramaj Seçimi</Text>
               <View className="flex-row flex-wrap mb-4">
-                {availableVariants?.map((variant) => (
-                  <TouchableOpacity
-                    key={variant.id}
-                    className={`flex-row items-center px-3 py-1 mr-2 mb-2 rounded-full border ${selectedVariantId === variant.id
-                      ? "bg-blue-200 border-blue-600"
-                      : "bg-gray-200 border-gray-400"
-                      }`}
-                    onPress={() => setSelectedVariantId(variant.id)}
-                  >
-                    <Text className="text-sm text-gray-700">
-                      {variant.size.pieces} Adet
-                    </Text>
-                    <View
-                      style={{
-                        width: 18,
-                        height: 18,
-                        borderRadius: 9,
-                        borderWidth: 2,
-                        borderColor:
-                          selectedVariantId === variant.id ? "#2563eb" : "#888",
-                        marginLeft: 8,
-                        alignItems: "center",
-                        justifyContent: "center",
-                        backgroundColor: "#fff",
-                      }}
-                    >
-                      {selectedVariantId === variant.id && (
-                        <View
-                          style={{
-                            width: 10,
-                            height: 10,
-                            borderRadius: 5,
-                            backgroundColor: "#2563eb",
-                          }}
-                        />
+                {availableVariants?.map((variant) => {
+                  const isSelected = selectedVariantId === variant.id;
+                  return (
+                    <View key={variant.id} className="mr-2 mb-2 relative">
+                      <TouchableOpacity
+                        className={`px-4 py-3 rounded-full border-2 ${
+                          isSelected 
+                            ? "bg-green-100 border-green-600" 
+                            : "bg-white border-gray-300"
+                        }`}
+                        onPress={() => setSelectedVariantId(variant.id)}
+                      >
+                        <Text 
+                          className={`text-sm font-semibold ${
+                            isSelected ? "text-green-700" : "text-gray-700"
+                          }`}
+                        >
+                          {variant.size.pieces} Adet
+                        </Text>
+                      </TouchableOpacity>
+                      
+                      {isSelected && (
+                        <View className="absolute -top-1 -right-1 w-5 h-5 rounded-full bg-green-600 items-center justify-center">
+                          <AntDesign name="check" size={10} color="#fff" />
+                        </View>
                       )}
                     </View>
-                  </TouchableOpacity>
-                ))}
+                  );
+                })}
               </View>
             </>
           )}
@@ -468,25 +458,35 @@ const ProductDetailPage = () => {
                 selectedVariant.price?.discounted_price ??
                 selectedVariant.price?.total_price;
               return (
-                <Text className="text-xl font-bold text-green-700 mb-2">
-                  {price} TL
-                </Text>
+                <View className="mb-4">
+                  <View className="flex-row items-center justify-between">
+                    <View>
+                      <Text className="text-xl ml-5 font-bold text-green-700">
+                        {price} TL
+                      </Text>
+                      <Text className="text-xs ml-5 text-gray-500 mt-1">
+                        {selectedVariant.size.total_services} servis • {selectedVariant.price?.price_per_servings.toFixed(2)} TL/servis
+                      </Text>
+                    </View>
+                    {/* Sepete Ekle Butonu */}
+                    <TouchableOpacity
+                      disabled={!selectedAroma || !selectedVariantId}
+                      onPress={handleAddBasket}
+                      className={`py-3 w-[200px] rounded-sm ${selectedAroma && selectedVariantId
+                        ? "bg-green-600"
+                        : "bg-gray-400"
+                        }`}
+                    >
+                      <Text className="text-white text-center font-bold text-lg">
+                        Sepete Ekle
+                      </Text>
+                    </TouchableOpacity>
+                  </View>
+                </View>
               );
             })()}
 
-          {/* Sepete Ekle Butonu */}
-          <TouchableOpacity
-            disabled={!selectedAroma || !selectedVariantId}
-            onPress={handleAddBasket}
-            className={`mt-2 py-3 rounded-lg ${selectedAroma && selectedVariantId
-              ? "bg-green-600"
-              : "bg-gray-400"
-              }`}
-          >
-            <Text className="text-white text-center font-bold text-lg">
-              Sepete Ekle
-            </Text>
-          </TouchableOpacity>
+         
 
           {/* Özellikler Bölümü */}
           <View className="flex-row justify-between items-center py-6 px-2 mt-4 bg-white">
@@ -704,4 +704,4 @@ const ProductDetailPage = () => {
   );
 };
 
-export default ProductDetailPage;
+export default ProductDetailPage

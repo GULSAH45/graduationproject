@@ -6,10 +6,12 @@ import {
   Image,
   TouchableOpacity,
   ScrollView,
+  Alert,
 } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import SignUpInput from "@/components/SignUpInput";
-import CheckIcons from "@/components/checkIcons";
+import { CheckBox } from "react-native-elements";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 import { useAuthStore } from "@/stores/useAuthStore";
 
@@ -24,10 +26,23 @@ const SignUpScreen = () => {
   const [password2, setPassword2] = useState("");
   const [loading, setLoading] = useState(false);
   const [message, setMessage] = useState("");
+  
+  // Checkbox states
+  const [isMarketingConsent, setIsMarketingConsent] = useState(false);
+  const [isTermsConsent, setIsTermsConsent] = useState(false);
 
   const register = useAuthStore((state) => state.register);
 
   const handleSignUp = async () => {
+    // Validation: Check if both checkboxes are checked
+    if (!isMarketingConsent || !isTermsConsent) {
+      Alert.alert(
+        "Onay Gerekli",
+        "Üye olmak için Ticari Elektronik İleti Onayı ve Üyelik Sözleşmesi'ni kabul etmelisiniz."
+      );
+      return;
+    }
+
     setLoading(true);
     setMessage("");
 
@@ -47,17 +62,56 @@ const SignUpScreen = () => {
       });
 
       if (success) {
+        // Store registration flag
+        await AsyncStorage.setItem('registered', 'true');
+        // Show success alert
+        Alert.alert('Başarılı', 'Üye olundu!');
         // Navigate to LogScreen after successful registration so user can log in
         navigation.navigate("LogScreen");
       } else {
         setMessage("Bu e-posta adresi ile zaten kayıtlı bir kullanıcı var.");
       }
-    } catch (error) {
-      setMessage("Bir hata oluştu.");
+    } catch (error: any) {
+      console.error('SignUp error:', error);
+      // Try to parse error message from API
+      let errorMessage = "Bir hata oluştu.";
+      try {
+        const errorData = JSON.parse(error.message);
+        console.log('Parsed error data:', errorData);
+        
+        if (errorData.reason) {
+          // Handle password errors
+          if (errorData.reason.password) {
+            const passwordErrors = errorData.reason.password;
+            const turkishErrors = passwordErrors.map((err: string) => {
+              if (err.includes('too short')) return 'Şifre en az 8 karakter olmalı';
+              if (err.includes('too common')) return 'Şifre çok yaygın, daha güçlü bir şifre seçin';
+              if (err.includes('entirely numeric')) return 'Şifre sadece rakamlardan oluşmamalı';
+              return err;
+            });
+            errorMessage = turkishErrors.join('\n');
+          } 
+          // Handle email errors
+          else if (errorData.reason.email) {
+            errorMessage = `Email hatası: ${errorData.reason.email[0]}`;
+          }
+          // Handle other errors
+          else if (errorData.reason.detail) {
+            errorMessage = errorData.reason.detail;
+          }
+        }
+      } catch (parseError) {
+        console.error('Error parsing error message:', parseError);
+        errorMessage = error.message || "Bir hata oluştu.";
+      }
+      setMessage(errorMessage);
     } finally {
       setLoading(false);
     }
   };
+
+  // Check if all requirements are met for signup
+  const isSignupEnabled = isMarketingConsent && isTermsConsent && !loading;
 
   return (
     <ScrollView>
@@ -86,10 +140,11 @@ const SignUpScreen = () => {
           />
 
           <TouchableOpacity
-            //
-            className="bg-black w-[324px] h-[55px] items-center justify-center rounded-lg mt-4"
+            className={`w-[324px] h-[55px] items-center justify-center rounded-lg mt-4 ${
+              isSignupEnabled ? "bg-black" : "bg-gray-400"
+            }`}
             onPress={handleSignUp}
-            disabled={loading}
+            disabled={!isSignupEnabled}
           >
             <Text className="text-2xl text-white text-center font-bold">
               {loading ? "Kaydediliyor..." : "Üye Ol"}
@@ -99,7 +154,14 @@ const SignUpScreen = () => {
 
         <View className="flex-1 px-4">
           <View className="flex-row items-start mx-7 my-3">
-            <CheckIcons />
+            <CheckBox
+              checked={isMarketingConsent}
+              onPress={() => setIsMarketingConsent(!isMarketingConsent)}
+              checkedColor="rgba(33, 38, 171, 1)"
+              uncheckedColor="rgba(33, 38, 171, 1)"
+              size={22}
+              containerStyle={{ padding: 0, margin: 0, backgroundColor: 'transparent', borderWidth: 0 }}
+            />
             <Text className="text-xs text-neutral-600 ml-2 flex-1">
               Kampanyalardan haberdar olmak için{" "}
               <Text className="text-sm text-neutral-950 font-bold underline">
@@ -110,7 +172,14 @@ const SignUpScreen = () => {
           </View>
 
           <View className="flex-row items-start mx-7 my-3">
-            <CheckIcons />
+            <CheckBox
+              checked={isTermsConsent}
+              onPress={() => setIsTermsConsent(!isTermsConsent)}
+              checkedColor="rgba(33, 38, 171, 1)"
+              uncheckedColor="rgba(33, 38, 171, 1)"
+              size={22}
+              containerStyle={{ padding: 0, margin: 0, backgroundColor: 'transparent', borderWidth: 0 }}
+            />
             <Text className="text-xs text-neutral-600 ml-2 flex-1">
               <Text className="text-sm text-neutral-950 font-bold underline">
                 Üyelik sözleşmesini
