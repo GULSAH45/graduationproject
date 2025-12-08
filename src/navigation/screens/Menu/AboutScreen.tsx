@@ -9,7 +9,7 @@ import {
 import React from "react";
 import PrevIcon from "@/svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
-import { ProductReview } from "@/components/ProductReview/ProductReview";
+import { ProductReview } from "@/components/productReview/ProductReview";
 import { mockCustomerReviews, mockReviewStats } from "@/data/customerReviews";
 
 const AboutScreen = () => {
