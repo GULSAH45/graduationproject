@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, ScrollView, SafeAreaView, Text, TouchableOpacity, Alert } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { RequireAuth } from "@/components/RequireAuth";
@@ -11,6 +11,7 @@ import PrevIcon from "@/svgs/PrevIcon";
 import { useBasket } from "@/contexts/BasketContext";
 import { useAuthStore } from "@/stores/useAuthStore";
 import { createOrder } from "@/services/collections/Orders";
+import { getAddresses, Address } from "@/services/collections/Adresses";
 
 interface CheckoutData {
   address: any;
@@ -23,6 +24,9 @@ const CheckoutScreenContent = () => {
   const { clearBasket } = useBasket();
   const { accessToken } = useAuthStore();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
+  const [loadingAddresses, setLoadingAddresses] = useState(false);
+  const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
   
   // Accordion states
   const [openAccordions, setOpenAccordions] = useState({
@@ -38,7 +42,45 @@ const CheckoutScreenContent = () => {
     payment: null,
   });
 
+  // Fetch saved addresses on mount
+  useEffect(() => {
+    const fetchSavedAddresses = async () => {
+      if (!accessToken) return;
+      
+      setLoadingAddresses(true);
+      try {
+        const response = await getAddresses(accessToken);
+        if (response.status === "success" && response.data.results.length > 0) {
+          setSavedAddresses(response.data.results);
+          // Automatically set the first address as selected
+          setCheckoutData(prev => ({
+            ...prev,
+            address: response.data.results[0]
+          }));
+        }
+      } catch (error) {
+        console.error("Error fetching addresses:", error);
+      } finally {
+        setLoadingAddresses(false);
+      }
+    };
+
+    fetchSavedAddresses();
+  }, [accessToken]);
+
   const toggleAccordion = (key: keyof typeof openAccordions) => {
+    // Validation: prevent opening shipping without address
+    if (key === 'shipping' && !checkoutData.address) {
+      Alert.alert("Uyarı", "Lütfen önce bir adres seçin.");
+      return;
+    }
+    
+    // Validation: prevent opening payment without shipping
+    if (key === 'payment' && !checkoutData.shipping) {
+      Alert.alert("Uyarı", "Lütfen önce kargo seçeneğini seçin.");
+      return;
+    }
+    
     setOpenAccordions(prev => ({
       ...prev,
       [key]: !prev[key]
@@ -73,9 +115,11 @@ const CheckoutScreenContent = () => {
       // Create order via API
       const orderResponse = await createOrder(accessToken, {
         address_id: checkoutData.address?.id,
-        shipping_method: checkoutData.shipping || 'standard',
-        payment_method: data.paymentMethod || 'credit_card',
-        notes: data.notes || ''
+        payment_type: 'credit_cart',
+        card_digits: data.cardNumber,
+        card_expiration_date: `${data.expiryMonth}-${data.expiryYear}`,
+        card_security_code: data.cvc,
+        card_type: 'VISA'
       });
 
       console.log('Order created:', orderResponse);
@@ -83,12 +127,11 @@ const CheckoutScreenContent = () => {
       // Clear basket after successful order creation
       await clearBasket();
       console.log('Basket cleared after payment');
-
+console.log('Order number:', orderResponse.data);
       // Navigate to OrderSuccessScreen with real order data
       navigation.navigate("OrderSuccessScreen", {
         orderData: {
           orderNumber: orderResponse.data.order_number,
-          orderId: orderResponse.data.order_id,
           items: undefined,
           address: checkoutData.address,
           shipping: checkoutData.shipping || undefined,
@@ -143,16 +186,88 @@ const CheckoutScreenContent = () => {
 
           {openAccordions.address && (
             <View className="p-4">
-              <AddressForm onSubmit={handleAddressSubmit} />
+              {savedAddresses.length > 0 ? (
+                <View>
+                  <Text className="text-sm font-semibold text-gray-700 mb-3">
+                    Kayıtlı Adresleriniz:
+                  </Text>
+                  {savedAddresses.map((address, index) => (
+                    <TouchableOpacity
+                      key={address.id}
+                      onPress={() => {
+                        setSelectedAddressIndex(index);
+                        setCheckoutData(prev => ({
+                          ...prev,
+                          address: savedAddresses[index]
+                        }));
+                      }}
+                      className={`mb-3 p-3 rounded-lg border ${
+                        selectedAddressIndex === index
+                          ? 'border-green-500 bg-green-50'
+                          : 'border-gray-200 bg-gray-50'
+                      }`}
+                    >
+                      <View className="flex-row items-start">
+                        <View className="mr-3 mt-1">
+                          <View
+                            className={`w-5 h-5 rounded-full border-2 items-center justify-center ${
+                              selectedAddressIndex === index
+                                ? 'border-green-500 bg-green-500'
+                                : 'border-gray-400'
+                            }`}
+                          >
+                            {selectedAddressIndex === index && (
+                              <View className="w-2 h-2 rounded-full bg-white" />
+                            )}
+                          </View>
+                        </View>
+                        <View className="flex-1">
+                          <Text className="text-base font-semibold text-gray-900">
+                            {address.title || 'Adres'}
+                          </Text>
+                          <Text className="text-sm font-medium text-gray-800 mt-1">
+                            {address.first_name} {address.last_name}
+                          </Text>
+                          <Text className="text-sm text-gray-600 mt-1">
+                            {address.phone_number}
+                          </Text>
+                          <Text className="text-sm text-gray-600 mt-1">
+                            {address.full_address}
+                          </Text>
+                          <Text className="text-sm text-gray-500 mt-1">
+                            {address.subregion.name}, {address.region.name}, {address.country.name}
+                          </Text>
+                        </View>
+                      </View>
+                    </TouchableOpacity>
+                  ))}
+                  <TouchableOpacity
+                    onPress={() => {
+                      if (!checkoutData.address) {
+                        Alert.alert("Uyarı", "Lütfen bir adres seçin.");
+                        return;
+                      }
+                      setOpenAccordions({ summary: false, address: false, shipping: true, payment: false });
+                    }}
+                    className="bg-green-500 rounded-lg p-3 mt-2"
+                  >
+                    <Text className="text-white text-center font-semibold">Devam Et</Text>
+                  </TouchableOpacity>
+                </View>
+              ) : (
+                <AddressForm onSubmit={handleAddressSubmit} />
+              )}
             </View>
           )}
 
           {checkoutData.address && !openAccordions.address && (
             <View className="p-4">
               <Text className="text-sm text-gray-600">
-                {checkoutData.address.firstName} {checkoutData.address.lastName}
+                {checkoutData.address.first_name || checkoutData.address.firstName} {checkoutData.address.last_name || checkoutData.address.lastName}
               </Text>
-              <Text className="text-sm text-gray-600">{checkoutData.address.address}</Text>
+              <Text className="text-sm text-gray-600">
+                {checkoutData.address.full_address || checkoutData.address.address}
+              </Text>
             </View>
           )}
         </View>

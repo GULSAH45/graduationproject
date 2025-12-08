@@ -3,6 +3,7 @@ import { View, Text, Image, TouchableOpacity } from 'react-native';
 import { useBasket } from '@/contexts/BasketContext';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { IMAGE_URL } from '@/navigation/screens/ProductDetailPage';
+import { formatCurrency } from 'react-native-format-currency';
 
 interface OrderSummaryAccordionProps {
   isOpen: boolean;
@@ -31,7 +32,7 @@ export const OrderSummaryAccordion: React.FC<OrderSummaryAccordionProps> = ({ is
         <Text className="text-base font-semibold text-gray-900">Özet</Text>
         <View className="flex-row items-center">
           <Text className="text-base font-bold text-gray-900 mr-2">
-            {total.toFixed(2)} TL {basket.length > 0 && `(${basket.reduce((sum, item) => sum + (item.quantity || 0), 0)} ürün)`}
+            {formatCurrency({ amount: total, code: 'TRY' })[0]} {basket.length > 0 && `(${basket.reduce((sum, item) => sum + (item.quantity || 0), 0)} ürün)`}
           </Text>
           <AntDesign name={isOpen ? "up" : "down"} size={16} color="#666" />
         </View>
@@ -79,7 +80,7 @@ export const OrderSummaryAccordion: React.FC<OrderSummaryAccordionProps> = ({ is
 
                 {/* Price */}
                 <Text className="font-bold text-sm text-gray-900 ml-2">
-                  {(price * (item.quantity || 1)).toFixed(2)} TL
+                  {formatCurrency({ amount: price * (item.quantity || 1), code: 'TRY' })[0]}
                 </Text>
               </View>
             );
@@ -89,7 +90,7 @@ export const OrderSummaryAccordion: React.FC<OrderSummaryAccordionProps> = ({ is
           <View className="mt-2 space-y-2">
             <View className="flex-row justify-between items-center">
               <Text className="text-sm text-gray-600">Ara Toplam</Text>
-              <Text className="text-sm text-gray-900">{subtotal.toFixed(2)} TL</Text>
+              <Text className="text-sm text-gray-900">{formatCurrency({ amount: subtotal, code: 'TRY' })[0]}</Text>
             </View>
 
             <View className="flex-row justify-between items-center">
@@ -100,7 +101,7 @@ export const OrderSummaryAccordion: React.FC<OrderSummaryAccordionProps> = ({ is
             {paymentFee > 0 && (
               <View className="flex-row justify-between items-center">
                 <Text className="text-sm text-gray-600">Kapıda Ödeme (Kredi Kartı)</Text>
-                <Text className="text-sm text-gray-900">{paymentFee.toFixed(2)} TL</Text>
+                <Text className="text-sm text-gray-900">{formatCurrency({ amount: paymentFee, code: 'TRY' })[0]}</Text>
               </View>
             )}
 
@@ -113,8 +114,8 @@ export const OrderSummaryAccordion: React.FC<OrderSummaryAccordionProps> = ({ is
             <View className="flex-row justify-between items-center pt-3 border-t border-gray-200 mt-2">
               <Text className="text-lg font-bold text-gray-900">Toplam</Text>
               <View className="items-end">
-                <Text className="text-lg font-bold text-gray-900">{total.toFixed(2)} TL</Text>
-                <Text className="text-xs text-gray-500">Vergi 6.81 TL</Text>
+                <Text className="text-lg font-bold text-gray-900">{formatCurrency({ amount: total, code: 'TRY' })[0]}</Text>
+                <Text className="text-xs text-gray-500">Vergi {formatCurrency({ amount: 6.81, code: 'TRY' })[0]}</Text>
               </View>
             </View>
           </View>

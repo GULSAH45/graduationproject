@@ -23,8 +23,9 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
-import { ProductReview } from "@/components/ProductReview/ProductReview";
+import { ProductReview } from "@/components/productReview/ProductReview";
 import { useAuthStore } from "@/stores/useAuthStore";
+import { formatCurrency } from "react-native-format-currency";
 
 
 
@@ -475,10 +476,10 @@ const ProductDetailPage = () => {
                   <View className="flex-row items-center justify-between">
                     <View>
                       <Text className="text-xl ml-5 font-bold text-green-700">
-                        {price} TL
+                        {formatCurrency({ amount: price || 0, code: "TRY" })[0]}
                       </Text>
                       <Text className="text-xs ml-5 text-gray-500 mt-1">
-                        {selectedVariant.size.total_services} servis • {selectedVariant.price?.price_per_servings.toFixed(2)} TL/servis
+                        {selectedVariant.size.total_services} servis • {formatCurrency({ amount: selectedVariant.price?.price_per_servings || 0, code: "TRY" })[0]}/servis
                       </Text>
                     </View>
                     {/* Sepete Ekle Butonu */}

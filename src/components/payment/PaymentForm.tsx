@@ -110,28 +110,17 @@ const PaymentForm = ({ onSubmit }: PaymentFormProps) => {
         </View>
       </View>
 
-      {/* Summary Section */}
-      <View className="space-y-3">
-        <View className="flex-row items-center justify-between py-3">
-          <Text className="text-sm text-black">Kapıda Ödeme (Nakit)</Text>
-          <Text className="font-semibold text-black">39 TL İşlem Bedeli</Text>
-        </View>
-        <View className="flex-row items-center justify-between py-3 border-t border-gray-200">
-          <Text className="text-sm text-black">Kapıda Ödeme (Kredi Kartı)</Text>
-          <Text className="font-semibold text-black">39 TL İşlem Bedeli</Text>
-        </View>
-      </View>
 
       {/* Agreements */}
-      <View className="space-y-3">
+      <View className="space-y-3 my-3">
         <TouchableOpacity 
-          className="flex-row items-start gap-3"
+          className="flex-row items-start my-4 gap-3"
           onPress={() => setSaveAddress(!saveAddress)}
         >
           <View className={`w-5 h-5 mt-0.5 rounded border ${saveAddress ? 'bg-black border-black' : 'border-gray-300'}`}>
             {saveAddress && <Feather name="check" size={14} color="white" />}
           </View>
-          <Text className="text-sm text-black flex-1">
+          <Text className="text-sm  text-black flex-1">
             Fatura adresim teslimat adresimle aynı
           </Text>
         </TouchableOpacity>

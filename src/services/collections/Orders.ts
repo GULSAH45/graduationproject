@@ -5,10 +5,12 @@ export type { Order, OrderListResponse };
 
 // Create new order
 export interface CreateOrderRequest {
-    address_id?: number;
-    shipping_method?: string;
-    payment_method?: string;
-    notes?: string;
+    address_id: string;
+    payment_type: string;
+    card_digits: string;
+    card_expiration_date: string;
+    card_security_code: string;
+    card_type: string;
 }
 
 export interface CreateOrderResponse {
