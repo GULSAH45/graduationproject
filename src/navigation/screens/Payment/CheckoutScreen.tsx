@@ -112,24 +112,23 @@ const CheckoutScreenContent = () => {
         setIsSubmitting(false);
         return;
       }
-      console.log('checkoutData', checkoutData);
-      console.log('data', data);
-      console.log('accessToken', accessToken);
-
-      console.log("adres id",checkoutData.address)
-
-      const orderResponse = await createOrder(accessToken, {
-        address_id: checkoutData.address?.country?.id.toString(),
+      
+      // Ensure month and year are 2 digits
+      const month = data.expiryMonth?.toString().padStart(2, '0');
+      const year = data.expiryYear?.toString().slice(-2).padStart(2, '0'); // Get last 2 digits
+      
+      const orderPayload = {
+        address_id: checkoutData.address.id,
         payment_type: 'credit_cart',
-        card_digits: checkoutData.cardNumber,
-        card_expiration_date: `${data.expiryMonth}-${data.expiryYear}`,
+        card_digits: data.cardNumber?.replace(/\s/g, ''), // Remove spaces from card number
+        card_expiration_date: `${month}-${year}`,
         card_security_code: data.cvc,
         card_type: 'VISA'
-      });
+      };
+      
+      const orderResponse = await createOrder(accessToken, orderPayload);
 
       await clearBasket();
-
-      console.log('orderResponse', orderResponse);
 
       if(orderResponse.status === "success") {
         navigation.navigate("OrderSuccessScreen", {
@@ -143,11 +142,14 @@ const CheckoutScreenContent = () => {
       } else {
         Alert.alert("Hata", orderResponse.message);
       }
-    } catch (error) {
-      console.error('Error creating order:', (error as Error).message);
+    } catch (error: any) {
+      console.error('Error creating order:', error.message);
+      console.error('Error response:', error.response?.data);
+      console.error('Error status:', error.response?.status);
+      
       Alert.alert(
         "Sipariş Hatası",
-        error.response?.data?.message || "Sipariş oluşturulurken bir hata oluştu. Lütfen tekrar deneyin."
+        error.response?.data?.message || error.response?.data?.error || "Sipariş oluşturulurken bir hata oluştu. Lütfen tekrar deneyin."
       );
     } finally {
       setIsSubmitting(false);

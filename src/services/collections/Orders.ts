@@ -1,4 +1,4 @@
-import { authApi } from "./Auth";
+import { authApi, API_KEY } from "./Auth";
 import type { Order, OrderListResponse } from "@/types/Order";
 
 export type { Order, OrderListResponse };
@@ -43,9 +43,12 @@ export const getOrderDetail = async (token: string, orderId: string): Promise<Or
 
 
 export const createOrder = async (token: string, orderData: CreateOrderRequest): Promise<CreateOrderResponse> => {
-    const response = await authApi.post<CreateOrderResponse>("/orders", orderData, {
+    const response = await authApi.post<CreateOrderResponse>("/orders/complete-shopping", {
+        ...orderData,
+    }, {
         headers: {
             Authorization: "Bearer " + token,
+            "Content-Type": "application/json",
         },
     });
     return response.data;
