@@ -1,4 +1,4 @@
-import { CustomerReview, ReviewStats } from "@/types/ReviewTypes";
+import { CustomerReview, ReviewStats } from "@/types/Review";
 
 export const mockCustomerReviews: CustomerReview[] = [
     {

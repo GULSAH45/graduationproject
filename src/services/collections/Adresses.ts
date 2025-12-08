@@ -7,7 +7,7 @@ import type {
     Address,
     AddressListResponse,
     CreateAddressRequest
-} from "@/types/AddressTypes";
+} from "@/types/Address";
 
 export type {
     Country,

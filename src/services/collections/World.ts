@@ -33,7 +33,7 @@ export const listCountries = async (limit: number = 100, offset: number = 0): Pr
 };
 
 export const listRegions = async (
-    name: number,
+    countryName: string,
     limit: number = 100,
     offset: number = 0
 ): Promise<WorldResponse<Region>> => {
@@ -42,14 +42,14 @@ export const listRegions = async (
         params: {
             limit,
             offset,
-            country: name,
+            "country-name": countryName.toLowerCase(),
         }
     });
     return response.data;
 };
 
 export const listSubregions = async (
-    regionId: number,
+    regionName: string,
     limit: number = 100,
     offset: number = 0
 ): Promise<WorldResponse<Subregion>> => {
@@ -57,7 +57,7 @@ export const listSubregions = async (
         params: {
             limit,
             offset,
-            region: regionId,
+            "region-name": regionName.toLowerCase(),
         }
     });
     return response.data;

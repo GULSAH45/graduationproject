@@ -15,7 +15,7 @@ import { useNavigation, useRoute, RouteProp, NavigationProp } from "@react-navig
 import PrevIcon from "../../svgs/PrevIcon";
 import { useBasket } from "../../contexts/BasketContext";
 import AntDesign from "@expo/vector-icons/AntDesign";
-import { ProductDetailRouteParams, Product, Variant } from "@/types/product";
+import { ProductDetailRouteParams, Product, Variant } from "@/types/Product";
 import Toast from "react-native-toast-message";
 import TruckSVG from "@/svgs/TruckSVG";
 import TikSVG from "@/svgs/TikSVG";
@@ -23,7 +23,8 @@ import PercentageSVG from "@/svgs/PercentageSVG";
 import { useLastViewedStore } from "@/stores/LastViewed";
 
 import { RootStackParamList } from "@/navigation";
-import { ProductReview } from "@/components/productReview/ProductReview";
+import { ProductReview } from "@/components/ProductReview/ProductReview";
+import { useAuthStore } from "@/stores/useAuthStore";
 
 
 
@@ -84,7 +85,8 @@ const getAromaIcon = (aroma: string): any => {
 const ProductDetailPage = () => {
   const route =
     useRoute<RouteProp<Record<string, ProductDetailRouteParams>, string>>();
-
+    
+    const { accessToken } = useAuthStore();
 
 
   const scrollRef = useRef<ScrollView>(null);
@@ -140,6 +142,7 @@ const ProductDetailPage = () => {
         selectedVariant,
       } as Product);
 
+      if(accessToken) {
       Toast.show({
         type: "successCustom",
         text1: "Başarılı!",
@@ -147,7 +150,17 @@ const ProductDetailPage = () => {
         position: "top",
         topOffset: 50,
       });
-
+      }
+      else {
+        Toast.show({
+          type: "errorCustom",
+          text1: "Hata!",
+          text2: "Lütfen giriş yapınız.",
+          position: "top",
+          topOffset: 50,
+        });
+        return navigator.navigate("LogScreen");
+      }
       setTimeout(() => {
         navigator.navigate("BasketScreen");
       }, 150);

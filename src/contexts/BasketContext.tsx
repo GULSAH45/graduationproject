@@ -1,5 +1,5 @@
 import React, { createContext, useContext, useState, ReactNode, useEffect } from "react";
-import { Product } from "@/types/product";
+import { Product } from "@/types/Product";
 import uuid from 'react-native-uuid';
 import { useAuthStore } from "@/stores/useAuthStore";
 import { addToCart, getCart, clearCart, CartItem } from "@/services/collections/Cart";

@@ -91,10 +91,10 @@ const Adressess = () => {
     }
   };
 
-  const fetchRegions = async (countryId: number) => {
+  const fetchRegions = async (countryName: string) => {
     setIsFetchingRegions(true);
     try {
-      const response = await listRegions(countryId);
+      const response = await listRegions(countryName);
       if (response.status === "success") {
         setRegions(response.data.results);
       }
@@ -105,10 +105,10 @@ const Adressess = () => {
     }
   };
 
-  const fetchSubregions = async (regionId: number) => {
+  const fetchSubregions = async (regionName: string) => {
     setIsFetchingSubregions(true);
     try {
-      const response = await listSubregions(regionId);
+      const response = await listSubregions(regionName);
       if (response.status === "success") {
         setSubregions(response.data.results);
       }
@@ -142,14 +142,14 @@ const Adressess = () => {
     setSelectedSubregion(null);
     setRegions([]);
     setSubregions([]);
-    fetchRegions(country.id);
+    fetchRegions(country.name);
   };
 
   const handleSelectRegion = (region: Region) => {
     setSelectedRegion(region);
     setSelectedSubregion(null);
     setSubregions([]);
-    fetchSubregions(region.id);
+    fetchSubregions(region.name);
   };
 
   const handleSelectSubregion = (subregion: Subregion) => {
@@ -229,10 +229,10 @@ const Adressess = () => {
 
       // Trigger fetches to populate lists
       if (addressToEdit.country) {
-        await fetchRegions(addressToEdit.country.id);
+        await fetchRegions(addressToEdit.country.name);
       }
       if (addressToEdit.region) {
-        await fetchSubregions(addressToEdit.region.id);
+        await fetchSubregions(addressToEdit.region.name);
       }
 
       setShowAddressForm(true);

@@ -4,7 +4,7 @@ import PrevIcon from '@/svgs/PrevIcon';
 import { useNavigation } from '@react-navigation/native';
 import { useAuthStore } from '@/stores/useAuthStore';
 import { getOrders } from '@/services/collections/Orders';
-import type { Order } from '@/types/OrderTypes';
+import type { Order } from '@/types/Order';
 
 const OrderScreen = () => {
   const navigation = useNavigation();
