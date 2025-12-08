@@ -12,7 +12,5 @@ adres ekleme düzeltilcek EMRE.
 sipariş alındı penceresine animasyon eklemek öne doğru gelsin
 ------------------------------------------------------------------------
 
-
-
-
+gıda yıl slug dan dolayı gida diye arama zorunda yoksa çıkmıyor.
 text  hatalarını tespit et yok et

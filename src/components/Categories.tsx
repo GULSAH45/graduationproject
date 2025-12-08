@@ -52,7 +52,7 @@ function Categories() {
             {categoriesWithAll.map((cat, idx) => (
               <TouchableOpacity
                 key={cat.id || idx}
-                className="w-[48%] h-[100px] mb-3 bg-white rounded-lg items-center justify-center shadow"
+                className="w-[48%] h-[120px] mb-3 bg-white rounded-lg items-center justify-center shadow"
                 style={{ minWidth: 100, overflow: 'hidden' }}
                 onPress={() => {
                   // Kategori bilgilerini params olarak gönder
