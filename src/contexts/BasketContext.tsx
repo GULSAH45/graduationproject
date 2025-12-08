@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState, ReactNode, useEffect } from
 import { Product } from "@/types/product";
 import uuid from 'react-native-uuid';
 import { useAuthStore } from "@/stores/useAuthStore";
-import { addToCart, getCart, CartItem } from "@/services/collections/Cart";
+import { addToCart, getCart, clearCart, CartItem } from "@/services/collections/Cart";
 
 // UUID oluşturucu fonksiyon
 const generateUUID = (): string => {
@@ -15,6 +15,7 @@ type BasketContextType = {
   increaseQuantity: (basketItemId: string) => void;
   decreaseQuantity: (basketItemId: string) => void;
   removeFromBasket: (basketItemId: string) => void;
+  clearBasket: () => Promise<void>;
 };
 
 const BasketContext = createContext<BasketContextType | undefined>(undefined);
@@ -42,12 +43,16 @@ export const BasketProvider = ({ children }: { children: ReactNode }) => {
             profit: 0,
             total_price: item.total_price,
             discounted_price: 0,
-            price: item.unit_price,
+            price_per_servings: item.unit_price, // Added for type compatibility
             discount_percentage: 0
           },
           photo: item.product_variant_detail.photo_src,
           image: item.product_variant_detail.photo_src,
           category: "", // Not provided
+          category_slug: "", // Not provided
+          gram: item.product_variant_detail.size.gram,
+          piece: item.product_variant_detail.size.pieces,
+          stock: 0, // Not provided
           rating: 0, // Not provided
           reviews: 0, // Not provided
           isNew: false,
@@ -59,16 +64,22 @@ export const BasketProvider = ({ children }: { children: ReactNode }) => {
           },
           tags: [],
           variants: [],
+          basketItemId: `${item.product_id}-${item.product_variant_id}`,
           selectedVariant: {
             id: item.product_variant_id,
-            name: item.product_variant_detail.aroma,
-            value: item.product_variant_detail.aroma,
-            type: "aroma", // Assuming aroma type
-            price: item.unit_price,
-            stock: 999 // Unknown
+            aroma: item.product_variant_detail.aroma,
+            photo_src: item.product_variant_detail.photo_src,
+            size: {
+              gram: item.product_variant_detail.size.gram,
+              pieces: item.product_variant_detail.size.pieces,
+              total_services: item.product_variant_detail.size.total_services
+            },
+            price: {
+              total_price: item.total_price,
+              discounted_price: item.total_price
+            }
           },
           quantity: item.pieces,
-          basketItemId: generateUUID() // Generate local ID for list rendering
         }));
         setBasket(mappedItems);
       }
@@ -144,8 +155,21 @@ export const BasketProvider = ({ children }: { children: ReactNode }) => {
     setBasket((prev) => prev.filter((item) => item.basketItemId !== basketItemId));
   };
 
+  const clearBasket = async () => {
+    if (accessToken) {
+      try {
+        await clearCart(accessToken);
+        console.log('Cart cleared from API');
+      } catch (error) {
+        console.error('Error clearing cart:', error);
+      }
+    }
+    // Clear local state regardless
+    setBasket([]);
+  };
+
   return (
-    <BasketContext.Provider value={{ basket, handleAddToBasket, increaseQuantity, decreaseQuantity, removeFromBasket }}>
+    <BasketContext.Provider value={{ basket, handleAddToBasket, increaseQuantity, decreaseQuantity, removeFromBasket, clearBasket }}>
       {children}
     </BasketContext.Provider>
   );

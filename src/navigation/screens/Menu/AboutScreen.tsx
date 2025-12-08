@@ -9,11 +9,14 @@ import {
 import React from "react";
 import PrevIcon from "@/svgs/PrevIcon";
 import { useNavigation } from "@react-navigation/native";
+import { ProductReview } from "@/components/productReview/ProductReview";
+import { mockCustomerReviews, mockReviewStats } from "@/data/customerReviews";
 
 const AboutScreen = () => {
   const navigation = useNavigation();
+
   return (
-    <SafeAreaView>
+    <SafeAreaView className="flex-1">
       <View className="flex-row items-center mx-2 my-4">
         <TouchableOpacity onPress={() => navigation.navigate("HomeTabs", { screen: "MenuListScreen" })}>
           <PrevIcon />
@@ -40,7 +43,7 @@ const AboutScreen = () => {
             fonksiyonel gıdaları üreten bir firma olarak; müşterilerimize en
             kaliteli, lezzetli, tüketilmesi kolay ürünleri sunuyoruz. Müşteri
             memnuniyeti ve sağlığı her zaman önceliğimiz olmuştur.
-            Ürünlerimizde, yüksek kalite standartlarına bağlı olarak, 
+            Ürünlerimizde, yüksek kalite standartlarına bağlı olarak, 
             sporcuların ve sağlıklı yaşam tutkunlarının ihtiyaçlarına yönelik
             besleyici çözümler sunuyoruz. Ürün yelpazemizdeki protein tozları,
             aminoasitler, vitamin ve mineral takviyeleri ile spor
@@ -111,9 +114,23 @@ const AboutScreen = () => {
             />
           </View>
         </View>
+
+        {/* Müşteri Yorumları Bölümü */}
+        <View className="mx-5 py-3 my-6">
+          <Text className="text-xl font-bold mb-4">Müşteri Yorumları</Text>
+          <ProductReview
+            averageRating={mockReviewStats.averageRating}
+            totalReviews={mockReviewStats.totalReviews}
+            ratingBreakdown={mockReviewStats.ratingBreakdown}
+            reviews={mockCustomerReviews}
+            reviewsPerPage={3}
+          />
+        </View>
       </ScrollView>
     </SafeAreaView>
   );
 };
 
 export default AboutScreen
+
+

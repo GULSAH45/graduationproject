@@ -7,8 +7,10 @@ import PlusIcon from "@svgs/PlusIcon";
 import MinusIcon from "@svgs/MinusIcon";
 import TrashIcon from "@svgs/TrashIcon";
 import { IMAGE_URL } from "../ProductDetailPage";
+import { RequireAuth } from "@/components/RequireAuth";
 
-const BasketScreen = () => {
+
+const BasketScreenContent = () => {
   const navigation = useNavigation();
   const { basket, increaseQuantity, decreaseQuantity, removeFromBasket } = useBasket();
   console.log("sepet ürünleri", basket);
@@ -121,6 +123,14 @@ const BasketScreen = () => {
       </View>
     </SafeAreaView>
   )
-}
+};
+
+const BasketScreen = () => {
+  return (
+    <RequireAuth message="Sepeti görüntülemek için giriş yapmalısınız.">
+      <BasketScreenContent />
+    </RequireAuth>
+  );
+};
 
 export default BasketScreen;

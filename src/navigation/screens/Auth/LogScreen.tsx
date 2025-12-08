@@ -3,6 +3,7 @@ import {
   View,
   Image,
   Text,
+  TouchableOpacity,
 } from "react-native";
 import React, { useState } from "react";
 import LoginInput from "@/components/LoginInput";
@@ -42,6 +43,11 @@ const LogScreen = () => {
     }
   };
 
+  const handleGuestContinue = () => {
+    // Navigate to home without authentication
+    navigation.navigate("HomeTabs", { screen: "MainpageMainScreen" });
+  };
+
   return (
     <SafeAreaView className="flex-1 bg-MainBackground">
       <View className="items-center justify-center">
@@ -63,6 +69,15 @@ const LogScreen = () => {
         onLogin={handleLogin}
         message={message}
       />
+      
+      {/* Guest browsing option */}
+      <View className="items-center mt-6">
+        <TouchableOpacity onPress={handleGuestContinue}>
+          <Text className="text-gray-600 text-base underline">
+            Giriş yapmadan devam et
+          </Text>
+        </TouchableOpacity>
+      </View>
     </SafeAreaView>
   )
 }

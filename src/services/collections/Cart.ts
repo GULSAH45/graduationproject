@@ -56,3 +56,12 @@ export const getCart = async (token: string): Promise<CartResponse> => {
     });
     return response.data;
 };
+
+// Clear cart after checkout
+export const clearCart = async (token: string): Promise<void> => {
+    await authApi.delete("/users/cart", {
+        headers: {
+            Authorization: "Bearer " + token,
+        },
+    });
+};

@@ -2,15 +2,23 @@ order api postman durumu netleşince geçmiş siparişlerim sayfaları yapılmal
 payment ekranları şuan mock gibi onu gerçek api ile yap
 
 
-hakkımızda sayfasının sonuna da yorum geliyor muş.
- hangi yorumlar??postmanda neresi
-
 şuan adres eklenemiyor.given token not valid  ?? accees token mevzusu mevzusu
-
 adres ekleme düzeltilcek EMRE.
 
+bunun için önce adreslerimin düzgün çalışığına emin ol
+mevvut adres adres orada seçili olsun
+
+login olmuş bi oturumda sipariş verilirken ödeme adımlarına giderken 
+adres eklme olmasın kargo ile devam et sayfası ols
+
 sipariş alındı penceresine animasyon eklemek öne doğru gelsin
+
 ------------------------------------------------------------------------
 
-gıda yıl slug dan dolayı gida diye arama zorunda yoksa çıkmıyor.
+gıda sağlik spor gıdaları  slug dan dolayı gida diye arama zorunda yoksa çıkmıyor.
 text  hatalarını tespit et yok et
+
+
+
+
+
