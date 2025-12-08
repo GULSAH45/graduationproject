@@ -13,8 +13,13 @@ gıda sağlik spor gıdaları
 text  hatalarını tespit et yok et
 
 
-
+postman kredi kartı numarasını alcan unutma
 
 sepet ve hesao bilgiler store sa düzelt 
 
 tüm tipleri typese koy
+
+sipariş alındı sayfasında özet kısmı yanlış dönüyor.
+  0 tl dönüyo ürünü yazmıyo
+
+  tüm oklar ın yanındaki yazılarla geri dönme dokunmatiğinde olsun 
