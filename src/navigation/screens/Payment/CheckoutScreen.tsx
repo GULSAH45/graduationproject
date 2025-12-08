@@ -17,6 +17,7 @@ interface CheckoutData {
   address: any;
   shipping: string | null;
   payment: any;
+  cardNumber: string;
 }
 
 const CheckoutScreenContent = () => {
@@ -27,7 +28,7 @@ const CheckoutScreenContent = () => {
   const [savedAddresses, setSavedAddresses] = useState<Address[]>([]);
   const [loadingAddresses, setLoadingAddresses] = useState(false);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(0);
-  
+
   // Accordion states
   const [openAccordions, setOpenAccordions] = useState({
     summary: true,
@@ -46,7 +47,7 @@ const CheckoutScreenContent = () => {
   useEffect(() => {
     const fetchSavedAddresses = async () => {
       if (!accessToken) return;
-      
+
       setLoadingAddresses(true);
       try {
         const response = await getAddresses(accessToken);
@@ -74,13 +75,13 @@ const CheckoutScreenContent = () => {
       Alert.alert("Uyarı", "Lütfen önce bir adres seçin.");
       return;
     }
-    
+
     // Validation: prevent opening payment without shipping
     if (key === 'payment' && !checkoutData.shipping) {
       Alert.alert("Uyarı", "Lütfen önce kargo seçeneğini seçin.");
       return;
     }
-    
+
     setOpenAccordions(prev => ({
       ...prev,
       [key]: !prev[key]
@@ -101,46 +102,51 @@ const CheckoutScreenContent = () => {
 
   const handlePaymentSubmit = async (data: any) => {
     if (isSubmitting) return; // Prevent double submission
-    
+
     setCheckoutData({ ...checkoutData, payment: data });
     setIsSubmitting(true);
-    
+
     try {
       if (!accessToken) {
         Alert.alert("Hata", "Lütfen giriş yapın.");
         setIsSubmitting(false);
         return;
       }
+      console.log('checkoutData', checkoutData);
+      console.log('data', data);
+      console.log('accessToken', accessToken);
 
-      // Create order via API
+      console.log("adres id",checkoutData.address)
+
       const orderResponse = await createOrder(accessToken, {
-        address_id: checkoutData.address?.id,
+        address_id: checkoutData.address?.country?.id.toString(),
         payment_type: 'credit_cart',
-        card_digits: data.cardNumber,
+        card_digits: checkoutData.cardNumber,
         card_expiration_date: `${data.expiryMonth}-${data.expiryYear}`,
         card_security_code: data.cvc,
         card_type: 'VISA'
       });
 
-      console.log('Order created:', orderResponse);
-
-      // Clear basket after successful order creation
       await clearBasket();
-      console.log('Basket cleared after payment');
-console.log('Order number:', orderResponse.data);
-      // Navigate to OrderSuccessScreen with real order data
-      navigation.navigate("OrderSuccessScreen", {
-        orderData: {
-          orderNumber: orderResponse.data.order_number,
-          items: undefined,
-          address: checkoutData.address,
-          shipping: checkoutData.shipping || undefined,
-        }
-      });
-    } catch (error: any) {
-      console.error('Error creating order:', error);
+
+      console.log('orderResponse', orderResponse);
+
+      if(orderResponse.status === "success") {
+        navigation.navigate("OrderSuccessScreen", {
+          orderData: {
+            orderNumber: orderResponse.data.order_number,
+            items: undefined,
+            address: checkoutData.address,
+            shipping: checkoutData.shipping || undefined,
+          }
+        });
+      } else {
+        Alert.alert("Hata", orderResponse.message);
+      }
+    } catch (error) {
+      console.error('Error creating order:', (error as Error).message);
       Alert.alert(
-        "Sipariş Hatası", 
+        "Sipariş Hatası",
         error.response?.data?.message || "Sipariş oluşturulurken bir hata oluştu. Lütfen tekrar deneyin."
       );
     } finally {
@@ -201,20 +207,18 @@ console.log('Order number:', orderResponse.data);
                           address: savedAddresses[index]
                         }));
                       }}
-                      className={`mb-3 p-3 rounded-lg border ${
-                        selectedAddressIndex === index
+                      className={`mb-3 p-3 rounded-lg border ${selectedAddressIndex === index
                           ? 'border-green-500 bg-green-50'
                           : 'border-gray-200 bg-gray-50'
-                      }`}
+                        }`}
                     >
                       <View className="flex-row items-start">
                         <View className="mr-3 mt-1">
                           <View
-                            className={`w-5 h-5 rounded-full border-2 items-center justify-center ${
-                              selectedAddressIndex === index
+                            className={`w-5 h-5 rounded-full border-2 items-center justify-center ${selectedAddressIndex === index
                                 ? 'border-green-500 bg-green-500'
                                 : 'border-gray-400'
-                            }`}
+                              }`}
                           >
                             {selectedAddressIndex === index && (
                               <View className="w-2 h-2 rounded-full bg-white" />

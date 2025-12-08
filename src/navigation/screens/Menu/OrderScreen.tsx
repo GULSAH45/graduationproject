@@ -26,7 +26,6 @@ const OrderScreen = () => {
         setLoading(true);
         setError(null);
         const response = await getOrders(accessToken);
-        console.log('Orders response:', response);
         
         if (response.data && response.data.results) {
           setOrders(response.data.results);
@@ -150,7 +149,6 @@ const OrderScreen = () => {
                 onPress={() => {
                   // Navigate to order detail if screen exists
                   // navigation.navigate('OrderDetail', { orderId: order.id });
-                  console.log('View order detail:', order.id);
                 }}
               >
                 <Text className="text-black font-semibold">

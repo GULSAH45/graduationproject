@@ -77,7 +77,6 @@ const SignUpScreen = () => {
       let errorMessage = "Bir hata oluştu.";
       try {
         const errorData = JSON.parse(error.message);
-        console.log('Parsed error data:', errorData);
         
         if (errorData.reason) {
           // Handle password errors

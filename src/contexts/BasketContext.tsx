@@ -159,7 +159,6 @@ export const BasketProvider = ({ children }: { children: ReactNode }) => {
     if (accessToken) {
       try {
         await clearCart(accessToken);
-        console.log('Cart cleared from API');
       } catch (error) {
         console.error('Error clearing cart:', error);
       }

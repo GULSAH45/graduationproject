@@ -27,22 +27,12 @@ const AccountInfoScreen = () => {
 
   // Load user data when component mounts or currentUser changes
   useEffect(() => {
-    console.log('AccountInfoScreen - currentUser:', currentUser);
     if (currentUser?.data) {
-      console.log('AccountInfoScreen - currentUser.data:', currentUser.data);
       setFirstName(currentUser.data.first_name || currentUser.data.firstName || "");
       setLastName(currentUser.data.last_name || currentUser.data.lastName || "");
       setPhone(currentUser.data.phone || "");
       setEmail(currentUser.data.email || "");
-      console.log('AccountInfoScreen - Form fields updated:', {
-        firstName: currentUser.data.first_name || currentUser.data.firstName,
-        lastName: currentUser.data.last_name || currentUser.data.lastName,
-        phone: currentUser.data.phone,
-        email: currentUser.data.email
-      });
-    } else {
-      console.log('AccountInfoScreen - No user data available');
-    }
+    } 
   }, [currentUser]);
 
   const handleSave = () => {

@@ -39,9 +39,7 @@ export const useAuthStore = create<AuthState>()(
                         last_name: userData.lastName,
                         api_key: API_KEY,
                     };
-                    console.log('Sending registration data:', { ...apiData, password: '***', password2: '***' });
                     const response = await apiRegister(apiData);
-                    console.log('Registration successful:', response);
                     return true;
                 } catch (error: any) {
                     console.error('Register error:', error);
@@ -62,18 +60,14 @@ export const useAuthStore = create<AuthState>()(
                         password: password,
                         api_key: API_KEY,
                     };
-                    console.log('Attempting login...');
                     const response = await apiLogin(apiData);
                     const token = response.access_token;
                     if (token) {
-                        console.log('Login successful, token received');
                         set({ accessToken: token });
 
                         // Fetch user details
                         try {
-                            console.log('Fetching user details...');
                             const userResponse = await apiMe(token);
-                            console.log('User response from API:', userResponse);
                             const user: User = {
                                 data: {
                                     ...userResponse,
@@ -81,9 +75,7 @@ export const useAuthStore = create<AuthState>()(
                                     lastName: userResponse.last_name,
                                 }
                             };
-                            console.log('Structured user object:', user);
                             set({ currentUser: user });
-                            console.log('User saved to store');
                             return true;
                         } catch (meError) {
                             console.error('Error fetching user details:', meError);
@@ -115,9 +107,7 @@ export const useAuthStore = create<AuthState>()(
 
 // Debug: Check storage on load
 AsyncStorage.getItem('auth-storage').then(data => {
-    console.log('AsyncStorage auth-storage:', data);
     if (data) {
-        const parsed = JSON.parse(data);
-        console.log('Parsed auth storage:', parsed);
+        return JSON.parse(data) as AuthState;
     }
 });

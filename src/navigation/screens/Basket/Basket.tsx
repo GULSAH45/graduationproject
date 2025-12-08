@@ -14,7 +14,6 @@ import { RequireAuth } from "@/components/RequireAuth";
 const BasketScreenContent = () => {
   const navigation = useNavigation();
   const { basket, increaseQuantity, decreaseQuantity, removeFromBasket } = useBasket();
-  console.log("sepet ürünleri", basket);
   return (
     <SafeAreaView className="flex-1 py-4">
       <View className="flex-row items-center mt-4 mx-4 mb-2">
