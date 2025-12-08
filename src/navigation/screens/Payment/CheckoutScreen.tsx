@@ -121,7 +121,7 @@ const CheckoutScreenContent = () => {
         address_id: checkoutData.address.id,
         payment_type: 'credit_cart',
         card_digits: data.cardNumber?.replace(/\s/g, ''), // Remove spaces from card number
-        card_expiration_date: `${month}-${year}`,
+        card_expiration_date: "06-25",
         card_security_code: data.cvc,
         card_type: 'VISA'
       };
