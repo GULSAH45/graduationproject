@@ -1,39 +1,30 @@
-export interface OrderItem {
-    id: string;
-    product_name: string;
-    product_variant: string;
-    quantity: number;
-    unit_price: number;
-    total_price: number;
-    photo_src?: string;
+export interface CartDetail {
+    variant_id: string;
+    name: string;
+    photo_src: string;
+    pieces: string;
+    unit_price: string;
+    total_price: string;
+    slug: string;
 }
 
 export interface Order {
-    id: string;
-    order_number: string;
-    status: OrderStatus;
+    order_no: string;
+    order_status: string;
     created_at: string;
-    updated_at: string;
-    total_amount: number;
-    items: OrderItem[];
-    shipping_address?: string;
-    payment_method?: string;
+    total_price: number;
+    cart_detail: CartDetail[];
 }
 
 export enum OrderStatus {
-    PENDING = 'pending',
-    PROCESSING = 'processing',
-    SHIPPED = 'shipped',
+    IN_CARGO = 'in_cargo',
     DELIVERED = 'delivered',
+    PROCESSING = 'processing',
+    PENDING = 'pending',
     CANCELLED = 'cancelled'
 }
 
 export interface OrderListResponse {
     status: string;
-    data: {
-        count: number;
-        next: string | null;
-        previous: string | null;
-        results: Order[];
-    };
+    data: Order[];
 }

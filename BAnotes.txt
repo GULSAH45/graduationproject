@@ -1,8 +1,9 @@
-order api postman durumu netleşince geçmiş siparişlerim sayfaları yapılmalı.
+order api postman durumu netleşince geçmiş siparişlerim sayfaları 
+yapılmalı.
 payment ekranları şuan mock gibi onu gerçek api ile yap
 
 
-
+postman kredi kartı numarasını alcan unutma
 
 sipariş alındı penceresine animasyon eklemek öne doğru gelsin
 
@@ -13,7 +14,7 @@ gıda sağlik spor gıdaları
 text  hatalarını tespit et yok et
 
 
-postman kredi kartı numarasını alcan unutma
+
 
 sepet ve hesao bilgiler store sa düzelt 
 

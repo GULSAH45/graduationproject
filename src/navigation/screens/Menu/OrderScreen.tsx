@@ -27,8 +27,8 @@ const OrderScreen = () => {
         setError(null);
         const response = await getOrders(accessToken);
         
-        if (response.data && response.data.results) {
-          setOrders(response.data.results);
+        if (response.status === 'success' && response.data) {
+          setOrders(response.data);
         } else {
           setOrders([]);
         }
@@ -60,7 +60,7 @@ const OrderScreen = () => {
   const getStatusText = (status: string): string => {
     const statusMap: Record<string, string> = {
       'delivered': 'Teslim Edildi',
-      'shipped': 'Kargoda',
+      'in_cargo': 'Teslim Edildi',
       'processing': 'Hazırlanıyor',
       'pending': 'Onay Bekliyor',
       'cancelled': 'İptal Edildi'
@@ -71,7 +71,7 @@ const OrderScreen = () => {
   const getStatusColor = (status: string): string => {
     const colorMap: Record<string, string> = {
       'delivered': 'text-green-600',
-      'shipped': 'text-blue-600',
+      'in_cargo': 'text-green-600',
       'processing': 'text-yellow-600',
       'pending': 'text-gray-600',
       'cancelled': 'text-red-600'
@@ -111,25 +111,18 @@ const OrderScreen = () => {
         <ScrollView className="flex-1 px-4">
           {orders.map((order, index) => (
             <View 
-              key={order.id || index} 
-              className="bg-white border border-gray-200 rounded-lg p-4 mb-4"
-              style={{
-                shadowColor: '#000',
-                shadowOffset: { width: 0, height: 2 },
-                shadowOpacity: 0.1,
-                shadowRadius: 4,
-                elevation: 3,
-              }}
+              key={order.order_no || index} 
+              className="bg-white border border-gray-300 rounded-lg p-4 mb-4"
             >
               {/* Status */}
-              <Text className={`${getStatusColor(order.status)} font-semibold mb-2`}>
-                {getStatusText(order.status)}
+              <Text className={`${getStatusColor(order.order_status)} font-semibold mb-2`}>
+                {getStatusText(order.order_status)}
               </Text>
 
               {/* Product name or first item */}
               <Text className="text-black font-bold text-base mb-1">
-                {order.items && order.items.length > 0 
-                  ? order.items[0].product_name 
+                {order.cart_detail && order.cart_detail.length > 0 
+                  ? order.cart_detail[0].name 
                   : 'Sipariş'}
               </Text>
 
@@ -140,18 +133,18 @@ const OrderScreen = () => {
 
               {/* Order number */}
               <Text className="text-gray-600 text-sm mb-3">
-                {order.order_number} numaralı sipariş
+                {order.order_no} numaralı sipariş
               </Text>
 
               {/* Detail button */}
               <TouchableOpacity
-                className="border-2 border-black rounded-md py-2 px-4 self-start"
+                className="border-2 border-black rounded-md py-2.5 px-4 self-start"
                 onPress={() => {
                   // Navigate to order detail if screen exists
-                  // navigation.navigate('OrderDetail', { orderId: order.id });
+                  // navigation.navigate('OrderDetail', { orderNo: order.order_no });
                 }}
               >
-                <Text className="text-black font-semibold">
+                <Text className="text-black font-semibold text-sm">
                   Detayı Görüntüle
                 </Text>
               </TouchableOpacity>

@@ -31,13 +31,13 @@ export const getOrders = async (token: string): Promise<OrderListResponse> => {
     return response.data;
 };
 
-export const getOrderDetail = async (token: string, orderId: string): Promise<Order> => {
-    const response = await authApi.get<Order>(`/orders/${orderId}`, {
+export const getOrderDetail = async (token: string, orderNo: string): Promise<Order> => {
+    const response = await authApi.get<{ status: string; data: Order }>(`/orders/${orderNo}`, {
         headers: {
             Authorization: "Bearer " + token,
         },
     });
-    return response.data;
+    return response.data.data;
 };
 
 
